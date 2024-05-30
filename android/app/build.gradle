@@ -43,6 +43,7 @@ android {
             returnDefaultValues = true
         }
     }
+    testBuildType "debug"
 }
 
 dependencies {

@@ -19,7 +19,8 @@ public class ReceitaController {
     private ReceitaRepository receitas = new ReceitaRepository();
     
     @GetMapping("/receita")
-    public List<Receita> getgetAll(){
+    public List<Receita> getAll(){
+        System.out.println("List All");
         return receitas.getAll();
     }
 

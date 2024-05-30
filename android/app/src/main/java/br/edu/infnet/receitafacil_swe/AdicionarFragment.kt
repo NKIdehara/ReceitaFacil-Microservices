@@ -18,9 +18,9 @@ import android.graphics.drawable.BitmapDrawable
 import android.util.Log
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import br.edu.infnet.receitafacil_swe.api.ReceitaApiViewModel
-import br.edu.infnet.receitafacil_swe.api.ReceitaApiViewModelFactory
-import br.edu.infnet.receitafacil_swe.api.Repository
+import br.edu.infnet.receitafacil_swe.api.TheMealDBApiViewModel
+import br.edu.infnet.receitafacil_swe.api.TheMealDBApiViewModelFactory
+import br.edu.infnet.receitafacil_swe.api.TheMealDBRepository
 import br.edu.infnet.receitafacil_swe.receitas.usuario
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -47,7 +47,7 @@ class AdicionarFragment : Fragment() {
     private lateinit var local_figura: String
 
     // Receita API
-    private lateinit var apiModel: ReceitaApiViewModel
+    private lateinit var apiModel: TheMealDBApiViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -207,18 +207,18 @@ class AdicionarFragment : Fragment() {
     // Obtem foto aleatória
     fun FotoApi() {
         // Receitas API
-        val repository = Repository()
-        val apiModelFactory = ReceitaApiViewModelFactory(repository)
-        apiModel = ViewModelProvider(this, apiModelFactory).get(ReceitaApiViewModel::class.java)
-        apiModel.getPost()
+        val theMealDBRepository = TheMealDBRepository()
+        val apiModelFactory = TheMealDBApiViewModelFactory(theMealDBRepository)
+        apiModel = ViewModelProvider(this, apiModelFactory).get(TheMealDBApiViewModel::class.java)
+        apiModel.getResponse()
 
         apiModel.myResponse.observe(this, Observer { response ->
             // Completou comunicação com site e recebeu JSON
             if(response.isSuccessful){
-                val img = response.body()?.receita?.get(0)?.strMealThumb
+                val img = response.body()?.meal?.get(0)?.strMealThumb
                 Picasso.get().load(img).placeholder(R.drawable.ic_wait).into(binding.imgFoto);
                 TIROU_FOTO = 1
-                Log.d("API", response.body()?.receita.toString())
+                Log.d("API", response.body()?.meal.toString())
             }
             else{
                 Log.d("API", response.errorBody().toString())

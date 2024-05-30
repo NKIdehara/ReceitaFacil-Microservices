@@ -4,91 +4,50 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import br.edu.infnet.receitafacil_swe.receitas.Receita
 import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.launch
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import java.util.Date
 import kotlin.collections.ArrayList
 
-/*
-    CRÉDITOS: TheMealDB
-    API:      https://www.themealdb.com/api.php
- */
-const val BASE_URL = "https://www.themealdb.com"
+const val RECEITA_URL = "http://10.0.2.2:8080/"
 
-// Estrutura JSON
-data class meals(
-    val idMeal: Int,
-    val strMeal: String,
-    val strDrinkAlternate: String,
-    val strCategory: String,
-    val strArea: String,
-    val strInstructions: String,
-    val strMealThumb: String,
-    val strTags: String,
-    val strYoutube: String,
-    val strIngredient1: String,
-    val strIngredient2: String,
-    val strIngredient3: String,
-    val strIngredient4: String,
-    val strIngredient5: String,
-    val strIngredient6: String,
-    val strIngredient7: String,
-    val strIngredient8: String,
-    val strIngredient9: String,
-    val strIngredient10: String,
-    val strIngredient11: String,
-    val strIngredient12: String,
-    val strIngredient13: String,
-    val strIngredient14: String,
-    val strIngredient15: String,
-    val strIngredient16: String,
-    val strIngredient17: String,
-    val strIngredient18: String,
-    val strIngredient19: String,
-    val strIngredient20: String,
-    val strMeasure1: String,
-    val strMeasure2: String,
-    val strMeasure3: String,
-    val strMeasure4: String,
-    val strMeasure5: String,
-    val strMeasure6: String,
-    val strMeasure7: String,
-    val strMeasure8: String,
-    val strMeasure9: String,
-    val strMeasure10: String,
-    val strMeasure11: String,
-    val strMeasure12: String,
-    val strMeasure13: String,
-    val strMeasure14: String,
-    val strMeasure15: String,
-    val strMeasure16: String,
-    val strMeasure17: String,
-    val strMeasure18: String,
-    val strMeasure19: String,
-    val strMeasure20: String,
-    val strSource: String,
-    val strImageSource: String,
-    val strCreativeCommonsConfirmed: String,
-    val dateModified: String
+data class Receitas(
+    var id: Long,
+    var usuario: String = "",
+    var nome: String = "",
+    var preparo: String = "",
+    var ingredientes: String = "",
+    var dataReceita: String = "",
+    var figura: String = ""
+//    @SerializedName("id"           ) var id           : Int,
+//    @SerializedName("usuario"      ) var usuario      : String,
+//    @SerializedName("nome"         ) var nome         : String,
+//    @SerializedName("preparo"      ) var preparo      : String,
+//    @SerializedName("ingredientes" ) var ingredientes : String,
+//    @SerializedName("data_receita" ) var dataReceita  : String,
+//    @SerializedName("figura"       ) var figura       : String
 )
 
-data class ReceitaPost(
-    @SerializedName("meals" ) var receita : ArrayList<meals> = arrayListOf()
+data class ReceitaJson(
+    @SerializedName("receita") var receita: ArrayList<Receitas> = arrayListOf()
+//    @SerializedName("receita") var receita: ArrayList<ReceitaDados> = arrayListOf()
 )
 
-// Obtem receita aleatória
 interface ReceitaApi{
-    @GET("/api/json/v1/1/random.php")
-    suspend fun getPost(): Response<ReceitaPost>
+    @GET("receita/1")
+    suspend fun getResponse(): Response<ReceitaJson>
 }
 
-object RetrofitInstance{
+object ReceitaRetrofitInstance{
     private val retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(RECEITA_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
@@ -98,26 +57,26 @@ object RetrofitInstance{
     }
 }
 
-class Repository{
-    suspend fun getPost(): Response<ReceitaPost>{
-        return RetrofitInstance.api.getPost()
+class ReceitaRepository{
+    suspend fun getResponse(): Response<ReceitaJson>{
+        return ReceitaRetrofitInstance.api.getResponse()
     }
 }
 
-class ReceitaApiViewModel(private val repository: Repository): ViewModel(){
-    val myResponse: MutableLiveData<Response<ReceitaPost>> = MutableLiveData()
+class ReceitaApiViewModel(private val receitaRepository: ReceitaRepository): ViewModel(){
+    val myResponse: MutableLiveData<Response<ReceitaJson>> = MutableLiveData()
 
     // Executa ação em segundo plano
-    fun getPost(){
+    fun getResponse(){
         viewModelScope.launch {
-            val response: Response<ReceitaPost> = repository.getPost()
+            val response: Response<ReceitaJson> = receitaRepository.getResponse()
             myResponse.value = response
         }
     }
 }
 
-class ReceitaApiViewModelFactory(private val repository: Repository): ViewModelProvider.Factory{
+class ReceitaApiViewModelFactory(private val receitaRepository: ReceitaRepository): ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return ReceitaApiViewModel(repository) as T
+        return ReceitaApiViewModel(receitaRepository) as T
     }
 }

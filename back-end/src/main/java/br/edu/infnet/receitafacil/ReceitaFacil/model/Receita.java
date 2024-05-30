@@ -1,20 +1,18 @@
 package br.edu.infnet.receitafacil.ReceitaFacil.model;
 
-import java.util.Date;
-
 public class Receita {
     private int id;
     private String usuario;
     private String nome;
     private String preparo;
     private String ingredientes;
-    private Date data_receita;
+    private String data_receita;
     private String figura;
 
     public Receita() {
     }
 
-    public Receita(int id, String usuario, String nome, String preparo, String ingredientes, Date data_receita, String figura) {
+    public Receita(int id, String usuario, String nome, String preparo, String ingredientes, String data_receita, String figura) {
         this.id = id;
         this.usuario = usuario;
         this.nome = nome;
@@ -64,11 +62,11 @@ public class Receita {
         this.ingredientes = ingredientes;
     }
 
-    public Date getData_receita() {
+    public String getData_receita() {
         return this.data_receita;
     }
 
-    public void setData_receita(Date data_receita) {
+    public void setData_receita(String data_receita) {
         this.data_receita = data_receita;
     }
 
