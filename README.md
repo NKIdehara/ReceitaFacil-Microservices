@@ -7,3 +7,6 @@ Aplicativo Android desenvolvido no _Projeto de Bloco: Desenvolvimento Android_ e
 
 ### ./back-end
 Back-end desenvolvido em Java
+
+### Swagger (deployment feito no Azure)
+https://receitafacil-microservices-backend.azurewebsites.net/swagger-ui/index.html
