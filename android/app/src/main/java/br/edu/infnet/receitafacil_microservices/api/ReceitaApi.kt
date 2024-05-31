@@ -5,28 +5,38 @@ import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
 import java.util.concurrent.TimeUnit
 
-
-const val RECEITA_URL = "https://receitafacil-microservices-backend.azurewebsites.net"
-//const val RECEITA_URL = "http://10.0.2.2:8080"
+//const val RECEITA_URL = "https://receitafacil-microservices-backend.azurewebsites.net"
+const val RECEITA_URL = "http://10.0.2.2:8080"
+const val TIME_OUT = 60L
 
 interface ReceitaApi{
     @GET("/receita")
     suspend fun getReceitas(): Response<List<Receita>>
 
-//    @POST("/receita")
-//    fun newReceita(@Body receita: Receita): Response<T>
+    @POST("/receita")
+    suspend fun newReceita(@Body receita: Receita)
 
+    @PUT("/receita/{id}")
+    suspend fun editReceita(@Path("id") id: Int, @Body receita: Receita)
+
+    @DELETE("/receita/{id}")
+    suspend fun deleteReceita(@Path("id") id: Int)
 }
 
 object ReceitaRetrofitInstance{
     val api: ReceitaApi by lazy {
         val okHttpClient = OkHttpClient().newBuilder()
-            .connectTimeout(100, TimeUnit.SECONDS)
-            .writeTimeout(100, TimeUnit.SECONDS)
-            .readTimeout(300, TimeUnit.SECONDS)
+            .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
+            .writeTimeout(TIME_OUT, TimeUnit.SECONDS)
+            .readTimeout(TIME_OUT, TimeUnit.SECONDS)
             .build()
         Retrofit.Builder()
             .baseUrl(RECEITA_URL)

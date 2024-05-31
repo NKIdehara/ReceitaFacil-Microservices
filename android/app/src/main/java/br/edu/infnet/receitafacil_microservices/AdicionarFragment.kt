@@ -18,14 +18,19 @@ import android.graphics.drawable.BitmapDrawable
 import android.util.Log
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import br.edu.infnet.receitafacil_microservices.api.ReceitaRetrofitInstance
 import br.edu.infnet.receitafacil_microservices.api.TheMealDBApiViewModel
 import br.edu.infnet.receitafacil_microservices.api.TheMealDBApiViewModelFactory
 import br.edu.infnet.receitafacil_microservices.api.TheMealDBRepository
+import br.edu.infnet.receitafacil_microservices.model.Receita
 import br.edu.infnet.receitafacil_microservices.model.usuario
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
+import retrofit2.HttpException
 import java.io.ByteArrayOutputStream
+import java.io.IOException
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -91,6 +96,8 @@ class AdicionarFragment : Fragment() {
                 Toast.makeText(getActivity() , "Receita ruim!", Toast.LENGTH_SHORT).show()
             }
             else{
+                binding.btnAdicionar.isVisible = false
+
                 // Receita com foto
                 if (TIROU_FOTO == 1){
                     binding.progressBar?.isVisible = true
@@ -131,25 +138,13 @@ class AdicionarFragment : Fragment() {
                             // Upload de imagem bem sucedido
                             val downloadUri = task.result
                             local_figura = downloadUri.toString()
-                            val agora = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString()
-                            val novareceita = hashMapOf(
-                                "dataReceita" to agora,
-                                "usuario" to usuario,
-                                "figura" to local_figura,
-                                "nome" to binding.txtNome.text.toString(),
-                                "ingredientes" to binding.txtIngredientes.text.toString(),
-                                "preparo" to binding.txtPreparo.text.toString()
-                            )
-
-                            receitaDatabase = FirebaseFirestore.getInstance()
-                            receitaDatabase.collection("Receitas").document().set(novareceita)
+                            gravarReceita(local_figura)
 
                             binding.progressBar?.isVisible = false
 
                             /// abre ViewModel associado à Activity
                             receitasViewModel = ViewModelProvider(requireActivity()).get(ReceitasViewModel::class.java)
                             findNavController().navigate(R.id.action_nav_adicionar_to_nav_home)
-                            Toast.makeText(getActivity() , "Receita adicionada!", Toast.LENGTH_SHORT).show()
                         } else {
                             binding.progressBar?.isVisible = false
                             Toast.makeText(getActivity() , "Erro ao salvar receita!", Toast.LENGTH_LONG).show()
@@ -159,24 +154,31 @@ class AdicionarFragment : Fragment() {
                 // Receita sem foto
                 else{
                     local_figura = "https://firebasestorage.googleapis.com/v0/b/infnet-receitafacil.appspot.com/o/ic_food_0.png?alt=media&token=af33f298-dbcc-40ea-aa8c-ed1430a46a57"
-                    val agora = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString()
-                    val novareceita = hashMapOf(
-                        "dataReceita" to agora,
-                        "usuario" to usuario,
-                        "figura" to local_figura,
-                        "nome" to binding.txtNome.text.toString(),
-                        "ingredientes" to binding.txtIngredientes.text.toString(),
-                        "preparo" to binding.txtPreparo.text.toString()
-                    )
-
-                    receitaDatabase = FirebaseFirestore.getInstance()
-                    receitaDatabase.collection("Receitas").document().set(novareceita)
+                    gravarReceita(local_figura)
 
                     /// abre ViewModel associado à Activity
                     receitasViewModel = ViewModelProvider(requireActivity()).get(ReceitasViewModel::class.java)
                     findNavController().navigate(R.id.action_nav_adicionar_to_nav_home)
-                    Toast.makeText(getActivity() , "Receita adicionada!", Toast.LENGTH_SHORT).show()
                 }
+            }
+        }
+    }
+
+    private fun gravarReceita(figura: String){
+        val agora = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString()
+        lifecycleScope.launchWhenCreated {
+            val response = try{
+                val receita = Receita((100..99999).random(), usuario, binding.txtNome.text.toString(), binding.txtPreparo.text.toString(), binding.txtIngredientes.text.toString(), agora, figura)
+                ReceitaRetrofitInstance.api.newReceita(receita)
+                Toast.makeText(getActivity() , "Receita adicionada!", Toast.LENGTH_SHORT).show()
+            } catch(err: IOException){
+                Log.e("API Call: ", err.toString())
+                Toast.makeText(getActivity(), err.toString(), Toast.LENGTH_SHORT).show()
+                return@launchWhenCreated
+            } catch(err: HttpException){
+                Log.e("API Call: ", err.toString())
+                Toast.makeText(getActivity(), err.toString(), Toast.LENGTH_SHORT).show()
+                return@launchWhenCreated
             }
         }
     }

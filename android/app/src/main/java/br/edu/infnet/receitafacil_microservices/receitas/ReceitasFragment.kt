@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -73,6 +75,8 @@ class ReceitasFragment : Fragment() {
         receitaList = arrayListOf()
         receitaAdapter = ReceitaAdapter(receitaList)
         binding.recyclerviewReceitas.adapter = receitaAdapter
+        binding.progressBar.isVisible = true
+        binding.errorView.isVisible = false
 
         // Obtém dados do Firebase
         getReceitasData()
@@ -90,17 +94,25 @@ class ReceitasFragment : Fragment() {
                 ReceitaRetrofitInstance.api.getReceitas()
             } catch(err: IOException){
                 Log.e("API Call: ", err.toString())
+                Toast.makeText(getActivity(), err.toString(), Toast.LENGTH_SHORT).show()
+                binding.errorView.isVisible = true
                 return@launchWhenCreated
             } catch(err: HttpException){
                 Log.e("API Call: ", err.toString())
+                Toast.makeText(getActivity(), err.toString(), Toast.LENGTH_SHORT).show()
+                binding.errorView.isVisible = true
                 return@launchWhenCreated
             }
+            binding.progressBar.isVisible = false
             if(response.isSuccessful && response.body() != null){
                 val receitas: List<Receita>? = response.body()
                 receitas?.forEach { r -> receitaList.add(Receita(r.id,r.usuario, r.nome, r.preparo, r.ingredientes, r.data_receita, r.figura)) }
             } else {
                 Log.e("API Call: ", "Erro [getReceitas]")
+                Toast.makeText(getActivity(), "Erro [getReceitas]", Toast.LENGTH_SHORT).show()
+                binding.errorView.isVisible = true
             }
+            binding.progressBar.isVisible = false
         }
     }
 

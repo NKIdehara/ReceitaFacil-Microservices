@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import br.edu.infnet.receitafacil_microservices.R
 import br.edu.infnet.receitafacil_microservices.model.Receita
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.withContext
 
 class ReceitaAdapter(private val receitaList: List<Receita>) :
     RecyclerView.Adapter<ReceitaAdapter.ReceitaViewHolder>() {

@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +14,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import br.edu.infnet.receitafacil_microservices.api.ReceitaRetrofitInstance
 import br.edu.infnet.receitafacil_microservices.databinding.FragmentAtualizarBinding
+import br.edu.infnet.receitafacil_microservices.model.Receita
 import br.edu.infnet.receitafacil_microservices.receitas.ReceitasViewModel
 import br.edu.infnet.receitafacil_microservices.model.usuario
 import com.google.firebase.firestore.FirebaseFirestore
@@ -29,8 +33,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
+import retrofit2.HttpException
 import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class AtualizarFragment : Fragment() {
 
@@ -43,12 +51,6 @@ class AtualizarFragment : Fragment() {
     // Firebase Database
     private lateinit var receitaDatabase: FirebaseFirestore
     private val receitaRef = Firebase.firestore.collection("Receitas")
-
-    // variáveis de controle para câmera
-    private var TIROU_FOTO = 0
-    val RESULT_OK = 1
-    val REQUEST_CODE = 200
-    private lateinit var local_figura: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,26 +69,11 @@ class AtualizarFragment : Fragment() {
         binding.txtIngredientesAtualizar.setText(args.selecionado.ingredientes)
         binding.txtPreparoAtualizar.setText(args.selecionado.preparo)
 
-        // tira foto ao pressionar imagem
-        binding.imgFotoAtualizar.setOnClickListener{
-
-            // Verifica se existe câmera no dispositivo
-            val pm = getActivity()!!.getPackageManager()
-            if (pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-                val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                startActivityForResult(cameraIntent, REQUEST_CODE)
-            }
-            else {
-                Toast.makeText(getActivity() , "Camera não disponível!", Toast.LENGTH_SHORT).show()
-            }
-        }
-
         // botão atualizar
         binding.btnAtualizar.setOnClickListener {
             AtualizarReceita()
             receitasViewModel = ViewModelProvider(requireActivity()).get(ReceitasViewModel::class.java)
             findNavController().navigate(R.id.action_nav_atualizar_to_nav_home)
-            Toast.makeText(getActivity() , "Receita atualizada!", Toast.LENGTH_SHORT).show()
         }
 
         // botão apagar
@@ -94,149 +81,51 @@ class AtualizarFragment : Fragment() {
             ApagarReceita()
             receitasViewModel = ViewModelProvider(requireActivity()).get(ReceitasViewModel::class.java)
             findNavController().navigate(R.id.action_nav_atualizar_to_nav_home)
-            Toast.makeText(getActivity() , "Receita apagada!", Toast.LENGTH_SHORT).show()
         }
 
         return root
     }
 
     private fun AtualizarReceita() = CoroutineScope(Dispatchers.IO).launch {
-        // procura receita selecionada
-        val atualizar_receita = receitaRef
-            .whereEqualTo("usuario", usuario)
-            .whereEqualTo("nome", args.selecionado.nome)
-            .whereEqualTo("ingredientes", args.selecionado.ingredientes)
-            .whereEqualTo("preparo", args.selecionado.preparo)
-            .get()
-            .await()
-
-        if (atualizar_receita.documents.isNotEmpty()){
-            for (receita in atualizar_receita) {
-                try {
-                    if (TIROU_FOTO == 1){
-                        binding.progressBar?.isVisible = true
-
-                        // Nome de arquivo com data e hora atual
-                        val agora = LocalDateTime.now()
-                        val arquivo = "${agora}.jpg"
-
-                        // Bitmap
-                        val bitmap = (binding.imgFotoAtualizar.drawable as BitmapDrawable).bitmap
-                        val baos = ByteArrayOutputStream()
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-
-                        // Pegando a referência do serviço
-                        val storageRef = FirebaseStorage.getInstance().reference
-                        val arquivoRef = storageRef.child(arquivo)
-
-                        // Upload de imagem
-                        var uploadTask = arquivoRef.putBytes(baos.toByteArray())
-
-                        uploadTask.addOnFailureListener { taskSnapshot ->
-                            //Toast.makeText(getActivity() , taskSnapshot.message, Toast.LENGTH_LONG).show()
-                        }.addOnSuccessListener { taskSnapshot ->
-                            //Toast.makeText(getActivity() , taskSnapshot.error, Toast.LENGTH_LONG).show()
-                        }
-
-                        // Grava foto
-                        val urlTask = uploadTask.continueWithTask { task ->
-                            if (!task.isSuccessful) {
-                                task.exception?.let {
-                                    throw it
-                                }
-                            }
-                            arquivoRef.downloadUrl
-                        }.addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                // Upload de imagem bem sucedido
-                                val downloadUri = task.result
-                                local_figura = downloadUri.toString()
-                                val receitaatual = hashMapOf(
-                                    "usuario" to usuario,
-                                    "figura" to  local_figura,
-                                    "nome" to binding.txtNomeAtualizar.text.toString(),
-                                    "ingredientes" to binding.txtIngredientesAtualizar.text.toString(),
-                                    "preparo" to binding.txtPreparoAtualizar.text.toString()
-                                )
-                                receitaRef.document(receita.id).set(receitaatual, SetOptions.merge())
-                            } else {
-                                Toast.makeText(getActivity(),"Erro ao salvar receita!",Toast.LENGTH_LONG).show()
-                            }
-                        }
-                        binding.progressBar?.isVisible = false
-                    }
-                    // Receita sem foto
-                    else{
-                        local_figura = args.selecionado.figura
-                        val receitaatual = hashMapOf(
-                            "usuario" to usuario,
-                            "figura" to  local_figura,
-                            "nome" to binding.txtNomeAtualizar.text.toString(),
-                            "ingredientes" to binding.txtIngredientesAtualizar.text.toString(),
-                            "preparo" to binding.txtPreparoAtualizar.text.toString()
-                        )
-                        receitaRef.document(receita.id).set(receitaatual, SetOptions.merge()).await()
-                    }
-                }
-                catch (error: Exception) {
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(getActivity(), error.message, Toast.LENGTH_SHORT).show()
-                    }
+        try {
+            val agora = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString()
+            lifecycleScope.launchWhenCreated {
+                val response = try{
+                    val receita = Receita(args.selecionado.id, usuario, binding.txtNomeAtualizar.text.toString(), binding.txtPreparoAtualizar.text.toString(), binding.txtIngredientesAtualizar.text.toString(), args.selecionado.data_receita, args.selecionado.figura)
+                    ReceitaRetrofitInstance.api.editReceita(args.selecionado.id, receita)
+                    Toast.makeText(getActivity() , "Receita atualizada!", Toast.LENGTH_SHORT).show()
+                } catch(err: IOException){
+                    Log.e("API Call: ", err.toString())
+                    Toast.makeText(getActivity(), err.toString(), Toast.LENGTH_SHORT).show()
+                    return@launchWhenCreated
+                } catch(err: HttpException){
+                    Log.e("API Call: ", err.toString())
+                    Toast.makeText(getActivity(), err.toString(), Toast.LENGTH_SHORT).show()
+                    return@launchWhenCreated
                 }
             }
         }
-        else {
+        catch (error: Exception) {
             withContext(Dispatchers.Main) {
-                Toast.makeText(getActivity(), "Nenhuma receita para atualizar.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(getActivity(), error.message, Toast.LENGTH_LONG).show()
             }
         }
     }
 
     private fun ApagarReceita() = CoroutineScope(Dispatchers.IO).launch {
-        // procura receita selecionada
-        val apagar_receita = receitaRef
-            .whereEqualTo("usuario", usuario)
-            .whereEqualTo("nome", args.selecionado.nome)
-            .whereEqualTo("ingredientes", args.selecionado.ingredientes)
-            .whereEqualTo("preparo", args.selecionado.preparo)
-            .get()
-            .await()
-
-        if (apagar_receita.documents.isNotEmpty()){
-            for (receita in apagar_receita) {
-                try {
-                    receitaRef.document(receita.id).delete().await()
-                }
-                catch (error: Exception) {
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(getActivity(), error.message, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }
-        else {
-            withContext(Dispatchers.Main) {
-                Toast.makeText(getActivity(), "Nenhuma receita para apagar.", Toast.LENGTH_SHORT).show()
+        lifecycleScope.launchWhenCreated {
+            val response = try{
+                ReceitaRetrofitInstance.api.deleteReceita(args.selecionado.id)
+                Toast.makeText(getActivity() , "Receita apagada!", Toast.LENGTH_SHORT).show()
+            } catch(err: IOException){
+                Log.e("API Call: ", err.toString())
+                Toast.makeText(getActivity(), err.toString(), Toast.LENGTH_SHORT).show()
+                return@launchWhenCreated
+            } catch(err: HttpException){
+                Log.e("API Call: ", err.toString())
+                Toast.makeText(getActivity(), err.toString(), Toast.LENGTH_SHORT).show()
+                return@launchWhenCreated
             }
         }
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        // adiciona foto tirada
-        if (resultCode == -RESULT_OK && requestCode == REQUEST_CODE) {
-            binding.imgFotoAtualizar.setImageDrawable(bitmapToDrawable(data?.extras?.get("data") as Bitmap))
-            TIROU_FOTO = 1
-        }
-        else{
-            Toast.makeText(getActivity() , "Erro ao tirar foto!", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    // converte BitMap para Drawable
-    private fun bitmapToDrawable(bitmap: Bitmap): BitmapDrawable {
-        return BitmapDrawable(resources,bitmap)
-    }
-
 }

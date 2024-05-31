@@ -20,7 +20,6 @@ public class ReceitaController {
     
     @GetMapping("/receita")
     public List<Receita> getAll(){
-        System.out.println("List All");
         return receitas.getAll();
     }
 
