@@ -1,11 +1,11 @@
-package br.edu.infnet.receitafacil_swe
+package br.edu.infnet.receitafacil_microservices
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import br.edu.infnet.receitafacil_swe.databinding.FragmentHomeBinding
+import br.edu.infnet.receitafacil_microservices.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
 

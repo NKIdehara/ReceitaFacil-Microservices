@@ -1,4 +1,4 @@
-package br.edu.infnet.receitafacil_swe
+package br.edu.infnet.receitafacil_microservices
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,7 +12,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import br.edu.infnet.receitafacil_swe.databinding.ActivityMainBinding
+import br.edu.infnet.receitafacil_microservices.databinding.ActivityMainBinding
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 

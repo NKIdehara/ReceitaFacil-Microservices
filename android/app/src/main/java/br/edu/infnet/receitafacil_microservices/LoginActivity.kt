@@ -1,4 +1,4 @@
-package br.edu.infnet.receitafacil_swe
+package br.edu.infnet.receitafacil_microservices
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
-import br.edu.infnet.receitafacil_swe.databinding.ActivityLoginBinding
-import br.edu.infnet.receitafacil_swe.receitas.usuario
+import br.edu.infnet.receitafacil_microservices.databinding.ActivityLoginBinding
+import br.edu.infnet.receitafacil_microservices.model.usuario
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore

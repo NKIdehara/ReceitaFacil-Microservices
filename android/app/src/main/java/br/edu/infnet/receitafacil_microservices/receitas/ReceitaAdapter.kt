@@ -1,4 +1,4 @@
-package br.edu.infnet.receitafacil_swe.receitas
+package br.edu.infnet.receitafacil_microservices.receitas
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,8 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import br.edu.infnet.receitafacil_swe.R
+import br.edu.infnet.receitafacil_microservices.R
+import br.edu.infnet.receitafacil_microservices.model.Receita
 import com.squareup.picasso.Picasso
 
 class ReceitaAdapter(private val receitaList: List<Receita>) :

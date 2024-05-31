@@ -1,4 +1,4 @@
-package br.edu.infnet.receitafacil_swe
+package br.edu.infnet.receitafacil_microservices
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,16 +12,16 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import br.edu.infnet.receitafacil_swe.databinding.FragmentAdicionarBinding
-import br.edu.infnet.receitafacil_swe.receitas.ReceitasViewModel
+import br.edu.infnet.receitafacil_microservices.databinding.FragmentAdicionarBinding
+import br.edu.infnet.receitafacil_microservices.receitas.ReceitasViewModel
 import android.graphics.drawable.BitmapDrawable
 import android.util.Log
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import br.edu.infnet.receitafacil_swe.api.TheMealDBApiViewModel
-import br.edu.infnet.receitafacil_swe.api.TheMealDBApiViewModelFactory
-import br.edu.infnet.receitafacil_swe.api.TheMealDBRepository
-import br.edu.infnet.receitafacil_swe.receitas.usuario
+import br.edu.infnet.receitafacil_microservices.api.TheMealDBApiViewModel
+import br.edu.infnet.receitafacil_microservices.api.TheMealDBApiViewModelFactory
+import br.edu.infnet.receitafacil_microservices.api.TheMealDBRepository
+import br.edu.infnet.receitafacil_microservices.model.usuario
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso

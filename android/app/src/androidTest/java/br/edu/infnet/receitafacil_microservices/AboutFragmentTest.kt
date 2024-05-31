@@ -1,4 +1,4 @@
-package br.edu.infnet.receitafacil_swe
+package br.edu.infnet.receitafacil_microservices
 
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
@@ -12,8 +12,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.common.truth.Truth.assertThat
 
-class HomeFragmentTest : TestCase(){
-    private lateinit var scenario: FragmentScenario<HomeFragment>
+class AboutFragmentTest : TestCase(){
+    private lateinit var scenario: FragmentScenario<AboutFragment>
 
     @Before
     override fun setUp() {
@@ -22,7 +22,7 @@ class HomeFragmentTest : TestCase(){
     }
 
     @Test
-    fun testarSeTelaDeApresentacaoAparece() {
-        assertThat(onView(withId(R.id.textView)).check(matches(withText("Receita Fácil"))))
+    fun testarSeTelaDeInformacoesAparece() {
+        assertThat(onView(withId(R.id.txtInfnet)).check(matches(withText("Instituto Infnet"))))
     }
 }

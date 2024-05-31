@@ -1,4 +1,4 @@
-package br.edu.infnet.receitafacil_swe
+package br.edu.infnet.receitafacil_microservices
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -15,9 +15,9 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import br.edu.infnet.receitafacil_swe.databinding.FragmentAtualizarBinding
-import br.edu.infnet.receitafacil_swe.receitas.ReceitasViewModel
-import br.edu.infnet.receitafacil_swe.receitas.usuario
+import br.edu.infnet.receitafacil_microservices.databinding.FragmentAtualizarBinding
+import br.edu.infnet.receitafacil_microservices.receitas.ReceitasViewModel
+import br.edu.infnet.receitafacil_microservices.model.usuario
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore

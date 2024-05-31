@@ -1,13 +1,13 @@
-package br.edu.infnet.receitafacil_swe
+package br.edu.infnet.receitafacil_microservices
 
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
-import br.edu.infnet.receitafacil_swe.api.ReceitaApiViewModelFactory
-import br.edu.infnet.receitafacil_swe.api.ReceitaRepository
-import br.edu.infnet.receitafacil_swe.api.ReceitaApiViewModel
-import br.edu.infnet.receitafacil_swe.receitas.ReceitasFragment
+import br.edu.infnet.receitafacil_microservices.api.ReceitaApiViewModelFactory
+import br.edu.infnet.receitafacil_microservices.api.ReceitaRepository
+import br.edu.infnet.receitafacil_microservices.api.ReceitaApiViewModel
+import br.edu.infnet.receitafacil_microservices.receitas.ReceitasFragment
 import com.google.common.truth.Truth
 import junit.framework.TestCase
 import org.junit.Before

@@ -1,7 +1,6 @@
-package br.edu.infnet.receitafacil_swe.receitas
+package br.edu.infnet.receitafacil_microservices.model
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 import java.util.Date
 
@@ -15,6 +14,3 @@ data class Receita(
     var data_receita: Date,
     var figura: String = ""
 ): Parcelable
-
-// usuário logado
-lateinit var usuario: String

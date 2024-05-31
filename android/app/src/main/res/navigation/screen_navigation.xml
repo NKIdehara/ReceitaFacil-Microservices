@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="br.edu.infnet.receitafacil_swe.HomeFragment"
+        android:name="br.edu.infnet.receitafacil_microservices.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_receitas"
-        android:name="br.edu.infnet.receitafacil_swe.receitas.ReceitasFragment"
+        android:name="br.edu.infnet.receitafacil_microservices.receitas.ReceitasFragment"
         android:label="@string/title_receitas"
         tools:layout="@layout/fragment_receitas" >
         <action
@@ -26,7 +26,7 @@
 
     <fragment
         android:id="@+id/nav_adicionar"
-        android:name="br.edu.infnet.receitafacil_swe.AdicionarFragment"
+        android:name="br.edu.infnet.receitafacil_microservices.AdicionarFragment"
         android:label="@string/title_adicionar"
         tools:layout="@layout/fragment_adicionar" >
         <action
@@ -38,12 +38,12 @@
     </fragment>
     <fragment
         android:id="@+id/nav_about"
-        android:name="br.edu.infnet.receitafacil_swe.AboutFragment"
+        android:name="br.edu.infnet.receitafacil_microservices.AboutFragment"
         android:label="@string/title_about"
         tools:layout="@layout/fragment_about" />
     <fragment
         android:id="@+id/nav_atualizar"
-        android:name="br.edu.infnet.receitafacil_swe.AtualizarFragment"
+        android:name="br.edu.infnet.receitafacil_microservices.AtualizarFragment"
         android:label="Atualizar Receita"
         tools:layout="@layout/fragment_atualizar" >
         <action
@@ -51,7 +51,7 @@
             app:destination="@id/nav_receitas" />
         <argument
             android:name="selecionado"
-            app:argType="br.edu.infnet.receitafacil_swe.receitas.Receita" />
+            app:argType="br.edu.infnet.receitafacil_microservices.model.Receita" />
         <action
             android:id="@+id/action_nav_atualizar_to_nav_home"
             app:destination="@id/nav_home" />

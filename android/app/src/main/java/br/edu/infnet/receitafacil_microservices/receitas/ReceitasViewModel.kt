@@ -1,7 +1,8 @@
-package br.edu.infnet.receitafacil_swe.receitas
+package br.edu.infnet.receitafacil_microservices.receitas
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import br.edu.infnet.receitafacil_microservices.model.Receita
 
 class ReceitasViewModel : ViewModel() {
 
