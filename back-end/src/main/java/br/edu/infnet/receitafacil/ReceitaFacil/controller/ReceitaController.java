@@ -7,6 +7,7 @@ import br.edu.infnet.receitafacil.ReceitaFacil.repository.ReceitaRepository;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,9 +16,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
+@CrossOrigin
 public class ReceitaController {
     private ReceitaRepository receitas = new ReceitaRepository();
     
+    @GetMapping("/total")
+    public int getReceitasCount(){
+        return receitas.getAll().size();
+    }
+
     @GetMapping("/receita")
     public List<Receita> getAll(){
         return receitas.getAll();
@@ -26,6 +33,11 @@ public class ReceitaController {
     @GetMapping("/receita/{id}")
     public Receita getById(@PathVariable int id){
         return receitas.getById(id);
+    }
+
+    @GetMapping("/receita/usuario/{uid}")
+    public List<Receita> getByUsuario(@PathVariable String uid){
+        return receitas.getByUsuario(uid);
     }
 
     @PostMapping("/receita")

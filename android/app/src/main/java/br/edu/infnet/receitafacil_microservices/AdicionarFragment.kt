@@ -166,9 +166,27 @@ class AdicionarFragment : Fragment() {
 
     private fun gravarReceita(figura: String){
         val agora = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString()
+        var total = 0
+        lifecycleScope.launchWhenCreated {
+            total = try {
+                ReceitaRetrofitInstance.api.getTotalReceitas()
+            } catch(err: IOException){
+                Log.e("API Call: ", err.toString())
+                Toast.makeText(getActivity(), err.toString(), Toast.LENGTH_SHORT).show()
+                return@launchWhenCreated
+            } catch(err: HttpException){
+                Log.e("API Call: ", err.toString())
+                Toast.makeText(getActivity(), err.toString(), Toast.LENGTH_SHORT).show()
+                return@launchWhenCreated
+            }
+            Log.d("API Total", total.toString())
+        }
         lifecycleScope.launchWhenCreated {
             val response = try{
-                val receita = Receita((100..99999).random(), usuario, binding.txtNome.text.toString(), binding.txtPreparo.text.toString(), binding.txtIngredientes.text.toString(), agora, figura)
+//                val total = ReceitaRetrofitInstance.api.getTotalReceitas().toString().toInt()
+//                Log.d("API Total", total.toString())
+                val receita = Receita(total, usuario, binding.txtNome.text.toString(), binding.txtPreparo.text.toString(), binding.txtIngredientes.text.toString(), agora, figura)
+//                val receita = Receita((100..99999).random(), usuario, binding.txtNome.text.toString(), binding.txtPreparo.text.toString(), binding.txtIngredientes.text.toString(), agora, figura)
                 ReceitaRetrofitInstance.api.newReceita(receita)
                 Toast.makeText(getActivity() , "Receita adicionada!", Toast.LENGTH_SHORT).show()
             } catch(err: IOException){

@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/5c11ffc4-08a3-4100-83f7-b456edf27720/resourceGroups/ReceitaFacil/providers/Microsoft.Web/sites/receitafacil-frontend",
+    "appService.deploySubpath": "build"
+}

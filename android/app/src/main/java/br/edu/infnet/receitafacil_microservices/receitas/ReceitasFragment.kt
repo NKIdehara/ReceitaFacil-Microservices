@@ -16,6 +16,7 @@ import br.edu.infnet.receitafacil_microservices.api.ReceitaRetrofitInstance
 import br.edu.infnet.receitafacil_microservices.databinding.FragmentReceitasBinding
 import br.edu.infnet.receitafacil_microservices.model.Receita
 import br.edu.infnet.receitafacil_microservices.R
+import br.edu.infnet.receitafacil_microservices.model.usuario
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
@@ -91,7 +92,7 @@ class ReceitasFragment : Fragment() {
     private fun getReceitasData() {
         lifecycleScope.launchWhenCreated {
             val response = try{
-                ReceitaRetrofitInstance.api.getReceitas()
+                ReceitaRetrofitInstance.api.getReceitas(usuario)
             } catch(err: IOException){
                 Log.e("API Call: ", err.toString())
                 Toast.makeText(getActivity(), err.toString(), Toast.LENGTH_SHORT).show()

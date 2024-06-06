@@ -18,8 +18,13 @@ const val RECEITA_URL = "http://10.0.2.2:8080"
 const val TIME_OUT = 60L
 
 interface ReceitaApi{
-    @GET("/receita")
-    suspend fun getReceitas(): Response<List<Receita>>
+    @GET("/total")
+    suspend fun getTotalReceitas(): Int
+
+//    @GET("/receita")
+//    suspend fun getReceitas(): Response<List<Receita>>
+    @GET("/receita/usuario/{uid}")
+    suspend fun getReceitas(@Path("uid") uid: String): Response<List<Receita>>
 
     @POST("/receita")
     suspend fun newReceita(@Body receita: Receita)
