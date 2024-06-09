@@ -3,10 +3,12 @@ package br.edu.infnet.receitafacil.ReceitaFacil.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.infnet.receitafacil.ReceitaFacil.model.Receita;
-import br.edu.infnet.receitafacil.ReceitaFacil.repository.ReceitaRepository;
+import br.edu.infnet.receitafacil.ReceitaFacil.service.ReceitaService;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,40 +20,41 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RestController
 @CrossOrigin
 public class ReceitaController {
-    private ReceitaRepository receitas = new ReceitaRepository();
+    @Autowired
+    private ReceitaService receitaService;
     
     @GetMapping("/total")
     public int getReceitasCount(){
-        return receitas.getAll().size();
+        return receitaService.getReceitas().size();
     }
 
     @GetMapping("/receita")
-    public List<Receita> getAll(){
-        return receitas.getAll();
+    public List<Receita> getReceitas(){
+        return receitaService.getReceitas();
     }
 
     @GetMapping("/receita/{id}")
-    public Receita getById(@PathVariable int id){
-        return receitas.getById(id);
+    public Optional<Receita> getById(@PathVariable Long id){
+        return receitaService.getById(id);
     }
 
     @GetMapping("/receita/usuario/{uid}")
     public List<Receita> getByUsuario(@PathVariable String uid){
-        return receitas.getByUsuario(uid);
+        return receitaService.getByUsuario(uid);
     }
 
     @PostMapping("/receita")
     public void add(@RequestBody Receita receita){
-        receitas.add(receita);
+        receitaService.add(receita);
     }
     
     @PutMapping("receita/{id}")
-    public void update(@PathVariable int id, @RequestBody Receita receita) {
-        receitas.update(id, receita);
+    public void update(@PathVariable Long id, @RequestBody Receita receita) {
+        receitaService.update(id, receita);
     }
     
     @DeleteMapping("/receita/{id}")
-    public void delete(@PathVariable int id){
-        receitas.delete(id);
-    }    
+    public void delete(@PathVariable Long id){
+        receitaService.delete(id);
+    }
 }
