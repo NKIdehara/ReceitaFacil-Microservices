@@ -5,10 +5,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.infnet.receitafacil.ReceitaFacil.model.Receita;
 import br.edu.infnet.receitafacil.ReceitaFacil.service.ReceitaService;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,37 +23,41 @@ public class ReceitaController {
     private ReceitaService receitaService;
     
     @GetMapping("/total")
-    public int getReceitasCount(){
-        return receitaService.getReceitas().size();
+    public ResponseEntity<?> getCount(){
+        return ResponseEntity.ok(receitaService.getAll().size());
     }
 
     @GetMapping("/receita")
-    public List<Receita> getReceitas(){
-        return receitaService.getReceitas();
+    public ResponseEntity<?> getAll(){
+        return ResponseEntity.ok(receitaService.getAll());
     }
 
     @GetMapping("/receita/{id}")
-    public Optional<Receita> getById(@PathVariable Long id){
-        return receitaService.getById(id);
+    public ResponseEntity<?> getById(@PathVariable Long id){
+        return ResponseEntity.ok(receitaService.getById(id));
     }
 
     @GetMapping("/receita/usuario/{uid}")
-    public List<Receita> getByUsuario(@PathVariable String uid){
-        return receitaService.getByUsuario(uid);
+    public ResponseEntity<?> getByUsuarioId(@PathVariable String uid){
+        return ResponseEntity.ok(receitaService.getByUsuarioId(uid));
     }
 
     @PostMapping("/receita")
-    public void add(@RequestBody Receita receita){
-        receitaService.add(receita);
+    public ResponseEntity<?> add(@RequestBody Receita receita){
+        return ResponseEntity.status(HttpStatus.CREATED).body(receitaService.add(receita));
     }
     
     @PutMapping("receita/{id}")
-    public void update(@PathVariable Long id, @RequestBody Receita receita) {
-        receitaService.update(id, receita);
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Receita receita) {
+        if(!receitaService.update(id, receita))
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body(0);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(1);
     }
     
     @DeleteMapping("/receita/{id}")
-    public void delete(@PathVariable Long id){
-        receitaService.delete(id);
+    public ResponseEntity<?> delete(@PathVariable Long id){
+        if(!receitaService.delete(id))
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body(0);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(1);
     }
 }

@@ -107,7 +107,9 @@ class ReceitasFragment : Fragment() {
             binding.progressBar.isVisible = false
             if(response.isSuccessful && response.body() != null){
                 val receitas: List<Receita>? = response.body()
-                receitas?.forEach { r -> receitaList.add(Receita(r.id,r.usuario, r.nome, r.preparo, r.ingredientes, r.data_receita, r.figura)) }
+                receitas?.forEach { r ->
+                    receitaList.add(Receita(r.id, r.usuario, r.nome, r.preparo, r.ingredientes, r.data_receita, r.figura))
+                }
             } else {
                 Log.e("API Call: ", "Erro [getReceitas]")
                 Toast.makeText(getActivity(), "Erro [getReceitas]", Toast.LENGTH_SHORT).show()

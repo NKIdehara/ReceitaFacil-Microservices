@@ -12,8 +12,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -77,11 +75,6 @@ class LoginActivity : AppCompatActivity() {
                     usuario = Firebase.auth.currentUser?.uid.toString()
                     CriaUsuario(usuario)
 
-                    // Cria lista inicial de receitas para novo usuário
-                    CriaReceitasBonus1()
-                    CriaReceitasBonus2()
-                    CriaReceitasBonus3()
-
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                     finish()
@@ -101,44 +94,5 @@ class LoginActivity : AppCompatActivity() {
         )
         receitaDatabase = FirebaseFirestore.getInstance()
         receitaDatabase.collection("Usuarios").document(userUID).set(usuario)
-    }
-    private fun CriaReceitasBonus1(){
-        val agora = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString()
-        val receitas_bonus = hashMapOf(
-            "dataReceita" to agora,
-            "usuario" to usuario,
-            "figura" to "https://firebasestorage.googleapis.com/v0/b/infnet-receitafacil.appspot.com/o/ic_food_1.png?alt=media&token=30015b83-a563-4bc8-8e90-8f92e40f19c3",
-            "nome" to "Arroz",
-            "ingredientes" to "- 1 xícara de arroz\n- 1/2 colher de sal",
-            "preparo" to "Lavar o arroz; colocar sal; cozinhar por 30 minutos."
-        )
-        receitaDatabase = FirebaseFirestore.getInstance()
-        receitaDatabase.collection("Receitas").document().set(receitas_bonus)
-    }
-    private fun CriaReceitasBonus2(){
-        val agora = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString()
-        val receitas_bonus = hashMapOf(
-            "dataReceita" to agora,
-            "usuario" to usuario,
-            "figura" to "https://firebasestorage.googleapis.com/v0/b/infnet-receitafacil.appspot.com/o/ic_food_2.png?alt=media&token=6ace9d66-e77c-420c-a85f-1d6841acb6f0",
-            "nome" to "Carne",
-            "ingredientes" to "- 1 bife\n- tempero a gosto",
-            "preparo" to "Temperar a carne; assar até dourar."
-        )
-        receitaDatabase = FirebaseFirestore.getInstance()
-        receitaDatabase.collection("Receitas").document().set(receitas_bonus)
-    }
-    private fun CriaReceitasBonus3(){
-        val agora = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString()
-        val receitas_bonus = hashMapOf(
-            "dataReceita" to agora,
-            "usuario" to usuario,
-            "figura" to "https://firebasestorage.googleapis.com/v0/b/infnet-receitafacil.appspot.com/o/ic_food_3.png?alt=media&token=47038466-478b-423a-8e11-5c74f88f4d2a",
-            "nome" to "Macarrão",
-            "ingredientes" to "- 500g de macarrão\n- 1 lata de molho de tomate",
-            "preparo" to "Cozinhar o macarrão; escorrer e colocar o molho."
-        )
-        receitaDatabase = FirebaseFirestore.getInstance()
-        receitaDatabase.collection("Receitas").document().set(receitas_bonus)
     }
 }

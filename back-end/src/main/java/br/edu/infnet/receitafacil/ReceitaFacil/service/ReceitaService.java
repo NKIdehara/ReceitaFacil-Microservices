@@ -14,23 +14,23 @@ public class ReceitaService {
     @Autowired
     private ReceitaRepository receitaRepository;
 
-    public List<Receita> getReceitas(){
+    public List<Receita> getAll() {
         return receitaRepository.findAll();
     }
 
-    public Optional<Receita> getById(Long id){
+    public Optional<Receita> getById(Long id) {
         return receitaRepository.findById(id);
     }
 
-    public List<Receita> getByUsuario(String uid){
+    public List<Receita> getByUsuarioId(String uid) {
         return receitaRepository.findByUsuario(uid);
     }
 
-    public void add(Receita receita){
-        receitaRepository.save(receita);
+    public Long add(Receita receita) {
+        return receitaRepository.save(receita).getId();
     }
 
-    public Boolean update(Long id, Receita receita){
+    public Boolean update(Long id, Receita receita) {
         return receitaRepository.findById(id).map(update -> {
             update.setReceita(receita);
             receitaRepository.save(update);
@@ -40,9 +40,9 @@ public class ReceitaService {
         });
     }
 
-    public Boolean delete(Long id){
+    public Boolean delete(Long id) {
         if(receitaRepository.findById(id).isEmpty()) return false;
         receitaRepository.deleteById(id);
         return true;
-    }    
+    }
 }

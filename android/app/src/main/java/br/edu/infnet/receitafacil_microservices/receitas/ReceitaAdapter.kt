@@ -31,10 +31,12 @@ class ReceitaAdapter(private val receitaList: List<Receita>) :
 
     override fun onBindViewHolder(holder: ReceitaViewHolder, position: Int) {
         val currentItem = receitaList[position]
+        var ingredientes: String = "\n"
 
         Picasso.get().load(currentItem.figura).placeholder(R.drawable.ic_wait).into(holder.imageView);
         holder.textView1.text = currentItem.nome
-        holder.textView2.text = currentItem.ingredientes
+        currentItem.ingredientes?.forEach { i -> ingredientes += "- " + i.quantidade + " " + i.medida + " de " + i.nome + "\n" }
+        holder.textView2.text = ingredientes
         holder.textView3.text = currentItem.preparo
 
         // Ao selecionar item, abre tela para atualizar / apagar cadastro

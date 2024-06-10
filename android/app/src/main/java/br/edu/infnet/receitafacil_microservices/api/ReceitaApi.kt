@@ -21,8 +21,6 @@ interface ReceitaApi{
     @GET("/total")
     suspend fun getTotalReceitas(): Int
 
-//    @GET("/receita")
-//    suspend fun getReceitas(): Response<List<Receita>>
     @GET("/receita/usuario/{uid}")
     suspend fun getReceitas(@Path("uid") uid: String): Response<List<Receita>>
 

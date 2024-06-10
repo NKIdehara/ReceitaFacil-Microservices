@@ -55,7 +55,13 @@ export default function Receitas() {
                                 <td><img src={receita.figura} style={{'maxWidth': '100px'}} alt=""/></td>
                                 <td>{receita.data_receita}</td>
                                 <td>{receita.nome}</td>
-                                <td style={{whiteSpace: "pre-wrap"}}>{receita.ingredientes}</td>
+
+                                <td>{receita.ingredientes.map((ingrediente) => (
+                                    <tr>
+                                    <td>- {ingrediente.quantidade} {ingrediente.medida} de {ingrediente.nome}</td>
+                                    </tr>
+                                ))}</td>
+
                                 <td style={{whiteSpace: "pre-wrap"}}>{receita.preparo}</td>
                                 <If condition={user.getUID !== 0}><Then>
                                     <td><Link className="btn btn-light m-1" to="/edtReceita" state={{ _id: receita.id, _nome: receita.nome, _ingredientes: receita.ingredientes, _preparo: receita.preparo, _data_receita: receita.data_receita, _usuario: receita.usuario, _figura: receita.figura }}>📝</Link></td>

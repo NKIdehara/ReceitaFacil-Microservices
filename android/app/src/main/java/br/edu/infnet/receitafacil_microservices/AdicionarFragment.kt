@@ -185,7 +185,8 @@ class AdicionarFragment : Fragment() {
             val response = try{
 //                val total = ReceitaRetrofitInstance.api.getTotalReceitas().toString().toInt()
 //                Log.d("API Total", total.toString())
-                val receita = Receita(total, usuario, binding.txtNome.text.toString(), binding.txtPreparo.text.toString(), binding.txtIngredientes.text.toString(), agora, figura)
+                val receita = Receita(total, usuario, binding.txtNome.text.toString(), binding.txtPreparo.text.toString(), null, agora, figura)
+//                val receita = Receita(total, usuario, binding.txtNome.text.toString(), binding.txtPreparo.text.toString(), binding.txtIngredientes.text.toString(), agora, figura)
 //                val receita = Receita((100..99999).random(), usuario, binding.txtNome.text.toString(), binding.txtPreparo.text.toString(), binding.txtIngredientes.text.toString(), agora, figura)
                 ReceitaRetrofitInstance.api.newReceita(receita)
                 Toast.makeText(getActivity() , "Receita adicionada!", Toast.LENGTH_SHORT).show()

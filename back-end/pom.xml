@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>br.edu.infnet.receitafacil</groupId>
 	<artifactId>ReceitaFacil</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 	<name>ReceitaFacil</name>
 	<description>Projeto do bloco de Engenharia de Softwares Escaláveis</description>
 	<properties>
@@ -47,6 +47,7 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

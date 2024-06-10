@@ -66,7 +66,7 @@ class AtualizarFragment : Fragment() {
         // dados recebidos como argumento de ReceitaAdapter
         Picasso.get().load(args.selecionado.figura).placeholder(R.drawable.ic_wait).into(binding.imgFotoAtualizar);
         binding.txtNomeAtualizar.setText(args.selecionado.nome)
-        binding.txtIngredientesAtualizar.setText(args.selecionado.ingredientes)
+        //binding.txtIngredientesAtualizar.setText(args.selecionado.ingredientes)
         binding.txtPreparoAtualizar.setText(args.selecionado.preparo)
 
         // botão atualizar
@@ -91,7 +91,8 @@ class AtualizarFragment : Fragment() {
             val agora = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString()
             lifecycleScope.launchWhenCreated {
                 val response = try{
-                    val receita = Receita(args.selecionado.id, usuario, binding.txtNomeAtualizar.text.toString(), binding.txtPreparoAtualizar.text.toString(), binding.txtIngredientesAtualizar.text.toString(), args.selecionado.data_receita, args.selecionado.figura)
+//                    val receita = Receita(args.selecionado.id, usuario, binding.txtNomeAtualizar.text.toString(), binding.txtPreparoAtualizar.text.toString(), binding.txtIngredientesAtualizar.text.toString(), args.selecionado.data_receita, args.selecionado.figura)
+                    val receita = Receita(args.selecionado.id, usuario, binding.txtNomeAtualizar.text.toString(), binding.txtPreparoAtualizar.text.toString(), null, args.selecionado.data_receita, args.selecionado.figura)
                     ReceitaRetrofitInstance.api.editReceita(args.selecionado.id, receita)
                     Toast.makeText(getActivity() , "Receita atualizada!", Toast.LENGTH_SHORT).show()
                 } catch(err: IOException){
