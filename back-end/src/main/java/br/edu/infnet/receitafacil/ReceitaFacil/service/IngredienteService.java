@@ -52,6 +52,21 @@ public class IngredienteService {
             return false;
         });
     }
+    public Boolean update(Long idReceita, Long idIngrediente, Ingrediente ingrediente) {
+        return ingredienteRepository.findById(idIngrediente).map(update -> {
+            update.setIngrediente(ingrediente);
+            ingredienteRepository.save(update);
+            return true;
+        }).orElseGet(() -> {
+            return receitaRepository.findById(idReceita).map(receita -> {
+                ingrediente.setReceita(receita);
+                ingredienteRepository.save(ingrediente);
+                return true;
+            }).orElseGet(() -> {
+                return false;
+            });
+        });
+    }
 
     public Boolean delete(Long id) {
         if(ingredienteRepository.findById(id).isEmpty()) return false;

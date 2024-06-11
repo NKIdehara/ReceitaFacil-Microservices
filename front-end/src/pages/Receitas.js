@@ -32,7 +32,7 @@ export default function Receitas() {
     if(!user.isNull) {
         return (
             <div className="container">
-                <div className="py-4 ">
+                <div className="py-2">
 
                     <table className="table table-hover shadow">
                     <thead className="table-secondary">
@@ -58,7 +58,7 @@ export default function Receitas() {
 
                                 <td>{receita.ingredientes.map((ingrediente) => (
                                     <tr>
-                                    <td>- {ingrediente.quantidade} {ingrediente.medida} de {ingrediente.nome}</td>
+                                    <td>- {ingrediente.quantidade} {ingrediente.medida} de {ingrediente.item}</td>
                                     </tr>
                                 ))}</td>
 

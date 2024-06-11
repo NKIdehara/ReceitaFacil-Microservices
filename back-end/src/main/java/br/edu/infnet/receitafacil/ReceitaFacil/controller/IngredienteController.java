@@ -47,8 +47,12 @@ public class IngredienteController {
     }
 
     @PutMapping("ingrediente/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Ingrediente ingrediente) {
-        return ResponseEntity.ok(ingredienteService.update(id, ingrediente));
+    public ResponseEntity<?> update(@PathVariable Long idIngrediente, @RequestBody Ingrediente ingrediente) {
+        return ResponseEntity.ok(ingredienteService.update(idIngrediente, ingrediente));
+    }
+    @PutMapping("ingrediente/{idIngrediente}/receita/{idReceita}")
+    public ResponseEntity<?> update(@PathVariable Long idIngrediente, @PathVariable Long idReceita, @RequestBody Ingrediente ingrediente) {
+        return ResponseEntity.ok(ingredienteService.update(idReceita, idIngrediente, ingrediente));
     }
     
     @DeleteMapping("/ingrediente/{id}")

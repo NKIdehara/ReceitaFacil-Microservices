@@ -1,3 +1,4 @@
+import * as bootstrap from 'bootstrap';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { format } from "date-fns";
@@ -15,17 +16,37 @@ import Spinner from '../layout/Spinner';
         const [imgReceita, setImgReceita] = useState(null);
         const [receita, setReceita] = useState({
             nome: "",
-            ingredientes: "",
             preparo: "",
             data_receita: format(new Date(), "yyyy-MM-dd"),
             usuario: user.getUID,
             figura: imagem
         });
 
-        const {nome, ingredientes, preparo, data_receita, usuario, figura} = receita;
+        const [index, setIndex] = useState(0);
+        const [ingredientes, setIngredientes] = useState([]);
+        const addIngrediente = () => {
+            setIngredientes([...ingredientes, ingrediente]);
+        };
+        const delIngrediente = (id_ingrediente) => {
+            const novaLista = ingredientes.filter(i => i.id_ingrediente !== id_ingrediente);
+            setIngredientes(novaLista);
+        };
+        const initialState = {
+            id_ingrediente: "",
+            item: "",
+            quantidade: "",
+            medida: ""
+        }
+        const [ingrediente, setIngrediente] = useState(initialState);
 
-        const onInputChange = (e) => {
+        const {nome, preparo, data_receita, usuario, figura} = receita;
+        const {id_ingrediente, item, quantidade, medida} = ingrediente;
+
+        const onReceitaChange = (e) => {
             setReceita({...receita, [e.target.name]:e.target.value});
+        }
+        const onIngredienteChange = (e) => {
+            setIngrediente({...ingrediente, [e.target.name]:e.target.value});
         }
 
         const uploadImgReceita = () => {
@@ -36,13 +57,27 @@ import Spinner from '../layout/Spinner';
             });
         };
 
-        const onSubmit = async (e) => {
+        const onSubmitReceita = async (e) => {
             e.preventDefault();
             setEspera(true);
             var imagem = await uploadImgReceita();
             if(imagem !== null) receita.figura = imagem;
             const result = await axios.post(BACKEND.concat("/receita"), receita);
+            ingredientes.forEach(async ingrediente => {
+                await axios.post(BACKEND.concat("/ingrediente/receita/", result.data), ingrediente);
+            });
             navigate("/receitas");
+        }
+        const onSubmitIngrediente = () => {
+            if(ingrediente.item !== "" && ingrediente.quantidade !== "" && ingrediente.medida !== ""){
+                ingrediente.id_ingrediente = index;
+                setIndex(index + 1);
+                addIngrediente();
+                setIngrediente(initialState);
+            } else {
+                let toast = new bootstrap.Toast(document.getElementById('Toast'));
+                toast.show();
+            }
         }
 
         const [espera, setEspera] = useState(false);
@@ -52,38 +87,91 @@ import Spinner from '../layout/Spinner';
             <div className="py-4">
                 <div className="border rounded p-4 mt-2 shadow">
                     <h2 className="text-center m-0">Cadastro de Receitas</h2>
-                    <form className="my-4" onSubmit={(e) => onSubmit(e)}>
-                    <div className="form-group row my-2">
-                            <label htmlFor="nome" className="col-sm-2 col-form-label">Foto:</label>
-                            <div className="col-sm-10">
-                                <input type="file" className="form-control" onChange={ async (event) => {
-                                    setImgReceita(event.target.files[0]);
-                                    var image = document.getElementById('imagem');
-                                    image.src = URL.createObjectURL(event.target.files[0]);
-                                }}/>
-                                <div><img id="imagem" className="img-thumbnail" style={{'maxWidth': '250px'}} alt="" /></div>
-                            </div>
+                    <form className="my-4" onSubmit={(e) => onSubmitReceita(e)}>
+                    <div className="form-group row my-2 border border-primary rounded">
+                        <label htmlFor="nome" className="col-sm-2 my-2 col-form-label">Foto:</label>
+                        <div className="col-sm-10">
+                            <input type="file" className="form-control my-2" onChange={ async (event) => {
+                                setImgReceita(event.target.files[0]);
+                                var image = document.getElementById('imagem');
+                                image.src = URL.createObjectURL(event.target.files[0]);
+                            }}/>
+                            <div><img id="imagem" className="img-thumbnail my-2" style={{'maxWidth': '250px'}} alt="" /></div>
                         </div>
-                        <div className="form-group row my-2">
-                            <label htmlFor="nome" className="col-sm-2 col-form-label">Nome:</label>
-                            <div className="col-sm-10">
-                                <input type={"text"} className="form-control" required placeholder="Nome da receita" name="nome" value={nome} onChange={(e) => onInputChange(e)} />
-                            </div>
+                    </div>
+
+                    <div className="form-group row my-4 border border-primary rounded">
+                        <label htmlFor="nome" className="col-sm-2 my-2 col-form-label">Nome:</label>
+                        <div className="col-sm-10">
+                            <input type={"text"} className="form-control my-2" required placeholder="Nome da receita" name="nome" value={nome} onChange={(e) => onReceitaChange(e)} />
                         </div>
-                        <div className="form-group row my-2">
-                            <label htmlFor="nome" className="col-sm-2 col-form-label">Ingredientes:</label>
-                            <div className="col-sm-10">
-                                <textarea className="form-control" rows="4" cols="50" required placeholder="Ingredientes" name="ingredientes" value={ingredientes} onChange={(e) => onInputChange(e)} />
+                    </div>
+
+                    <div className="form-group row my-4 border border-primary rounded">
+                        <label htmlFor="nome" className="col-sm-2 my-2 col-form-label">Ingredientes:</label>                            
+                        <div className="col-sm-10">
+                            <div className="form-group row my-2">
+                                <label htmlFor="item" className="col-sm-2 col-form-label">Ingrediente:</label>
+                                <div className="col-sm-10">
+                                    <input type={"text"} className="form-control" placeholder="Nome do Ingrediente" name="item" value={item} onChange={(e) => onIngredienteChange(e)} />
+                                </div>
                             </div>
-                        </div>
-                        <div className="form-group row my-2">
-                            <label htmlFor="nome" className="col-sm-2 col-form-label">Preparo:</label>
-                            <div className="col-sm-10">
-                                <textarea className="form-control" rows="4" cols="50" required placeholder="Preparo da receita" name="preparo" value={preparo} onChange={(e) => onInputChange(e)} />
+                            <div className="form-group row my-2">
+                                <label htmlFor="quantidade" className="col-sm-2 col-form-label">Quantidade:</label>
+                                <div className="col-sm-10">
+                                    <input type={"number"} className="form-control" placeholder="Quantidade" name="quantidade" value={quantidade} onChange={(e) => onIngredienteChange(e)} />
+                                </div>
                             </div>
+                            <div className="form-group row my-2">
+                                <label htmlFor="medida" className="col-sm-2 col-form-label">Unidade de medida:</label>
+                                <div className="col-sm-10">
+                                    <input type={"text"} className="form-control" placeholder="g / ml / colheres" name="medida" value={medida} onChange={(e) => onIngredienteChange(e)} />
+                                </div>
+                            </div>
+                            <div id="Toast" className="toast align-items-center text-bg-danger border-0 position-absolute top-50 start-50 translate-middle" role="alert" aria-live="assertive" aria-atomic="true">
+                                <div className="d-flex">
+                                    <div className="toast-body">Ingrediente inválido!</div>
+                                    <button type="button" className="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                                </div>
+                            </div>
+                            <button type="button" className="btn btn-outline-primary" onClick={(e) => onSubmitIngrediente(e)}>➕</button>
+
+                            <table className="table table-hover shadow my-4">
+                                <thead className="table-secondary">
+                                    <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Ingrediente</th>
+                                    <th scope="col">Quantidade</th>
+                                    <th scope="col">Medida</th>
+                                    <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody className="text-center">
+                                {
+                                    ingredientes.map((ingrediente, id) => (                                        
+                                        <tr>
+                                        <th scope="row" key={id}>{ingrediente.id_ingrediente}</th>
+                                        <td>{ingrediente.item}</td>
+                                        <td>{ingrediente.quantidade}</td>
+                                        <td>{ingrediente.medida}</td>
+                                        <td><button type="button" className="btn btn-light" onClick={() => delIngrediente(ingrediente.id_ingrediente)}>➖</button></td>
+                                        </tr>
+                                    ))
+                                }
+                                </tbody>
+                            </table>
                         </div>
-                        {espera && <Spinner />}
-                        {!espera && <button type="submit" className="btn btn-outline-primary">Cadastrar</button>}
+                    </div>
+
+                    <div className="form-group row my-4 border border-primary rounded">
+                        <label htmlFor="nome" className="col-sm-2 my-2 col-form-label">Preparo:</label>
+                        <div className="col-sm-10">
+                            <textarea className="form-control my-2" rows="4" cols="50" required placeholder="Preparo da receita" name="preparo" value={preparo} onChange={(e) => onReceitaChange(e)} />
+                        </div>
+                    </div>
+                    
+                    {espera && <Spinner />}
+                    {!espera && <button type="submit" className="btn btn-outline-primary" onSubmit={() => onSubmitReceita}>Cadastrar</button>}
                     </form>
                 </div>
                 <div className="float-end my-4">

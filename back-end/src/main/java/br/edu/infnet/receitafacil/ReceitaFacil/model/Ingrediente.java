@@ -25,7 +25,7 @@ public class Ingrediente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nome;
+    private String item;
     private Float quantidade;
     private String medida;
 
@@ -42,15 +42,15 @@ public class Ingrediente {
     public Ingrediente() {
     }
 
-    public Ingrediente(String nome, Float quantidade, String medida) {
-        this.nome = nome;
+    public Ingrediente(String item, Float quantidade, String medida) {
+        this.item = item;
         this.quantidade = quantidade;
         this.medida = medida;
     }
 
-    public Ingrediente(Long id, String nome, Float quantidade, String medida, Receita receita) {
+    public Ingrediente(Long id, String item, Float quantidade, String medida, Receita receita) {
         this.id = id;
-        this.nome = nome;
+        this.item = item;
         this.quantidade = quantidade;
         this.medida = medida;
         this.receita = receita;
@@ -58,7 +58,7 @@ public class Ingrediente {
 
     public void setIngrediente(Ingrediente ingrediente) {
         this.id = ingrediente.id;
-        this.nome = ingrediente.nome;
+        this.item = ingrediente.item;
         this.quantidade = ingrediente.quantidade;
         this.medida = ingrediente.medida;
     }
@@ -71,12 +71,12 @@ public class Ingrediente {
         this.id = id;
     }
 
-    public String getNome() {
-        return this.nome;
+    public String getItem() {
+        return this.item;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setItem(String item) {
+        this.item = item;
     }
 
     public Float getQuantidade() {
