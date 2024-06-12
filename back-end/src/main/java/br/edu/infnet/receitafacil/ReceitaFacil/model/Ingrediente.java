@@ -24,13 +24,13 @@ import jakarta.persistence.Table;
 public class Ingrediente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idIngrediente;
     private String item;
     private Float quantidade;
     private String medida;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_receita")
+    @JoinColumn(name = "id")
     @JsonBackReference
     private Receita receita;
 
@@ -48,8 +48,8 @@ public class Ingrediente {
         this.medida = medida;
     }
 
-    public Ingrediente(Long id, String item, Float quantidade, String medida, Receita receita) {
-        this.id = id;
+    public Ingrediente(Long idIngrediente, String item, Float quantidade, String medida, Receita receita) {
+        this.idIngrediente = idIngrediente;
         this.item = item;
         this.quantidade = quantidade;
         this.medida = medida;
@@ -57,18 +57,18 @@ public class Ingrediente {
     }
 
     public void setIngrediente(Ingrediente ingrediente) {
-        this.id = ingrediente.id;
+        this.idIngrediente = ingrediente.idIngrediente;
         this.item = ingrediente.item;
         this.quantidade = ingrediente.quantidade;
         this.medida = ingrediente.medida;
     }
 
-    public Long getId() {
-        return this.id;
+    public Long getIdIngrediente() {
+        return this.idIngrediente;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdIngrediente(Long idIngrediente) {
+        this.idIngrediente = idIngrediente;
     }
 
     public String getItem() {

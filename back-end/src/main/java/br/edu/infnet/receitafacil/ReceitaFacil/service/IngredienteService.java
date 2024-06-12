@@ -25,12 +25,12 @@ public class IngredienteService {
         return ingredienteRepository.findByReceitaId(id);
     }
 
-    public Optional<Ingrediente> getById(Long id) {
-        return ingredienteRepository.findById(id);
+    public Optional<Ingrediente> getById(Long idIngrediente) {
+        return ingredienteRepository.findById(idIngrediente);
     }
 
     public Long add(Ingrediente ingrediente) {
-        return ingredienteRepository.save(ingrediente).getId();
+        return ingredienteRepository.save(ingrediente).getIdIngrediente();
     }
 
     public Boolean addByReceitaId(Long id, Ingrediente ingrediente) {
@@ -43,8 +43,8 @@ public class IngredienteService {
         });
     }
 
-    public Boolean update(Long id, Ingrediente ingrediente) {
-        return ingredienteRepository.findById(id).map(update -> {
+    public Boolean update(Long idIngrediente, Ingrediente ingrediente) {
+        return ingredienteRepository.findById(idIngrediente).map(update -> {
             update.setIngrediente(ingrediente);
             ingredienteRepository.save(update);
             return true;
@@ -68,9 +68,9 @@ public class IngredienteService {
         });
     }
 
-    public Boolean delete(Long id) {
-        if(ingredienteRepository.findById(id).isEmpty()) return false;
-        ingredienteRepository.deleteById(id);
+    public Boolean delete(Long idIngrediente) {
+        if(ingredienteRepository.findById(idIngrediente).isEmpty()) return false;
+        ingredienteRepository.deleteById(idIngrediente);
         return true;
     }
 }

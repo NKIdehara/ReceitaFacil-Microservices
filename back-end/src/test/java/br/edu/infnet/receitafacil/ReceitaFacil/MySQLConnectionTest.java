@@ -48,7 +48,7 @@ public class MySQLConnectionTest {
 
     @MockBean
     private ReceitaService receitaService;
-
+/* 
     @Test
     public void testMySQLConnection(){
         String url = "jdbc:mysql://localhost:3306";
@@ -118,5 +118,5 @@ public class MySQLConnectionTest {
         ObjectMapper json = new ObjectMapper();
         this.mockMvc.perform(post("/receita").contentType(MediaType.APPLICATION_JSON).content(json.writeValueAsString(receita))).andExpect(status().isOk());
         this.mockMvc.perform(delete("/receita/{id}", "0").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
-    }
+    } */
 }

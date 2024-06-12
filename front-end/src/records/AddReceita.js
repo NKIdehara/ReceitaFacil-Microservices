@@ -27,12 +27,12 @@ import Spinner from '../layout/Spinner';
         const addIngrediente = () => {
             setIngredientes([...ingredientes, ingrediente]);
         };
-        const delIngrediente = (id_ingrediente) => {
-            const novaLista = ingredientes.filter(i => i.id_ingrediente !== id_ingrediente);
+        const delIngrediente = (idIngrediente) => {
+            const novaLista = ingredientes.filter(i => i.idIngrediente !== idIngrediente);
             setIngredientes(novaLista);
         };
         const initialState = {
-            id_ingrediente: "",
+            idIngrediente: "",
             item: "",
             quantidade: "",
             medida: ""
@@ -40,7 +40,7 @@ import Spinner from '../layout/Spinner';
         const [ingrediente, setIngrediente] = useState(initialState);
 
         const {nome, preparo, data_receita, usuario, figura} = receita;
-        const {id_ingrediente, item, quantidade, medida} = ingrediente;
+        const {idIngrediente, item, quantidade, medida} = ingrediente;
 
         const onReceitaChange = (e) => {
             setReceita({...receita, [e.target.name]:e.target.value});
@@ -70,7 +70,7 @@ import Spinner from '../layout/Spinner';
         }
         const onSubmitIngrediente = () => {
             if(ingrediente.item !== "" && ingrediente.quantidade !== "" && ingrediente.medida !== ""){
-                ingrediente.id_ingrediente = index;
+                ingrediente.idIngrediente = index;
                 setIndex(index + 1);
                 addIngrediente();
                 setIngrediente(initialState);
@@ -139,7 +139,7 @@ import Spinner from '../layout/Spinner';
                             <table className="table table-hover shadow my-4">
                                 <thead className="table-secondary">
                                     <tr>
-                                    <th scope="col">#</th>
+                                    {/* <th scope="col">#</th> */}
                                     <th scope="col">Ingrediente</th>
                                     <th scope="col">Quantidade</th>
                                     <th scope="col">Medida</th>
@@ -150,11 +150,11 @@ import Spinner from '../layout/Spinner';
                                 {
                                     ingredientes.map((ingrediente, id) => (                                        
                                         <tr>
-                                        <th scope="row" key={id}>{ingrediente.id_ingrediente}</th>
+                                        {/* <th scope="row" key={id}>{ingrediente.id_ingrediente}</th> */}
                                         <td>{ingrediente.item}</td>
                                         <td>{ingrediente.quantidade}</td>
                                         <td>{ingrediente.medida}</td>
-                                        <td><button type="button" className="btn btn-light" onClick={() => delIngrediente(ingrediente.id_ingrediente)}>➖</button></td>
+                                        <td><button type="button" className="btn btn-light" onClick={() => delIngrediente(ingrediente.idIngrediente)}>➖</button></td>
                                         </tr>
                                     ))
                                 }
@@ -169,7 +169,7 @@ import Spinner from '../layout/Spinner';
                             <textarea className="form-control my-2" rows="4" cols="50" required placeholder="Preparo da receita" name="preparo" value={preparo} onChange={(e) => onReceitaChange(e)} />
                         </div>
                     </div>
-                    
+
                     {espera && <Spinner />}
                     {!espera && <button type="submit" className="btn btn-outline-primary" onSubmit={() => onSubmitReceita}>Cadastrar</button>}
                     </form>

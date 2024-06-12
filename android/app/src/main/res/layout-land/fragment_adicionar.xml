@@ -118,6 +118,7 @@
                             android:layout_height="wrap_content"
                             android:contentDescription="Lista de Ingredientes"
                             android:ems="10"
+                            android:enabled="false"
                             android:gravity="start|top"
                             android:inputType="textMultiLine"
                             android:lines="3" />

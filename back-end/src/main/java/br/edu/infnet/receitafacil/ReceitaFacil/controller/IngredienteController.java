@@ -26,9 +26,9 @@ public class IngredienteController {
         return ResponseEntity.ok(ingredienteService.getAll());
     }
 
-    @GetMapping("/ingrediente/{id}")
-    public ResponseEntity<?> getById(@PathVariable Long id){
-        return ResponseEntity.ok(ingredienteService.getById(id));
+    @GetMapping("/ingrediente/{idIngrediente}")
+    public ResponseEntity<?> getById(@PathVariable Long idIngrediente){
+        return ResponseEntity.ok(ingredienteService.getById(idIngrediente));
     }
 
     @GetMapping("/ingrediente/receita/{id}")
@@ -46,7 +46,7 @@ public class IngredienteController {
         return ResponseEntity.ok(ingredienteService.addByReceitaId(id, ingrediente));
     }
 
-    @PutMapping("ingrediente/{id}")
+    @PutMapping("ingrediente/{idIngrediente}")
     public ResponseEntity<?> update(@PathVariable Long idIngrediente, @RequestBody Ingrediente ingrediente) {
         return ResponseEntity.ok(ingredienteService.update(idIngrediente, ingrediente));
     }
@@ -55,8 +55,8 @@ public class IngredienteController {
         return ResponseEntity.ok(ingredienteService.update(idReceita, idIngrediente, ingrediente));
     }
     
-    @DeleteMapping("/ingrediente/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
-        return ResponseEntity.ok(ingredienteService.delete(id));
+    @DeleteMapping("/ingrediente/{idIngrediente}")
+    public ResponseEntity<?> delete(@PathVariable Long idIngrediente){
+        return ResponseEntity.ok(ingredienteService.delete(idIngrediente));
     }
 }
