@@ -53,7 +53,7 @@ export default function Receitas() {
                                 <tr>
                                 <th scope="row" key={id_receita}>{id_receita+1}</th>
                                 <td><img src={receita.figura} style={{'maxWidth': '100px'}} alt=""/></td>
-                                <td>{receita.data_receita}</td>
+                                <td>{receita.dataReceita}</td>
                                 <td>{receita.nome}</td>
 
                                 <td>{receita.ingredientes.map((ingrediente) => (
@@ -64,7 +64,7 @@ export default function Receitas() {
 
                                 <td style={{whiteSpace: "pre-wrap"}}>{receita.preparo}</td>
                                 <If condition={user.getUID !== 0}><Then>
-                                    <td><Link className="btn btn-light m-1" to="/edtReceita" state={{ _id: receita.id, _nome: receita.nome, _ingredientes: receita.ingredientes, _preparo: receita.preparo, _data_receita: receita.data_receita, _usuario: receita.usuario, _figura: receita.figura }}>📝</Link></td>
+                                    <td><Link className="btn btn-light m-1" to="/edtReceita" state={{ _id: receita.id, _nome: receita.nome, _ingredientes: receita.ingredientes, _preparo: receita.preparo, _dataReceita: receita.dataReceita, _usuario: receita.usuario, _figura: receita.figura }}>📝</Link></td>
                                 </Then></If>
                                 <If condition={user.getUID !== 0}><Then>
                                     <td><button type="button" className="btn btn-light" onClick={() => deleteReceita(receita.id)}>❌</button></td>

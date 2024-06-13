@@ -11,7 +11,7 @@ import Spinner from '../layout/Spinner';
 
     export default function EdtReceita() {
         const location = useLocation();
-        const { _id, _nome, _ingredientes, _preparo, _data_receita, _usuario, _figura } = location.state;
+        const { _id, _nome, _ingredientes, _preparo, _dataReceita, _usuario, _figura } = location.state;
 
         let navigate = useNavigate();
 
@@ -20,7 +20,7 @@ import Spinner from '../layout/Spinner';
             id: _id,
             nome: _nome,
             preparo: _preparo,
-            data_receita: _data_receita,
+            dataReceita: _dataReceita,
             usuario: _usuario,
             figura: _figura
         });
@@ -42,7 +42,7 @@ import Spinner from '../layout/Spinner';
         }
         const [ingrediente, setIngrediente] = useState(initialState);
 
-        const {id, nome, preparo, data_receita, usuario, figura} = receita;
+        const {id, nome, preparo, dataReceita, usuario, figura} = receita;
         const {idIngrediente, item, quantidade, medida} = ingrediente;
 
         const onReceitaChange = (e) => {

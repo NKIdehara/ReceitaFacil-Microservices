@@ -9,6 +9,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -21,7 +23,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "tblReceita")
+@Table(name = "tblReceitas")
 public class Receita {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,10 +31,11 @@ public class Receita {
     private String usuario;
     private String nome;
     private String preparo;
-    @OneToMany(mappedBy = "receita", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Ingrediente> ingredientes = new ArrayList<>();
-    private Date data_receita;
+    private Date dataReceita;
     private String figura;
+    @OneToMany(mappedBy = "receita", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<Ingrediente> ingredientes = new ArrayList<>();
 
     @CreatedDate
     private LocalDateTime createDate;
@@ -42,21 +45,21 @@ public class Receita {
     public Receita() {
     }
 
-    public Receita(String usuario, String nome, String preparo, List<Ingrediente> ingredientes, Date data_receita, String figura) {
+    public Receita(String usuario, String nome, String preparo, List<Ingrediente> ingredientes, Date dataReceita, String figura) {
         this.usuario = usuario;
         this.nome = nome;
         this.preparo = preparo;
-        this.data_receita = data_receita;
+        this.dataReceita = dataReceita;
         this.figura = figura;
         this.ingredientes = ingredientes;
     }
 
-    public Receita(Long id, String usuario, String nome, String preparo, List<Ingrediente> ingredientes, Date data_receita, String figura) {
+    public Receita(Long id, String usuario, String nome, String preparo, List<Ingrediente> ingredientes, Date dataReceita, String figura) {
         this.id = id;
         this.usuario = usuario;
         this.nome = nome;
         this.preparo = preparo;
-        this.data_receita = data_receita;
+        this.dataReceita = dataReceita;
         this.figura = figura;
         this.ingredientes = ingredientes;
     }
@@ -66,7 +69,7 @@ public class Receita {
         this.nome = receita.nome;
         this.preparo = receita.preparo;
         this.ingredientes = receita.ingredientes;
-        this.data_receita = receita.data_receita;
+        this.dataReceita = receita.dataReceita;
         this.figura = receita.figura;
     }
 
@@ -110,12 +113,12 @@ public class Receita {
         this.ingredientes = ingredientes;
     }
 
-    public Date getData_receita() {
-        return this.data_receita;
+    public Date getDataReceita() {
+        return this.dataReceita;
     }
 
-    public void setData_receita(Date data_receita) {
-        this.data_receita = data_receita;
+    public void setDataReceita(Date dataReceita) {
+        this.dataReceita = dataReceita;
     }
 
     public String getFigura() {

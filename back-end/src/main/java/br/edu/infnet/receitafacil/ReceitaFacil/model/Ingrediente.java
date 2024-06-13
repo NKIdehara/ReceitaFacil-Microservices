@@ -20,7 +20,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "tblIngrediente")
+@Table(name = "tblIngredientes")
 public class Ingrediente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +28,6 @@ public class Ingrediente {
     private String item;
     private Float quantidade;
     private String medida;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
     @JsonBackReference

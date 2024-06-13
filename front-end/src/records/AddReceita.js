@@ -17,7 +17,7 @@ import Spinner from '../layout/Spinner';
         const [receita, setReceita] = useState({
             nome: "",
             preparo: "",
-            data_receita: format(new Date(), "yyyy-MM-dd"),
+            dataReceita: format(new Date(), "yyyy-MM-dd"),
             usuario: user.getUID,
             figura: imagem
         });
@@ -39,7 +39,7 @@ import Spinner from '../layout/Spinner';
         }
         const [ingrediente, setIngrediente] = useState(initialState);
 
-        const {nome, preparo, data_receita, usuario, figura} = receita;
+        const {nome, preparo, dataReceita: dataReceita, usuario, figura} = receita;
         const {idIngrediente, item, quantidade, medida} = ingrediente;
 
         const onReceitaChange = (e) => {

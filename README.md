@@ -13,3 +13,5 @@ Back-end desenvolvido em **Java**
 
 ### Swagger (deployment feito no Azure)
 https://receitafacil-microservices-backend.azurewebsites.net/swagger-ui/index.html
+
+![arquitetura](https://firebasestorage.googleapis.com/v0/b/infnet-receitafacil.appspot.com/o/architecture.jpg?alt=media&token=87a5c74d-2edd-4a26-979f-8d9dda746685)
