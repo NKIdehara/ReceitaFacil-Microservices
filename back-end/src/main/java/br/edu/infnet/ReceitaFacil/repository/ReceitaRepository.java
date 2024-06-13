@@ -1,9 +1,9 @@
-package br.edu.infnet.receitafacil.ReceitaFacil.repository;
+package br.edu.infnet.ReceitaFacil.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import br.edu.infnet.receitafacil.ReceitaFacil.model.Receita;
+import br.edu.infnet.ReceitaFacil.model.Receita;
 import java.util.List;
 
 @Repository

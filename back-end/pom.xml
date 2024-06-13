@@ -8,7 +8,7 @@
 		<version>3.3.0</version>
 		<relativePath/> 
 	</parent>
-	<groupId>br.edu.infnet.receitafacil</groupId>
+	<groupId>br.edu.infnet</groupId>
 	<artifactId>ReceitaFacil</artifactId>
 	<version>0.0.3</version>
 	<name>ReceitaFacil</name>
@@ -51,13 +51,11 @@
 			<artifactId>h2</artifactId>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
 
 	<build>

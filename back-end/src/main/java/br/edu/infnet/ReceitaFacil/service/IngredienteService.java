@@ -1,4 +1,4 @@
-package br.edu.infnet.receitafacil.ReceitaFacil.service;
+package br.edu.infnet.ReceitaFacil.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,9 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.edu.infnet.receitafacil.ReceitaFacil.model.Ingrediente;
-import br.edu.infnet.receitafacil.ReceitaFacil.repository.IngredienteRepository;
-import br.edu.infnet.receitafacil.ReceitaFacil.repository.ReceitaRepository;
+import br.edu.infnet.ReceitaFacil.model.Ingrediente;
+import br.edu.infnet.ReceitaFacil.repository.IngredienteRepository;
+import br.edu.infnet.ReceitaFacil.repository.ReceitaRepository;
 
 @Service
 public class IngredienteService {
@@ -45,7 +45,11 @@ public class IngredienteService {
 
     public Boolean update(Long idIngrediente, Ingrediente ingrediente) {
         return ingredienteRepository.findById(idIngrediente).map(update -> {
-            update.setIngrediente(ingrediente);
+            // update.setIngrediente(ingrediente);
+            update.setIdIngrediente(ingrediente.getIdIngrediente());
+            update.setItem(ingrediente.getItem());
+            update.setQuantidade(ingrediente.getQuantidade());
+            update.setMedida(ingrediente.getMedida());
             ingredienteRepository.save(update);
             return true;
         }).orElseGet(() -> {
@@ -54,7 +58,11 @@ public class IngredienteService {
     }
     public Boolean update(Long idReceita, Long idIngrediente, Ingrediente ingrediente) {
         return ingredienteRepository.findById(idIngrediente).map(update -> {
-            update.setIngrediente(ingrediente);
+            // update.setIngrediente(ingrediente);
+            update.setIdIngrediente(ingrediente.getIdIngrediente());
+            update.setItem(ingrediente.getItem());
+            update.setQuantidade(ingrediente.getQuantidade());
+            update.setMedida(ingrediente.getMedida());
             ingredienteRepository.save(update);
             return true;
         }).orElseGet(() -> {

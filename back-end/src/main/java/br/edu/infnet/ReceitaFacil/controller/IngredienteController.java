@@ -1,9 +1,9 @@
-package br.edu.infnet.receitafacil.ReceitaFacil.controller;
+package br.edu.infnet.ReceitaFacil.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.infnet.receitafacil.ReceitaFacil.model.Ingrediente;
-import br.edu.infnet.receitafacil.ReceitaFacil.service.IngredienteService;
+import br.edu.infnet.ReceitaFacil.model.Ingrediente;
+import br.edu.infnet.ReceitaFacil.service.IngredienteService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

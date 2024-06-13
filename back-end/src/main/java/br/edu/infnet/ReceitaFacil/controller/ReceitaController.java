@@ -1,9 +1,9 @@
-package br.edu.infnet.receitafacil.ReceitaFacil.controller;
+package br.edu.infnet.ReceitaFacil.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import br.edu.infnet.receitafacil.ReceitaFacil.model.Receita;
-import br.edu.infnet.receitafacil.ReceitaFacil.service.ReceitaService;
+import br.edu.infnet.ReceitaFacil.model.Receita;
+import br.edu.infnet.ReceitaFacil.service.ReceitaService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ public class ReceitaController {
     @Autowired
     private ReceitaService receitaService;
     
-    @GetMapping("/total")
+    @GetMapping("/receita/total")
     public ResponseEntity<?> getCount(){
         return ResponseEntity.ok(receitaService.getAll().size());
     }

@@ -1,5 +1,4 @@
--- DROP TABLE IF EXISTS tbl_ingrediente;
--- DROP TABLE IF EXISTS tbl_receita;
+-- DROP TABLE IF EXISTS tbl_ingredientes, tbl_receitas;
 DELETE FROM tbl_ingredientes;
 DELETE FROM tbl_receitas;
 -- SHOW TABLE STATUS;

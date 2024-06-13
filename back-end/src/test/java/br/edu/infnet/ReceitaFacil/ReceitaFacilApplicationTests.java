@@ -1,4 +1,4 @@
-package br.edu.infnet.receitafacil.ReceitaFacil;
+package br.edu.infnet.ReceitaFacil;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

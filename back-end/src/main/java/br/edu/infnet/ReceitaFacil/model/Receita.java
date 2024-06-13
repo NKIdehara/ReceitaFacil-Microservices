@@ -1,4 +1,4 @@
-package br.edu.infnet.receitafacil.ReceitaFacil.model;
+package br.edu.infnet.ReceitaFacil.model;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -64,14 +64,14 @@ public class Receita {
         this.ingredientes = ingredientes;
     }
 
-    public void setReceita(Receita receita) {
-        this.usuario = receita.usuario;
-        this.nome = receita.nome;
-        this.preparo = receita.preparo;
-        this.ingredientes = receita.ingredientes;
-        this.dataReceita = receita.dataReceita;
-        this.figura = receita.figura;
-    }
+    // public void setReceita(Receita receita) {
+    //     this.usuario = receita.usuario;
+    //     this.nome = receita.nome;
+    //     this.preparo = receita.preparo;
+    //     this.ingredientes = receita.ingredientes;
+    //     this.dataReceita = receita.dataReceita;
+    //     this.figura = receita.figura;
+    // }
 
     public Long getId() {
         return this.id;

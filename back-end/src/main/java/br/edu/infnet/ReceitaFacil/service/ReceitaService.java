@@ -1,4 +1,4 @@
-package br.edu.infnet.receitafacil.ReceitaFacil.service;
+package br.edu.infnet.ReceitaFacil.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.edu.infnet.receitafacil.ReceitaFacil.model.Receita;
-import br.edu.infnet.receitafacil.ReceitaFacil.repository.ReceitaRepository;
+import br.edu.infnet.ReceitaFacil.model.Receita;
+import br.edu.infnet.ReceitaFacil.repository.ReceitaRepository;
 
 @Service
 public class ReceitaService {
@@ -32,7 +32,13 @@ public class ReceitaService {
 
     public Boolean update(Long id, Receita receita) {
         return receitaRepository.findById(id).map(update -> {
-            update.setReceita(receita);
+            // update.setReceita(receita);
+            update.setUsuario(receita.getUsuario());
+            update.setNome(receita.getNome());
+            update.setPreparo(receita.getPreparo());
+            update.setIngredientes(receita.getIngredientes());
+            update.setDataReceita(receita.getDataReceita());
+            update.setFigura(receita.getFigura());
             receitaRepository.save(update);
             return true;
         }).orElseGet(() -> {
