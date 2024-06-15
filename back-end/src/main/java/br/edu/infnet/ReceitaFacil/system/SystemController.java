@@ -1,4 +1,4 @@
-package br.edu.infnet.ReceitaFacil.controller;
+package br.edu.infnet.ReceitaFacil.system;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;

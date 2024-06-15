@@ -37,7 +37,6 @@ public class ReceitaService {
             update.setNome(receita.getNome());
             update.setPreparo(receita.getPreparo());
             update.setIngredientes(receita.getIngredientes());
-            update.setDataReceita(receita.getDataReceita());
             update.setFigura(receita.getFigura());
             receitaRepository.save(update);
             return true;

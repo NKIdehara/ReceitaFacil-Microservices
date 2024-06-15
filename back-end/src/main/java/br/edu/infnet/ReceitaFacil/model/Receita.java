@@ -1,6 +1,5 @@
 package br.edu.infnet.ReceitaFacil.model;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +30,6 @@ public class Receita {
     private String usuario;
     private String nome;
     private String preparo;
-    private Date dataReceita;
     private String figura;
     @OneToMany(mappedBy = "receita", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
@@ -45,33 +43,22 @@ public class Receita {
     public Receita() {
     }
 
-    public Receita(String usuario, String nome, String preparo, List<Ingrediente> ingredientes, Date dataReceita, String figura) {
+    public Receita(String usuario, String nome, String preparo, List<Ingrediente> ingredientes, String figura) {
         this.usuario = usuario;
         this.nome = nome;
         this.preparo = preparo;
-        this.dataReceita = dataReceita;
         this.figura = figura;
         this.ingredientes = ingredientes;
     }
 
-    public Receita(Long id, String usuario, String nome, String preparo, List<Ingrediente> ingredientes, Date dataReceita, String figura) {
+    public Receita(Long id, String usuario, String nome, String preparo, List<Ingrediente> ingredientes, String figura) {
         this.id = id;
         this.usuario = usuario;
         this.nome = nome;
         this.preparo = preparo;
-        this.dataReceita = dataReceita;
         this.figura = figura;
         this.ingredientes = ingredientes;
     }
-
-    // public void setReceita(Receita receita) {
-    //     this.usuario = receita.usuario;
-    //     this.nome = receita.nome;
-    //     this.preparo = receita.preparo;
-    //     this.ingredientes = receita.ingredientes;
-    //     this.dataReceita = receita.dataReceita;
-    //     this.figura = receita.figura;
-    // }
 
     public Long getId() {
         return this.id;
@@ -113,19 +100,19 @@ public class Receita {
         this.ingredientes = ingredientes;
     }
 
-    public Date getDataReceita() {
-        return this.dataReceita;
-    }
-
-    public void setDataReceita(Date dataReceita) {
-        this.dataReceita = dataReceita;
-    }
-
     public String getFigura() {
         return this.figura;
     }
 
     public void setFigura(String figura) {
         this.figura = figura;
+    }
+
+    public LocalDateTime getCreateDate() {
+        return this.createDate;
+    }
+
+    public LocalDateTime getLastModifiedDate() {
+        return this.lastModifiedDate;
     }
 }

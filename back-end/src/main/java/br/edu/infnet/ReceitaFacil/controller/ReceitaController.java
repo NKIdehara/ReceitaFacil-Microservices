@@ -50,14 +50,14 @@ public class ReceitaController {
     @PutMapping("receita/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Receita receita) {
         if(!receitaService.update(id, receita))
-            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body(0);
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body("Receita não econtrada!");
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(1);
     }
     
     @DeleteMapping("/receita/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
         if(!receitaService.delete(id))
-            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body(0);
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body("Receita não econtrada!");
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(1);
     }
 }

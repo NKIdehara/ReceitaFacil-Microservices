@@ -1,17 +1,16 @@
 import * as bootstrap from 'bootstrap';
 import React, { useState } from 'react';
 import axios from 'axios';
-import { format } from "date-fns";
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { BACKEND } from '../App';
-import { user, storage } from '../Firebase';
+import { storage } from '../Firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
 import Spinner from '../layout/Spinner';
 
     export default function EdtReceita() {
         const location = useLocation();
-        const { _id, _nome, _ingredientes, _preparo, _dataReceita, _usuario, _figura } = location.state;
+        const { _id, _nome, _ingredientes, _preparo, _usuario, _figura } = location.state;
 
         let navigate = useNavigate();
 
@@ -20,12 +19,11 @@ import Spinner from '../layout/Spinner';
             id: _id,
             nome: _nome,
             preparo: _preparo,
-            dataReceita: _dataReceita,
             usuario: _usuario,
             figura: _figura
         });
 
-        const [index, setIndex] = useState(9999);
+        const [index, setIndex] = useState(99999);
         const [ingredientes, setIngredientes] = useState(_ingredientes);
         const addIngrediente = () => {
             setIngredientes([...ingredientes, ingrediente]);
@@ -42,7 +40,7 @@ import Spinner from '../layout/Spinner';
         }
         const [ingrediente, setIngrediente] = useState(initialState);
 
-        const {id, nome, preparo, dataReceita, usuario, figura} = receita;
+        const {id, nome, preparo, usuario, figura} = receita;
         const {idIngrediente, item, quantidade, medida} = ingrediente;
 
         const onReceitaChange = (e) => {

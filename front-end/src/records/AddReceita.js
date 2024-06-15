@@ -1,7 +1,6 @@
 import * as bootstrap from 'bootstrap';
 import React, { useState } from 'react';
 import axios from 'axios';
-import { format } from "date-fns";
 import { Link, useNavigate } from 'react-router-dom';
 import { BACKEND } from '../App';
 import { user, storage } from '../Firebase';
@@ -17,12 +16,11 @@ import Spinner from '../layout/Spinner';
         const [receita, setReceita] = useState({
             nome: "",
             preparo: "",
-            dataReceita: format(new Date(), "yyyy-MM-dd"),
             usuario: user.getUID,
             figura: imagem
         });
 
-        const [index, setIndex] = useState(0);
+        const [index, setIndex] = useState(99999);
         const [ingredientes, setIngredientes] = useState([]);
         const addIngrediente = () => {
             setIngredientes([...ingredientes, ingrediente]);
@@ -39,7 +37,7 @@ import Spinner from '../layout/Spinner';
         }
         const [ingrediente, setIngrediente] = useState(initialState);
 
-        const {nome, preparo, dataReceita: dataReceita, usuario, figura} = receita;
+        const {nome, preparo, usuario, figura} = receita;
         const {idIngrediente, item, quantidade, medida} = ingrediente;
 
         const onReceitaChange = (e) => {
@@ -66,7 +64,8 @@ import Spinner from '../layout/Spinner';
             ingredientes.forEach(async ingrediente => {
                 await axios.post(BACKEND.concat("/ingrediente/receita/", result.data), ingrediente);
             });
-            navigate("/receitas");
+            await setTimeout(navigate("/receitas"), 2000);
+            // navigate("/receitas");
         }
         const onSubmitIngrediente = () => {
             if(ingrediente.item !== "" && ingrediente.quantidade !== "" && ingrediente.medida !== ""){
