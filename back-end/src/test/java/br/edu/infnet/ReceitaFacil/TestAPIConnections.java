@@ -1,30 +1,32 @@
 package br.edu.infnet.ReceitaFacil;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.edu.infnet.ReceitaFacil.controller.ReceitaController;
 import br.edu.infnet.ReceitaFacil.model.Receita;
 import br.edu.infnet.ReceitaFacil.service.ReceitaService;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(ReceitaController.class)
-public class TestConnections {
+// @WebMvcTest(ReceitaController.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@RunWith(SpringRunner.class)
+@AutoConfigureMockMvc
+public class TestAPIConnections {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @Autowired
     private ReceitaService receitaService;
 
     @Autowired
@@ -32,13 +34,14 @@ public class TestConnections {
 
     @Test
     public void testGet() throws Exception {
+        Receita receita = new Receita("Usuário 1", "Receita 1", "Preparo 1", null, "Figura 1");
+        receitaService.add(receita);
         mockMvc.perform(MockMvcRequestBuilders.get("/receita")).andExpect(status().isOk());
     }
 
     @Test
     public void testPost() throws Exception {
         Receita receita = new Receita("Usuário 1", "Receita 1", "Preparo 1", null, "Figura 1");
-
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/receita")
                 .content(objectMapper.writeValueAsString(receita))
@@ -51,17 +54,9 @@ public class TestConnections {
     public void testPut() throws Exception {
         Receita receita1 = new Receita("Usuário 1", "Receita 1", "Preparo 1", null, "Figura 1");
         Receita receita2 = new Receita("Usuário 2", "Receita 2", "Preparo 2", null, "Figura 2");
-        Mockito.when(receitaService.update(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(true);
-
+        Long id = receitaService.add(receita1);
         mockMvc.perform(MockMvcRequestBuilders
-                .post("/receita")
-                .content(objectMapper.writeValueAsString(receita1))
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
-
-        mockMvc.perform(MockMvcRequestBuilders
-                .put("/receita/1")
+                .put("/receita/" + id)
                 .content(objectMapper.writeValueAsString(receita2))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -71,15 +66,7 @@ public class TestConnections {
     @Test
     public void testDelete() throws Exception {
         Receita receita = new Receita("Usuário 1", "Receita 1", "Preparo 1", null, "Figura 1");
-        Mockito.when(receitaService.delete(ArgumentMatchers.any())).thenReturn(true);
-
-        mockMvc.perform(MockMvcRequestBuilders
-                .post("/receita")
-                .content(objectMapper.writeValueAsString(receita))
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
-
-        mockMvc.perform(MockMvcRequestBuilders.delete("/receita/1")).andDo(print()).andExpect(status().isAccepted());
+        Long id = receitaService.add(receita);
+        mockMvc.perform(MockMvcRequestBuilders.delete("/receita/" + id)).andDo(print()).andExpect(status().isAccepted());
     }
 }
