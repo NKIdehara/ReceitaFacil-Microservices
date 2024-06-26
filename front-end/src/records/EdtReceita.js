@@ -1,11 +1,11 @@
-import * as bootstrap from 'bootstrap';
-import React, { useState } from 'react';
 import axios from 'axios';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import * as bootstrap from 'bootstrap';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import React, { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { v4 } from 'uuid';
 import { BACKEND } from '../App';
 import { storage } from '../Firebase';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { v4 } from 'uuid';
 import Spinner from '../layout/Spinner';
 
     export default function EdtReceita() {
@@ -71,6 +71,7 @@ import Spinner from '../layout/Spinner';
             ingredientes.forEach(async ingrediente => {
                 await axios.put(BACKEND.concat("/ingrediente/", ingrediente.idIngrediente, "/receita/", _id), ingrediente);
             });
+            await new Promise(resolve => setTimeout(resolve, 2000));
             navigate("/receitas");
         }
         const onSubmitIngrediente = () => {

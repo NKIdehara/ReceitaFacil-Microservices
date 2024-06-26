@@ -1,11 +1,11 @@
-import * as bootstrap from 'bootstrap';
-import React, { useState } from 'react';
 import axios from 'axios';
+import * as bootstrap from 'bootstrap';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { BACKEND } from '../App';
-import { user, storage } from '../Firebase';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
+import { BACKEND } from '../App';
+import { storage, user } from '../Firebase';
 import Spinner from '../layout/Spinner';
 
     export default function AddReceita() {
@@ -64,8 +64,8 @@ import Spinner from '../layout/Spinner';
             ingredientes.forEach(async ingrediente => {
                 await axios.post(BACKEND.concat("/ingrediente/receita/", result.data), ingrediente);
             });
-            await setTimeout(navigate("/receitas"), 2000);
-            // navigate("/receitas");
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            navigate("/receitas");
         }
         const onSubmitIngrediente = () => {
             if(ingrediente.item !== "" && ingrediente.quantidade !== "" && ingrediente.medida !== ""){

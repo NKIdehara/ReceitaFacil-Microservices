@@ -1,12 +1,10 @@
 import * as bootstrap from 'bootstrap';
-import axios from 'axios';
-import React, { useState } from 'react';
-import ic_cook from '../resources/images/ic_cook.png';
-import { auth, user } from '../Firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BACKEND } from '../App';
+import { auth, user } from '../Firebase';
 import Spinner from '../layout/Spinner';
+import ic_cook from '../resources/images/ic_cook.png';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -51,11 +49,11 @@ const Login = () => {
                         let toast = new bootstrap.Toast(document.getElementById('Toast'));
                         toast.show();
                     });
-            }    
+            }
         }
     }
 
-    const [espera, setEspera] = useState(false);    
+    const [espera, setEspera] = useState(false);
 
     // let toast = new bootstrap.Toast(document.getElementById('Toast'));
     

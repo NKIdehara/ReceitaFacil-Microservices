@@ -7,9 +7,11 @@ Aplicativo **Android** desenvolvido no _Projeto de Bloco: Desenvolvimento Androi
 
 ### ./front-end
 Front-end desenvolvido em **React** no _Projeto de Bloco: Engenharia Disciplinada de Softwares_ e alterado no _Projeto de Bloco: Engenharia de Softwares Escaláveis_
+https://receitafacil-microservices-frontend.azurewebsites.net/
 
 ### ./back-end
 Back-end desenvolvido em **Java**
+https://receitafacil-microservices-backend.azurewebsites.net/
 
 ### Swagger (deployment feito no Azure)
 https://receitafacil-microservices-backend.azurewebsites.net/swagger-ui/index.html
