@@ -42,7 +42,9 @@ class ReceitaAdapter(private val receitaList: List<Receita>) :
         // Ao selecionar item, abre tela para atualizar / apagar cadastro
         holder.cardView.setOnClickListener {
             val action = ReceitasFragmentDirections.actionNavReceitasToNavAtualizar(currentItem) // envia item selecionado como argumento para AtualizarFragment
-            holder.itemView.findNavController().navigate(action)
+
+            // bloqueado para edição de receita
+//            holder.itemView.findNavController().navigate(action)
         }
     }
 

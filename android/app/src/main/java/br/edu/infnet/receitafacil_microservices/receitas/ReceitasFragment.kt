@@ -108,7 +108,7 @@ class ReceitasFragment : Fragment() {
             if(response.isSuccessful && response.body() != null){
                 val receitas: List<Receita>? = response.body()
                 receitas?.forEach { r ->
-                    receitaList.add(Receita(r.id, r.usuario, r.nome, r.preparo, r.ingredientes, r.data_receita, r.figura))
+                    receitaList.add(Receita(r.id, r.usuario, r.nome, r.preparo, r.figura, r.ingredientes, (if(r.createDate.isNullOrEmpty()) "" else r.createDate), if(r.lastModifiedDate.isNullOrEmpty()) "" else r.lastModifiedDate))
                 }
             } else {
                 Log.e("API Call: ", "Erro [getReceitas]")

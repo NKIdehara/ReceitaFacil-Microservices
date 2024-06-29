@@ -6,7 +6,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.3.0</version>
-		<relativePath/> 
+		<relativePath/>
 	</parent>
 	<groupId>br.edu.infnet</groupId>
 	<artifactId>ReceitaFacil</artifactId>
@@ -65,7 +65,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<scope>test</scope>			
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>

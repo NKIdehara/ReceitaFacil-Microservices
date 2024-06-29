@@ -31,6 +31,7 @@ import com.squareup.picasso.Picasso
 import retrofit2.HttpException
 import java.io.ByteArrayOutputStream
 import java.io.IOException
+import java.sql.Date
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -183,11 +184,8 @@ class AdicionarFragment : Fragment() {
         }
         lifecycleScope.launchWhenCreated {
             val response = try{
-//                val total = ReceitaRetrofitInstance.api.getTotalReceitas().toString().toInt()
-//                Log.d("API Total", total.toString())
-                val receita = Receita(total, usuario, binding.txtNome.text.toString(), binding.txtPreparo.text.toString(), null, agora, figura)
-//                val receita = Receita(total, usuario, binding.txtNome.text.toString(), binding.txtPreparo.text.toString(), binding.txtIngredientes.text.toString(), agora, figura)
-//                val receita = Receita((100..99999).random(), usuario, binding.txtNome.text.toString(), binding.txtPreparo.text.toString(), binding.txtIngredientes.text.toString(), agora, figura)
+//                val receita = Receita(total, usuario, binding.txtNome.text.toString(), binding.txtPreparo.text.toString(), null, agora, figura)
+                val receita = Receita(total, usuario, binding.txtNome.text.toString(), binding.txtPreparo.text.toString(), figura, null, agora, "")
                 ReceitaRetrofitInstance.api.newReceita(receita)
                 Toast.makeText(getActivity() , "Receita adicionada!", Toast.LENGTH_SHORT).show()
             } catch(err: IOException){

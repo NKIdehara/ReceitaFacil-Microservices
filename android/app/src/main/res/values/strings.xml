@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Login</string>
+    <string name="app_name">Receita Facil</string>
     <string name="title_home">Home</string>
     <string name="title_receitas">Receitas</string>
     <string name="title_adicionar">Nova Receita</string>

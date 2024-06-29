@@ -92,7 +92,7 @@ class AtualizarFragment : Fragment() {
             lifecycleScope.launchWhenCreated {
                 val response = try{
 //                    val receita = Receita(args.selecionado.id, usuario, binding.txtNomeAtualizar.text.toString(), binding.txtPreparoAtualizar.text.toString(), binding.txtIngredientesAtualizar.text.toString(), args.selecionado.data_receita, args.selecionado.figura)
-                    val receita = Receita(args.selecionado.id, usuario, binding.txtNomeAtualizar.text.toString(), binding.txtPreparoAtualizar.text.toString(), null, args.selecionado.data_receita, args.selecionado.figura)
+                    val receita = Receita(args.selecionado.id, usuario, binding.txtNomeAtualizar.text.toString(), binding.txtPreparoAtualizar.text.toString(), args.selecionado.figura, null, args.selecionado.createDate, args.selecionado.lastModifiedDate)
                     ReceitaRetrofitInstance.api.editReceita(args.selecionado.id, receita)
                     Toast.makeText(getActivity() , "Receita atualizada!", Toast.LENGTH_SHORT).show()
                 } catch(err: IOException){

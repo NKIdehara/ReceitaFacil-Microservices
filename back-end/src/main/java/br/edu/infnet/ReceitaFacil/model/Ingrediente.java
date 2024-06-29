@@ -55,13 +55,6 @@ public class Ingrediente {
         this.receita = receita;
     }
 
-    // public void setIngrediente(Ingrediente ingrediente) {
-    //     this.idIngrediente = ingrediente.idIngrediente;
-    //     this.item = ingrediente.item;
-    //     this.quantidade = ingrediente.quantidade;
-    //     this.medida = ingrediente.medida;
-    // }
-
     public Long getIdIngrediente() {
         return this.idIngrediente;
     }
@@ -100,5 +93,5 @@ public class Ingrediente {
 
     public void setReceita(Receita receita) {
         this.receita = receita;
-    }    
+    }
 }

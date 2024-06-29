@@ -13,8 +13,8 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 import java.util.concurrent.TimeUnit
 
-//const val RECEITA_URL = "https://receitafacil-microservices-backend.azurewebsites.net"
-const val RECEITA_URL = "http://10.0.2.2:8080"
+const val RECEITA_URL = "https://receitafacil-microservices-backend.azurewebsites.net"
+//const val RECEITA_URL = "http://10.0.2.2:8080"
 const val TIME_OUT = 60L
 
 interface ReceitaApi{
