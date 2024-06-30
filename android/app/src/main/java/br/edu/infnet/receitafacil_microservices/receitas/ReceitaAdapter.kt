@@ -34,7 +34,7 @@ class ReceitaAdapter(private val receitaList: List<Receita>) :
         var ingredientes: String = "\n"
 
         Picasso.get().load(currentItem.figura).placeholder(R.drawable.ic_wait).into(holder.imageView);
-        holder.textView1.text = currentItem.nome
+        holder.textView1.text = currentItem.nome + ": custo (R$ " + currentItem.custo + ")"
         currentItem.ingredientes?.forEach { i -> ingredientes += "- " + i.quantidade + " " + i.medida + " de " + i.item + "\n" }
         holder.textView2.text = ingredientes
         holder.textView3.text = currentItem.preparo
@@ -43,8 +43,7 @@ class ReceitaAdapter(private val receitaList: List<Receita>) :
         holder.cardView.setOnClickListener {
             val action = ReceitasFragmentDirections.actionNavReceitasToNavAtualizar(currentItem) // envia item selecionado como argumento para AtualizarFragment
 
-            // bloqueado para edição de receita
-//            holder.itemView.findNavController().navigate(action)
+            holder.itemView.findNavController().navigate(action)
         }
     }
 

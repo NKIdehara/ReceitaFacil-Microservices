@@ -62,6 +62,15 @@ class AtualizarFragment : Fragment() {
 
         binding.progressBar?.isVisible = false
 
+        // bloqueio para edição
+        var ingredientes: String = ""
+        args.selecionado.ingredientes?.forEach { i -> ingredientes += "- " + i.quantidade + " " + i.medida + " de " + i.item + "\n" }
+        binding.txtIngredientesAtualizar.setText(ingredientes)
+        binding.txtNomeAtualizar.isEnabled = false
+        binding.txtIngredientesAtualizar.isEnabled = false
+        binding.txtPreparoAtualizar.isEnabled = false
+        binding.btnAtualizar.isEnabled = false
+
         // atualiza campos com dados existentes
         // dados recebidos como argumento de ReceitaAdapter
         Picasso.get().load(args.selecionado.figura).placeholder(R.drawable.ic_wait).into(binding.imgFotoAtualizar);
@@ -92,7 +101,7 @@ class AtualizarFragment : Fragment() {
             lifecycleScope.launchWhenCreated {
                 val response = try{
 //                    val receita = Receita(args.selecionado.id, usuario, binding.txtNomeAtualizar.text.toString(), binding.txtPreparoAtualizar.text.toString(), binding.txtIngredientesAtualizar.text.toString(), args.selecionado.data_receita, args.selecionado.figura)
-                    val receita = Receita(args.selecionado.id, usuario, binding.txtNomeAtualizar.text.toString(), binding.txtPreparoAtualizar.text.toString(), args.selecionado.figura, null, args.selecionado.createDate, args.selecionado.lastModifiedDate)
+                    val receita = Receita(args.selecionado.id, usuario, binding.txtNomeAtualizar.text.toString(), binding.txtPreparoAtualizar.text.toString(), args.selecionado.figura, args.selecionado.custo, null, args.selecionado.createdDate, args.selecionado.createdBy, args.selecionado.lastModifiedDate, args.selecionado.lastModifiedBy)
                     ReceitaRetrofitInstance.api.editReceita(args.selecionado.id, receita)
                     Toast.makeText(getActivity() , "Receita atualizada!", Toast.LENGTH_SHORT).show()
                 } catch(err: IOException){

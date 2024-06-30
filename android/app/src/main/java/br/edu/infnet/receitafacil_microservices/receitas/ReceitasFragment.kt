@@ -89,6 +89,12 @@ class ReceitasFragment : Fragment() {
         }
     }
 
+    private fun validString(string: String): String {
+        if(string.isNullOrEmpty())
+            return ""
+            else return string
+    }
+
     private fun getReceitasData() {
         lifecycleScope.launchWhenCreated {
             val response = try{
@@ -108,7 +114,7 @@ class ReceitasFragment : Fragment() {
             if(response.isSuccessful && response.body() != null){
                 val receitas: List<Receita>? = response.body()
                 receitas?.forEach { r ->
-                    receitaList.add(Receita(r.id, r.usuario, r.nome, r.preparo, r.figura, r.ingredientes, (if(r.createDate.isNullOrEmpty()) "" else r.createDate), if(r.lastModifiedDate.isNullOrEmpty()) "" else r.lastModifiedDate))
+                    receitaList.add(Receita(r.id, r.usuario, r.nome, r.preparo, r.figura, r.custo, r.ingredientes, validString(r.createdDate), validString(r.createdBy), validString(r.lastModifiedDate), validString(r.lastModifiedBy)))
                 }
             } else {
                 Log.e("API Call: ", "Erro [getReceitas]")

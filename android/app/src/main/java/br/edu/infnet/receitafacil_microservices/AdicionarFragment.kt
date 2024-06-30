@@ -185,7 +185,7 @@ class AdicionarFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             val response = try{
 //                val receita = Receita(total, usuario, binding.txtNome.text.toString(), binding.txtPreparo.text.toString(), null, agora, figura)
-                val receita = Receita(total, usuario, binding.txtNome.text.toString(), binding.txtPreparo.text.toString(), figura, null, agora, "")
+                val receita = Receita(total, usuario, binding.txtNome.text.toString(), binding.txtPreparo.text.toString(), figura, 0.0f, null, agora, "")
                 ReceitaRetrofitInstance.api.newReceita(receita)
                 Toast.makeText(getActivity() , "Receita adicionada!", Toast.LENGTH_SHORT).show()
             } catch(err: IOException){

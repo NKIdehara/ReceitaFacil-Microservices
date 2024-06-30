@@ -1,7 +1,6 @@
 package br.edu.infnet.ReceitaFacil.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,14 +14,57 @@ public class ReceitaService {
     private ReceitaRepository receitaRepository;
 
     public List<Receita> getAll() {
+        // List<Receita> receitas = receitaRepository.findAll();
+        // return receitas.stream().map(receita ->
+        //     new Receita(
+        //             receita.getId(),
+        //             receita.getUsuario(),
+        //             receita.getNome(),
+        //             receita.getPreparo(),
+        //             receita.getFigura(),
+        //             receita.getCusto(),
+        //             receita.getIngredientes(),
+        //             receita.getCreatedDate(),
+        //             receita.getCreatedBy(),
+        //             receita.getLastModifiedDate(),
+        //             receita.getLastModifiedBy()
+        //         )).collect(Collectors.toList());
         return receitaRepository.findAll();
     }
 
-    public Optional<Receita> getById(Long id) {
-        return receitaRepository.findById(id);
+    public Receita getById(Long id) {
+        // Receita receita = receitaRepository.findById(id).orElse(null);
+        // return new Receita(
+        //     receita.getId(),
+        //     receita.getUsuario(),
+        //     receita.getNome(),
+        //     receita.getPreparo(),
+        //     receita.getFigura(),
+        //     receita.getCusto(),
+        //     receita.getIngredientes(),
+        //     receita.getCreatedDate(),
+        //     receita.getCreatedBy(),
+        //     receita.getLastModifiedDate(),
+        //     receita.getLastModifiedBy());
+        return receitaRepository.findById(id).orElse(null);
     }
 
     public List<Receita> getByUsuarioId(String uid) {
+        // List<Receita> receitas = receitaRepository.findByUsuario(uid);
+        // return receitas.stream().map(receita ->
+        //     new Receita(
+        //             receita.getId(),
+        //             receita.getUsuario(),
+        //             receita.getNome(),
+        //             receita.getPreparo(),
+        //             receita.getFigura(),
+        //             receita.getCusto(),
+        //             receita.getIngredientes(),
+        //             receita.getCreatedDate(),
+        //             receita.getCreatedBy(),
+        //             receita.getLastModifiedDate(),
+        //             receita.getLastModifiedBy()
+        //         )).collect(Collectors.toList());
         return receitaRepository.findByUsuario(uid);
     }
 
@@ -32,7 +74,6 @@ public class ReceitaService {
 
     public Boolean update(Long id, Receita receita) {
         return receitaRepository.findById(id).map(update -> {
-            // update.setReceita(receita);
             update.setUsuario(receita.getUsuario());
             update.setNome(receita.getNome());
             update.setPreparo(receita.getPreparo());

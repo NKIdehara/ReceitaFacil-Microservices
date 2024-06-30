@@ -11,7 +11,10 @@ data class Receita(
     var nome: String = "",
     var preparo: String = "",
     var figura: String = "",
+    var custo: Float = 0.0f,
     var ingredientes: List<Ingrediente>? = null,
-    var createDate: String = "",
-    var lastModifiedDate: String = ""
+    var createdDate: String = "",
+    var createdBy: String = "",
+    var lastModifiedDate: String = "",
+    var lastModifiedBy: String = ""
 ): Parcelable

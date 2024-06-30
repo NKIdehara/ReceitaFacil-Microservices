@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { If, Then } from 'react-if';
 import axios from 'axios';
 import { format } from "date-fns";
+import React, { useEffect, useState } from 'react';
+import { If, Then } from 'react-if';
+import { Link } from 'react-router-dom';
+import { BACKEND } from '../App';
 import { user } from '../Firebase';
 import Spinner from '../layout/Spinner';
-import { BACKEND } from '../App';
 
 export default function Receitas() {
     
@@ -37,6 +37,12 @@ export default function Receitas() {
         if(utcDate.getMinutes()+utcDate.getSeconds() > 0) localDate = utcDate;
         return format(localDate, "yyyy-MM-dd");
     }
+    function formatUser(user) {
+        if(user == null) return "---";
+        return user;
+    }
+
+    const numFormat = new Intl.NumberFormat("pt-BR", {minimumFractionDigits: 2});
 
     if(!user.isNull) {
         return (
@@ -51,6 +57,7 @@ export default function Receitas() {
                         <th scope="col">Nome da Receita</th>
                         <th scope="col">Ingredientes</th>
                         <th scope="col">Preparo</th>
+                        <th scope="col">Custo</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
                         <th scope="col">Histórico</th>
@@ -71,6 +78,8 @@ export default function Receitas() {
                                 ))}</td>
 
                                 <td style={{whiteSpace: "pre-wrap"}}>{receita.preparo}</td>
+                                <td>{numFormat.format(receita.custo)}</td>
+
                                 <If condition={user.getUID !== 0}><Then>
                                     <td><Link className="btn btn-light m-1" to="/edtReceita" state={{ _id: receita.id, _nome: receita.nome, _ingredientes: receita.ingredientes, _preparo: receita.preparo, _usuario: receita.usuario, _figura: receita.figura }}>📝</Link></td>
                                 </Then></If>
@@ -79,8 +88,10 @@ export default function Receitas() {
                                 </Then></If>
 
                                 <td>
-                                    <tr><td>criado: {formatDate(receita.createDate)}</td></tr>
-                                    <tr><td>modificado: {formatDate(receita.lastModifiedDate)}</td></tr>
+                                <tr><td style={{'font-size': '11px'}} >Criado em: {formatDate(receita.createdDate)}</td></tr>
+                                <tr><td style={{'font-size': '11px'}} >Criado por: {formatUser(receita.createdBy)}</td></tr>
+                                <tr><td style={{'font-size': '11px'}} >Modificado em: {formatDate(receita.lastModifiedDate)}</td></tr>
+                                <tr><td style={{'font-size': '11px'}} >Modificado por: {formatUser(receita.lastModifiedBy)}</td></tr>
                                 </td>
 
                                 </tr>

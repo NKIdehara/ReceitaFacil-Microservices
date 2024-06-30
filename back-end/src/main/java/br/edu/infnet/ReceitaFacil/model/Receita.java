@@ -4,7 +4,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -31,33 +33,45 @@ public class Receita {
     private String nome;
     private String preparo;
     private String figura;
+    private Float custo;
+
     @OneToMany(mappedBy = "receita", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Ingrediente> ingredientes = new ArrayList<>();
 
     @CreatedDate
-    private LocalDateTime createDate;
+    private LocalDateTime createdDate;
+    @CreatedBy
+    private String createdBy;
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
+    @LastModifiedBy
+    private String lastModifiedBy;
 
     public Receita() {
     }
 
-    public Receita(String usuario, String nome, String preparo, List<Ingrediente> ingredientes, String figura) {
+    public Receita(String usuario, String nome, String preparo, String figura, Float custo, List<Ingrediente> ingredientes) {
         this.usuario = usuario;
         this.nome = nome;
         this.preparo = preparo;
         this.figura = figura;
+        this.custo = custo;
         this.ingredientes = ingredientes;
     }
 
-    public Receita(Long id, String usuario, String nome, String preparo, List<Ingrediente> ingredientes, String figura) {
+    public Receita(Long id, String usuario, String nome, String preparo, String figura, Float custo, List<Ingrediente> ingredientes, LocalDateTime createdDate, String createdBy, LocalDateTime lastModifiedDate, String lastModifiedBy) {
         this.id = id;
         this.usuario = usuario;
         this.nome = nome;
         this.preparo = preparo;
         this.figura = figura;
+        this.custo = custo;
         this.ingredientes = ingredientes;
+        this.createdDate = createdDate;
+        this.createdBy = createdBy;
+        this.lastModifiedDate = lastModifiedDate;
+        this.lastModifiedBy = lastModifiedBy;
     }
 
     public Long getId() {
@@ -92,6 +106,14 @@ public class Receita {
         this.preparo = preparo;
     }
 
+    public Float getCusto() {
+        return this.custo + 0.0f;
+    }
+
+    public void setCusto(Float custo) {
+        this.custo = custo;
+    }
+    
     public List<Ingrediente> getIngredientes() {
         return this.ingredientes;
     }
@@ -108,11 +130,19 @@ public class Receita {
         this.figura = figura;
     }
 
-    public LocalDateTime getCreateDate() {
-        return this.createDate;
+    public LocalDateTime getCreatedDate() {
+        return this.createdDate;
+    }
+
+    public String getCreatedBy() {
+        return this.createdBy;
     }
 
     public LocalDateTime getLastModifiedDate() {
         return this.lastModifiedDate;
+    }
+
+    public String getLastModifiedBy() {
+        return this.lastModifiedBy;
     }
 }
