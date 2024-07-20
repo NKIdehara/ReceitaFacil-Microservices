@@ -34,14 +34,14 @@ public class TestAPIConnections {
 
     @Test
     public void testGet() throws Exception {
-        Receita receita = new Receita("Usuário 1", "Receita 1", "Preparo 1", "Figura 1", 0.0f, null);
+        Receita receita = new Receita("Usuário 1", "Receita 1", "Preparo 1", "Figura 1", null);
         receitaService.add(receita);
         mockMvc.perform(MockMvcRequestBuilders.get("/receita")).andExpect(status().isOk());
     }
 
     @Test
     public void testPost() throws Exception {
-        Receita receita = new Receita("Usuário 1", "Receita 1", "Preparo 1", "Figura 1", 0.0f, null);
+        Receita receita = new Receita("Usuário 1", "Receita 1", "Preparo 1", "Figura 1", null);
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/receita")
                 .content(objectMapper.writeValueAsString(receita))
@@ -52,8 +52,8 @@ public class TestAPIConnections {
 
     @Test
     public void testPut() throws Exception {
-        Receita receita1 = new Receita("Usuário 1", "Receita 1", "Preparo 1", "Figura 1", 0.0f, null);
-        Receita receita2 = new Receita("Usuário 2", "Receita 2", "Preparo 2", "Figura 2", 0.0f, null);
+        Receita receita1 = new Receita("Usuário 1", "Receita 1", "Preparo 1", "Figura 1", null);
+        Receita receita2 = new Receita("Usuário 2", "Receita 2", "Preparo 2", "Figura 2", null);
         Long id = receitaService.add(receita1);
         mockMvc.perform(MockMvcRequestBuilders
                 .put("/receita/" + id)
@@ -65,7 +65,7 @@ public class TestAPIConnections {
 
     @Test
     public void testDelete() throws Exception {
-        Receita receita = new Receita("Usuário 1", "Receita 1", "Preparo 1", "Figura 1", 0.0f, null);
+        Receita receita = new Receita("Usuário 1", "Receita 1", "Preparo 1", "Figura 1", null);
         Long id = receitaService.add(receita);
         mockMvc.perform(MockMvcRequestBuilders.delete("/receita/" + id)).andDo(print()).andExpect(status().isAccepted());
     }

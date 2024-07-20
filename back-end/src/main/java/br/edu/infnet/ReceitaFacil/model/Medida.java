@@ -1,11 +1,16 @@
 package br.edu.infnet.ReceitaFacil.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import br.edu.infnet.ReceitaFacil.model.Unidade.TipoUnidade;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -13,28 +18,37 @@ import jakarta.persistence.Table;
 public class Medida {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idMedida;
+    @Column(name = "id")
+    private Long id;
     private String nomeMedida;
     private TipoUnidade tipo;
 
-    @OneToOne(mappedBy = "medida")
-    private Item item;
+    // @OneToMany(fetch = FetchType.LAZY, mappedBy = "medida", cascade = CascadeType.ALL)
+    // @OneToMany(mappedBy = "medida")
+    @OneToMany
+    private List<Item> items;
+
+    // @OneToMany(fetch = FetchType.LAZY, mappedBy = "medida", cascade = CascadeType.ALL)
+    // @OneToMany(mappedBy = "medida")
+    @OneToMany
+    @JsonManagedReference
+    private List<Ingrediente> ingredientes;
 
     public Medida() {
     }
 
     public Medida(Long idMedida, String nomeMedida, TipoUnidade tipo) {
-        this.idMedida = idMedida;
+        this.id = idMedida;
         this.nomeMedida = nomeMedida;
         this.tipo = tipo;
     }
 
-    public Long getIdMedida() {
-        return this.idMedida;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setIdMedida(Long idMedida) {
-        this.idMedida = idMedida;
+    public void setId(Long idMedida) {
+        this.id = idMedida;
     }
 
     public String getNomeMedida() {
@@ -53,11 +67,24 @@ public class Medida {
         this.tipo = tipo;
     }
 
-    public Item getItem() {
-        return this.item;
+    public List<Item> getItems() {
+        return this.items;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    public List<Ingrediente> getIngredientes() {
+        return this.ingredientes;
+    }
+
+    public void setIngredientes(List<Ingrediente> ingredientes) {
+        this.ingredientes = ingredientes;
+    }
+
+    public float convert(Medida medida) {
+        if(this.nomeMedida == medida.getNomeMedida()) return 1.0f;
+        return 0.0f;
     }
 }

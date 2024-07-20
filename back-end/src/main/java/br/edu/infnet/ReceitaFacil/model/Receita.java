@@ -33,7 +33,6 @@ public class Receita {
     private String nome;
     private String preparo;
     private String figura;
-    private Float custo;
 
     @OneToMany(mappedBy = "receita", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
@@ -51,22 +50,20 @@ public class Receita {
     public Receita() {
     }
 
-    public Receita(String usuario, String nome, String preparo, String figura, Float custo, List<Ingrediente> ingredientes) {
+    public Receita(String usuario, String nome, String preparo, String figura, List<Ingrediente> ingredientes) {
         this.usuario = usuario;
         this.nome = nome;
         this.preparo = preparo;
         this.figura = figura;
-        this.custo = custo;
         this.ingredientes = ingredientes;
     }
 
-    public Receita(Long id, String usuario, String nome, String preparo, String figura, Float custo, List<Ingrediente> ingredientes, LocalDateTime createdDate, String createdBy, LocalDateTime lastModifiedDate, String lastModifiedBy) {
+    public Receita(Long id, String usuario, String nome, String preparo, String figura, List<Ingrediente> ingredientes, LocalDateTime createdDate, String createdBy, LocalDateTime lastModifiedDate, String lastModifiedBy) {
         this.id = id;
         this.usuario = usuario;
         this.nome = nome;
         this.preparo = preparo;
         this.figura = figura;
-        this.custo = custo;
         this.ingredientes = ingredientes;
         this.createdDate = createdDate;
         this.createdBy = createdBy;
@@ -106,14 +103,6 @@ public class Receita {
         this.preparo = preparo;
     }
 
-    public Float getCusto() {
-        return this.custo + 0.0f;
-    }
-
-    public void setCusto(Float custo) {
-        this.custo = custo;
-    }
-    
     public List<Ingrediente> getIngredientes() {
         return this.ingredientes;
     }
@@ -145,4 +134,8 @@ public class Receita {
     public String getLastModifiedBy() {
         return this.lastModifiedBy;
     }
+
+    // public float getCusto() {
+    //     return 0.0f;
+    // }
 }

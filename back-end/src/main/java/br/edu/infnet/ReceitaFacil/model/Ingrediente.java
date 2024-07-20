@@ -1,16 +1,9 @@
 package br.edu.infnet.ReceitaFacil.model;
 
-import java.time.LocalDateTime;
-
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,71 +12,79 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Table(name = "tblIngredientes")
 public class Ingrediente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idIngrediente;
-    private String item;
-    private Float quantidade;
-    private String medida;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @Column(name = "id", insertable = false, updatable = false)
+    private Long id;
+
+    // @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "item_id")
+    // @JsonBackReference
+    private Item item;
+
+    private float quantidade;
+
+    // @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "medida_id")
+    // @JsonBackReferences
+    private Medida medida;
+
+    // @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "receita_id")
     @JsonBackReference
     private Receita receita;
-
-    @CreatedDate
-    private LocalDateTime createDate;
-    @LastModifiedDate
-    private LocalDateTime lastModifiedDate;
 
     public Ingrediente() {
     }
 
-    public Ingrediente(String item, Float quantidade, String medida) {
+    public Ingrediente(Item item, Float quantidade, Medida medida) {
         this.item = item;
         this.quantidade = quantidade;
         this.medida = medida;
     }
 
-    public Ingrediente(Long idIngrediente, String item, Float quantidade, String medida, Receita receita) {
-        this.idIngrediente = idIngrediente;
+    public Ingrediente(Long idIngrediente, Item item, Float quantidade, Medida medida, Receita receita) {
+        this.id = idIngrediente;
         this.item = item;
         this.quantidade = quantidade;
         this.medida = medida;
         this.receita = receita;
     }
 
-    public Long getIdIngrediente() {
-        return this.idIngrediente;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setIdIngrediente(Long idIngrediente) {
-        this.idIngrediente = idIngrediente;
+    public void setId(Long idIngrediente) {
+        this.id = idIngrediente;
     }
 
-    public String getItem() {
+    public Item getItem() {
         return this.item;
     }
 
-    public void setItem(String item) {
+    public void setItem(Item item) {
         this.item = item;
     }
 
-    public Float getQuantidade() {
+    public float getQuantidade() {
         return this.quantidade;
     }
 
-    public void setQuantidade(Float quantidade) {
+    public void setQuantidade(float quantidade) {
         this.quantidade = quantidade;
     }
 
-    public String getMedida() {
+    public Medida getMedida() {
         return this.medida;
     }
 
-    public void setMedida(String medida) {
+    public void setMedida(Medida medida) {
         this.medida = medida;
     }
 
@@ -93,5 +94,9 @@ public class Ingrediente {
 
     public void setReceita(Receita receita) {
         this.receita = receita;
+    }
+
+    public float getCusto() {
+        return this.medida.convert(this.item.getMedida()) * this.quantidade * this.item.getPreco();
     }
 }

@@ -21,5 +21,4 @@ public class ItemService {
     public Optional<Item> getById(Long id) {
         return itemRepository.findById(id);
     }
-    
 }

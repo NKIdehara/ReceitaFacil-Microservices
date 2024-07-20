@@ -1,10 +1,5 @@
 package br.edu.infnet.ReceitaFacil.controller;
 
-import org.springframework.web.bind.annotation.RestController;
-
-import br.edu.infnet.ReceitaFacil.model.Receita;
-import br.edu.infnet.ReceitaFacil.service.ReceitaService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,11 +8,18 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.edu.infnet.ReceitaFacil.model.Receita;
+import br.edu.infnet.ReceitaFacil.service.ReceitaService;
+
 
 @RestController
 @CrossOrigin
+@RequestMapping(produces = "application/json", consumes = "application/json")
 public class ReceitaController {
     @Autowired
     private ReceitaService receitaService;

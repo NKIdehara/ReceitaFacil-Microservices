@@ -14,57 +14,14 @@ public class ReceitaService {
     private ReceitaRepository receitaRepository;
 
     public List<Receita> getAll() {
-        // List<Receita> receitas = receitaRepository.findAll();
-        // return receitas.stream().map(receita ->
-        //     new Receita(
-        //             receita.getId(),
-        //             receita.getUsuario(),
-        //             receita.getNome(),
-        //             receita.getPreparo(),
-        //             receita.getFigura(),
-        //             receita.getCusto(),
-        //             receita.getIngredientes(),
-        //             receita.getCreatedDate(),
-        //             receita.getCreatedBy(),
-        //             receita.getLastModifiedDate(),
-        //             receita.getLastModifiedBy()
-        //         )).collect(Collectors.toList());
         return receitaRepository.findAll();
     }
 
     public Receita getById(Long id) {
-        // Receita receita = receitaRepository.findById(id).orElse(null);
-        // return new Receita(
-        //     receita.getId(),
-        //     receita.getUsuario(),
-        //     receita.getNome(),
-        //     receita.getPreparo(),
-        //     receita.getFigura(),
-        //     receita.getCusto(),
-        //     receita.getIngredientes(),
-        //     receita.getCreatedDate(),
-        //     receita.getCreatedBy(),
-        //     receita.getLastModifiedDate(),
-        //     receita.getLastModifiedBy());
         return receitaRepository.findById(id).orElse(null);
     }
 
     public List<Receita> getByUsuarioId(String uid) {
-        // List<Receita> receitas = receitaRepository.findByUsuario(uid);
-        // return receitas.stream().map(receita ->
-        //     new Receita(
-        //             receita.getId(),
-        //             receita.getUsuario(),
-        //             receita.getNome(),
-        //             receita.getPreparo(),
-        //             receita.getFigura(),
-        //             receita.getCusto(),
-        //             receita.getIngredientes(),
-        //             receita.getCreatedDate(),
-        //             receita.getCreatedBy(),
-        //             receita.getLastModifiedDate(),
-        //             receita.getLastModifiedBy()
-        //         )).collect(Collectors.toList());
         return receitaRepository.findByUsuario(uid);
     }
 

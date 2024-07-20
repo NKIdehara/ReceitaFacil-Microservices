@@ -30,7 +30,7 @@ public class IngredienteService {
     }
 
     public Long add(Ingrediente ingrediente) {
-        return ingredienteRepository.save(ingrediente).getIdIngrediente();
+        return ingredienteRepository.save(ingrediente).getId();
     }
 
     public Boolean addByReceitaId(Long id, Ingrediente ingrediente) {
@@ -45,7 +45,7 @@ public class IngredienteService {
 
     public Boolean update(Long idIngrediente, Ingrediente ingrediente) {
         return ingredienteRepository.findById(idIngrediente).map(update -> {
-            update.setIdIngrediente(ingrediente.getIdIngrediente());
+            update.setId(ingrediente.getId());
             update.setItem(ingrediente.getItem());
             update.setQuantidade(ingrediente.getQuantidade());
             update.setMedida(ingrediente.getMedida());
@@ -57,7 +57,7 @@ public class IngredienteService {
     }
     public Boolean update(Long idReceita, Long idIngrediente, Ingrediente ingrediente) {
         return ingredienteRepository.findById(idIngrediente).map(update -> {
-            update.setIdIngrediente(ingrediente.getIdIngrediente());
+            update.setId(ingrediente.getId());
             update.setItem(ingrediente.getItem());
             update.setQuantidade(ingrediente.getQuantidade());
             update.setMedida(ingrediente.getMedida());
