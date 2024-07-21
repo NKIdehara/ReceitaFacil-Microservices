@@ -64,7 +64,7 @@ class AtualizarFragment : Fragment() {
 
         // bloqueio para edição
         var ingredientes: String = ""
-        args.selecionado.ingredientes?.forEach { i -> ingredientes += "- " + i.quantidade + " " + i.medida + " de " + i.item + "\n" }
+        args.selecionado.ingredientes?.forEach { i -> ingredientes += "- " + i.quantidade + " " + i.medida.nome + " de " + i.item.descricao + "\n" }
         binding.txtIngredientesAtualizar.setText(ingredientes)
         binding.txtNomeAtualizar.isEnabled = false
         binding.txtIngredientesAtualizar.isEnabled = false

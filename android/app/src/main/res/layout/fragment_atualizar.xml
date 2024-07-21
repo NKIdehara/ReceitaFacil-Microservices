@@ -83,7 +83,8 @@
                     android:enabled="false"
                     android:gravity="start|top"
                     android:inputType="textMultiLine"
-                    android:lines="5" />
+                    android:lines="7"
+                    android:scrollbars="vertical" />
 
                 <View
                     android:id="@+id/divider5"
@@ -106,7 +107,7 @@
                     android:ems="10"
                     android:gravity="start|top"
                     android:inputType="textMultiLine"
-                    android:lines="5" />
+                    android:lines="7" />
 
                 <View
                     android:id="@+id/divider3"

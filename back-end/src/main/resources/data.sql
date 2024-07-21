@@ -43,9 +43,9 @@ INSERT INTO tbl_ingredientes (item_id, quantidade, medida_id, receita_id) VALUES
    (6, 350.0, 3, 3);
 
 INSERT INTO tbl_receitas (usuario, nome, preparo, figura, created_by, created_date) VALUES
-   ('gNr4VRTVUHXBCvyaLm6ZYaxup1s2', 'Pudim', 'Bater os ovos e acrescentar o leite e leite condensado; assar em banho maria por 45 min.', 'https://firebasestorage.googleapis.com/v0/b/infnet-receitafacil.appspot.com/o/ic_food_4.png?alt=media&token=c4c04998-d7f6-4670-82ef-b1bfc745a6a9', 'SYSTEM', SELECT CURRENT_DATE()),
-   ('gNr4VRTVUHXBCvyaLm6ZYaxup1s2', 'Bolo', 'Misturar os ingredientes até ficar uniforme; assar em forno médio por 40 min.', 'https://firebasestorage.googleapis.com/v0/b/infnet-receitafacil.appspot.com/o/ic_food_5.png?alt=media&token=6cd2ffce-bcbd-44cc-b995-70e0d07ab7be', 'SYSTEM', SELECT CURRENT_DATE()),
-   ('gNr4VRTVUHXBCvyaLm6ZYaxup1s2', 'Cookie', 'Misturar o açúcar, manteiga e baunilha; acrescentar os ovos e a farinha aos poucos enquanto mistura; juntar o fermento à massa; no final, misturar o chocolate ficado; forme bolinhas pequenas e assar em forno médio por 20 min.', 'https://firebasestorage.googleapis.com/v0/b/infnet-receitafacil.appspot.com/o/ic_food_6.png?alt=media&token=a2cf6f88-fdc8-4dc0-8ddd-f96cce2a70bb', 'SYSTEM', SELECT CURRENT_DATE());
+   ('ZBlAem7zRsVgFuDRRqPEX7aEXDD2', 'Pudim', 'Bater os ovos e acrescentar o leite e leite condensado; assar em banho maria por 45 min.', 'https://firebasestorage.googleapis.com/v0/b/infnet-receitafacil.appspot.com/o/ic_food_4.png?alt=media&token=c4c04998-d7f6-4670-82ef-b1bfc745a6a9', 'SYSTEM', SELECT CURRENT_DATE()),
+   ('ZBlAem7zRsVgFuDRRqPEX7aEXDD2', 'Bolo', 'Misturar os ingredientes até ficar uniforme; assar em forno médio por 40 min.', 'https://firebasestorage.googleapis.com/v0/b/infnet-receitafacil.appspot.com/o/ic_food_5.png?alt=media&token=6cd2ffce-bcbd-44cc-b995-70e0d07ab7be', 'SYSTEM', SELECT CURRENT_DATE()),
+   ('ZBlAem7zRsVgFuDRRqPEX7aEXDD2', 'Cookie', 'Misturar o açúcar, manteiga e baunilha; acrescentar os ovos e a farinha aos poucos enquanto mistura; juntar o fermento à massa; no final, misturar o chocolate ficado; forme bolinhas pequenas e assar em forno médio por 20 min.', 'https://firebasestorage.googleapis.com/v0/b/infnet-receitafacil.appspot.com/o/ic_food_6.png?alt=media&token=a2cf6f88-fdc8-4dc0-8ddd-f96cce2a70bb', 'SYSTEM', SELECT CURRENT_DATE());
 
 INSERT INTO tbl_ingredientes (item_id, quantidade, medida_id, receita_id) VALUES
    (7, 350.0, 3, 4),

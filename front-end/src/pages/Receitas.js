@@ -73,7 +73,7 @@ export default function Receitas() {
 
                                 <td>{receita.ingredientes.map((ingrediente) => (
                                     <tr>
-                                    <td>- {ingrediente.quantidade} {ingrediente.medida} de {ingrediente.item}</td>
+                                    <td>- {ingrediente.quantidade} {ingrediente.medida.nome} de {ingrediente.item.descricao}</td>
                                     </tr>
                                 ))}</td>
 

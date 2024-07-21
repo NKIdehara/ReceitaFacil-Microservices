@@ -14,7 +14,7 @@
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="160sp"
             android:contentDescription="Logo do Instituto Infnet"
             android:src="@drawable/ic_infnet" />
 
@@ -44,8 +44,8 @@
             android:layout_height="wrap_content"
             android:contentDescription="Disciplinas"
             android:paddingLeft="8dp"
-            android:text="\nProjeto Original:\n• Desenvolvimento de Interfaces Android\n• Fundamentos do Desenvolvimento Android\n• Desenvolvimento Kotlin: Android\n• Segurança, Monetização e Publicação de Aplicativos Android\n• Projeto de Bloco: Desenvolvimento Android\n\n(*)Atualizado para a Disciplina:\n• Projeto de Bloco: Engenharia de Softwares Escaláveis"
-            android:textSize="15sp" />
+            android:text="\nProjeto Original:\n• Desenvolvimento de Interfaces Android\n• Fundamentos do Desenvolvimento Android\n• Desenvolvimento Kotlin: Android\n• Segurança, Monetização e Publicação de Aplicativos Android\n• Projeto de Bloco: Desenvolvimento Android\n\n(*)Modificado para a Disciplina:\n• Projeto de Bloco: Engenharia Disciplinada de Softwares\n\n(**)Atualizado para a Disciplina:\n• Projeto de Bloco: Engenharia de Softwares Escaláveis"
+            android:textSize="14sp" />
 
     </LinearLayout>
 
@@ -70,13 +70,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:gravity="bottom"
-            android:text="Prof.: Denis Cople / Jonh Carvalho / (Leonardo Silva da Gloria)" />
+            android:text="Prof.: Denis Cople / Jonh Carvalho\n           Armênio Cardoso (*)\n           Leonardo Silva da Gloria (**) " />
 
         <TextView
             android:id="@+id/textView7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Abril/2022\n(Junho/2024)"
+            android:text="Abril/2022\n\Abril/2024 (*)\nAgosto/2024 (**)"
             android:textAlignment="textEnd" />
     </LinearLayout>
 
