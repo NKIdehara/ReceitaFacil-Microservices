@@ -1,7 +1,6 @@
 package br.edu.infnet.ReceitaFacil.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,17 @@ public class ItemService {
         return itemRepository.findAll();
     }
 
-    public Optional<Item> getById(Long id) {
-        return itemRepository.findById(id);
+    public Item getById(Long id) {
+        return itemRepository.findById(id).orElse(null);
+    }
+
+    public Long add(Item item) {
+        return itemRepository.save(item).getId();
+    }
+
+    public Boolean delete(Long id) {
+        if(itemRepository.findById(id).isEmpty()) return false;
+        itemRepository.deleteById(id);
+        return true;
     }
 }

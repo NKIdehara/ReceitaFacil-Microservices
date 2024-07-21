@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.infnet.ReceitaFacil.model.Receita;
@@ -19,7 +18,6 @@ import br.edu.infnet.ReceitaFacil.service.ReceitaService;
 
 @RestController
 @CrossOrigin
-@RequestMapping(produces = "application/json", consumes = "application/json")
 public class ReceitaController {
     @Autowired
     private ReceitaService receitaService;
@@ -51,15 +49,17 @@ public class ReceitaController {
     
     @PutMapping("receita/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Receita receita) {
-        if(!receitaService.update(id, receita))
+        Boolean status = receitaService.update(id, receita);
+        if(!status)
             return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body("Receita não econtrada!");
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(1);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(status);
     }
     
     @DeleteMapping("/receita/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
-        if(!receitaService.delete(id))
+        Boolean status = receitaService.delete(id);
+        if(!status)
             return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body("Receita não econtrada!");
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(1);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(status);
     }
 }

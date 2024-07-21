@@ -18,11 +18,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import br.edu.infnet.ReceitaFacil.model.Receita;
 import br.edu.infnet.ReceitaFacil.service.ReceitaService;
 
-// @WebMvcTest(ReceitaController.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
-public class TestAPIConnections {
+public class TestReceitaAPIConnections {
     @Autowired
     private MockMvc mockMvc;
 

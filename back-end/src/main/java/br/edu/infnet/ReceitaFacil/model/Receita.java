@@ -10,8 +10,6 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -35,7 +33,8 @@ public class Receita {
     private String figura;
 
     @OneToMany(mappedBy = "receita", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    // @OneToMany(cascade = CascadeType.ALL)
+    // @JsonManagedReference
     private List<Ingrediente> ingredientes = new ArrayList<>();
 
     @CreatedDate
@@ -135,7 +134,7 @@ public class Receita {
         return this.lastModifiedBy;
     }
 
-    // public float getCusto() {
-    //     return 0.0f;
-    // }
+    public float getCusto() {
+        return 0.0f;
+    }
 }

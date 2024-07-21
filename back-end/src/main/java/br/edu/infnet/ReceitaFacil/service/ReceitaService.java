@@ -14,6 +14,7 @@ public class ReceitaService {
     private ReceitaRepository receitaRepository;
 
     public List<Receita> getAll() {
+        System.out.println(receitaRepository.count());
         return receitaRepository.findAll();
     }
 

@@ -3,6 +3,7 @@ package br.edu.infnet.ReceitaFacil.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,14 +32,14 @@ public class Item {
 
     // @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
     // @OneToMany(mappedBy = "item")
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Ingrediente> ingredientes = new ArrayList<>();
 
     public Item() {
     }
 
-    public Item(Long idItem, String descricao, float preco, Medida medida) {
-        this.id = idItem;
+    public Item(Long id, String descricao, float preco, Medida medida) {
+        this.id = id;
         this.descricao = descricao;
         this.preco = preco;
         this.medida = medida;
@@ -48,8 +49,8 @@ public class Item {
         return this.id;
     }
 
-    public void setId(Long idItem) {
-        this.id = idItem;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getDescricao() {
@@ -76,11 +77,11 @@ public class Item {
         this.medida = medida;
     }
 
-    public List<Ingrediente> getIngredientes() {
-        return this.ingredientes;
-    }
+    // public List<Ingrediente> getIngredientes() {
+    //     return this.ingredientes;
+    // }
 
-    public void setIngredientes(List<Ingrediente> ingredientes) {
-        this.ingredientes = ingredientes;
-    }
+    // public void setIngredientes(List<Ingrediente> ingredientes) {
+    //     this.ingredientes = ingredientes;
+    // }
 }

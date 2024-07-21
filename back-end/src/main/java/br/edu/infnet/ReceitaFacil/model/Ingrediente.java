@@ -48,8 +48,8 @@ public class Ingrediente {
         this.medida = medida;
     }
 
-    public Ingrediente(Long idIngrediente, Item item, Float quantidade, Medida medida, Receita receita) {
-        this.id = idIngrediente;
+    public Ingrediente(Long id, Item item, Float quantidade, Medida medida, Receita receita) {
+        this.id = id;
         this.item = item;
         this.quantidade = quantidade;
         this.medida = medida;
@@ -60,8 +60,8 @@ public class Ingrediente {
         return this.id;
     }
 
-    public void setId(Long idIngrediente) {
-        this.id = idIngrediente;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Item getItem() {

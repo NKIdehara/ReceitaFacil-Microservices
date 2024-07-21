@@ -18,9 +18,13 @@ public class MedidaService {
         return medidaRepository.findAll();
     }
 
+    public Medida getById(Long id) {
+        return medidaRepository.findById(id).orElse(null);
+    }
+
     public String getNome(Long id) {
         Medida medida = medidaRepository.findById(id).orElse(null);
-        return medida.getNomeMedida();
+        return medida.getNome();
     }
 
     public TipoUnidade getTipoUnidade(Long id) {
