@@ -134,9 +134,10 @@ public class Receita {
 
     public float getCusto() {
         float custo = 0.0f;
-        for(Ingrediente i: ingredientes){
-            custo += i.getCusto();
-        }
+        if(this.ingredientes != null)
+            for(Ingrediente i: ingredientes){
+                custo += i.getCusto();
+            }
         return custo;
     }
 }
