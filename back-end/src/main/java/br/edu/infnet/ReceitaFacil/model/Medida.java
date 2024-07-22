@@ -22,15 +22,10 @@ public class Medida {
     private String nome;
     private TipoUnidade tipo;
 
-    // @OneToMany(fetch = FetchType.LAZY, mappedBy = "medida", cascade = CascadeType.ALL)
-    // @OneToMany(mappedBy = "medida")
     @OneToMany(cascade = CascadeType.ALL)
     private List<Item> items;
 
-    // @OneToMany(fetch = FetchType.LAZY, mappedBy = "medida", cascade = CascadeType.ALL)
-    // @OneToMany(mappedBy = "medida")
     @OneToMany(cascade = CascadeType.ALL)
-    // @JsonManagedReference
     private List<Ingrediente> ingredientes;
 
     public Medida() {
@@ -66,24 +61,22 @@ public class Medida {
         this.tipo = tipo;
     }
 
-    // public List<Item> getItems() {
-    //     return this.items;
-    // }
-
-    // public void setItems(List<Item> items) {
-    //     this.items = items;
-    // }
-
-    // public List<Ingrediente> getIngredientes() {
-    //     return this.ingredientes;
-    // }
-
-    // public void setIngredientes(List<Ingrediente> ingredientes) {
-    //     this.ingredientes = ingredientes;
-    // }
-
     public float convert(Medida medida) {
-        if(this.nome == medida.getNome()) return 1.0f;
+        if(this.nome.equals(medida.getNome())) return 1.0f;
+        if(this.nome.equals("g") && medida.getNome().equals("kg")) return 0.001f;
+        if(this.nome.equals("kg") && medida.getNome().equals("g")) return 1000.0f;
+        if(this.nome.equals("ml") && medida.getNome().equals("l")) return 0.001f;
+        if(this.nome.equals("l") && medida.getNome().equals("ml")) return 1000.0f;
+        if(this.nome.equals("l") && medida.getNome().equals("xícara(s)")) return 4.22675f;
+        if(this.nome.equals("xícara(s)") && medida.getNome().equals("l")) return 1/4.22675f;
+        if(this.nome.equals("l") && medida.getNome().equals("colher(es) de sopa")) return 67.628f;
+        if(this.nome.equals("colher(es) de sopa") && medida.getNome().equals("l")) return 1/67.628f;
+        if(this.nome.equals("l") && medida.getNome().equals("xícara(s)")) return 0.00422675f;
+        if(this.nome.equals("xícara(s)") && medida.getNome().equals("ml")) return 1/0.00422675f;
+        if(this.nome.equals("ml") && medida.getNome().equals("colher(es) de sopa")) return 0.067628f;
+        if(this.nome.equals("colher(es) de sopa") && medida.getNome().equals("ml")) return 1/0.067628f;
+        if(this.nome.equals("xícara(s)") && medida.getNome().equals("colher(es) de sopa")) return 16.0f;
+        if(this.nome.equals("colher(es) de sopa") && medida.getNome().equals("xícara(s)")) return 1/16.0f;
         return 0.0f;
     }
 }

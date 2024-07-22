@@ -42,7 +42,7 @@ export default function Receitas() {
         return user;
     }
 
-    const numFormat = new Intl.NumberFormat("pt-BR", {minimumFractionDigits: 2});
+    const numFormat = new Intl.NumberFormat("pt-BR", {style: 'currency', currency: 'BRL'});
 
     if(!user.isNull) {
         return (

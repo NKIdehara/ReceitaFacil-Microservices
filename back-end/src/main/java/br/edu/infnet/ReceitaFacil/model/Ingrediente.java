@@ -19,21 +19,16 @@ public class Ingrediente {
     @Column(name = "id", insertable = false, updatable = false)
     private Long id;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne
     @JoinColumn(name = "item_id")
-    // @JsonBackReference
     private Item item;
 
     private float quantidade;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne
     @JoinColumn(name = "medida_id")
-    // @JsonBackReferences
     private Medida medida;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne
     @JoinColumn(name = "receita_id")
     @JsonBackReference

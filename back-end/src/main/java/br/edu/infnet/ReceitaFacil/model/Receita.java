@@ -33,8 +33,6 @@ public class Receita {
     private String figura;
 
     @OneToMany(mappedBy = "receita", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    // @OneToMany(cascade = CascadeType.ALL)
-    // @JsonManagedReference
     private List<Ingrediente> ingredientes = new ArrayList<>();
 
     @CreatedDate
@@ -135,6 +133,10 @@ public class Receita {
     }
 
     public float getCusto() {
-        return 0.0f;
+        float custo = 0.0f;
+        for(Ingrediente i: ingredientes){
+            custo += i.getCusto();
+        }
+        return custo;
     }
 }

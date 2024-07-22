@@ -24,14 +24,10 @@ public class Item {
     private String descricao;
     private float preco;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
     @ManyToOne
     @JoinColumn(name = "medida_id", referencedColumnName = "id")
-    // @JsonBackReference
     private Medida medida;
 
-    // @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
-    // @OneToMany(mappedBy = "item")
     @OneToMany(cascade = CascadeType.ALL)
     private List<Ingrediente> ingredientes = new ArrayList<>();
 
@@ -76,12 +72,4 @@ public class Item {
     public void setMedida(Medida medida) {
         this.medida = medida;
     }
-
-    // public List<Ingrediente> getIngredientes() {
-    //     return this.ingredientes;
-    // }
-
-    // public void setIngredientes(List<Ingrediente> ingredientes) {
-    //     this.ingredientes = ingredientes;
-    // }
 }

@@ -8,21 +8,21 @@ INSERT INTO tbl_medidas (nome, tipo) VALUES
    ('unidade(s)', 2);
 
 INSERT INTO tbl_items (descricao, preco, medida_id) VALUES
-   ('arroz', 0.0, 2),
-   ('sal', 0.0, 1),
-   ('bife', 0.0, 2),
-   ('tempero', 0.0, 1),
-   ('macarrão', 0.0, 1),
-   ('molho de tomate', 0.0, 3),
-   ('leite condensado', 0.0, 3),
-   ('ovo', 0.0, 7),
-   ('leite', 0.0, 3),
-   ('açúcar', 0.0, 5),
-   ('manteiga', 0.0, 6),
-   ('farinha de trigo', 0.0, 1),
-   ('fermento', 0.0, 6),
-   ('chocolate picado', 0.0, 1),
-   ('essência de baunilha', 0.0, 6);
+   ('arroz', 12.49, 2),
+   ('sal', 3.65, 2),
+   ('bife', 59.99, 2),
+   ('tempero', 0.26, 1),
+   ('macarrão', 19.38, 2),
+   ('molho de tomate', 0.008, 3),
+   ('leite condensado', 0.0333, 3),
+   ('ovo', 1.099, 7),
+   ('leite', 9.99, 4),
+   ('açúcar', 3.495, 4),
+   ('manteiga', 0.66, 6),
+   ('farinha de trigo', 5.99, 2),
+   ('fermento', 3.10, 6),
+   ('chocolate picado', 79.93, 2),
+   ('essência de baunilha', 9.60, 6);
 
 INSERT INTO tbl_receitas (usuario, nome, preparo, figura, created_by, created_date) VALUES
    ('nOCEzyRcfXN3UqtSlfyrqzgsOKL2', 'Arroz', 'Lavar o arroz; colocar sal; cozinhar por 30 minutos.', 'https://firebasestorage.googleapis.com/v0/b/infnet-receitafacil.appspot.com/o/ic_food_1.png?alt=media&token=30015b83-a563-4bc8-8e90-8f92e40f19c3', 'SYSTEM', SELECT CURRENT_DATE()),
