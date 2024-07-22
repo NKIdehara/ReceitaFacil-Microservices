@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as bootstrap from 'bootstrap';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { v4 } from 'uuid';
 import { BACKEND } from '../App';
@@ -20,17 +20,52 @@ import Spinner from '../layout/Spinner';
             figura: imagem
         });
 
+        const [items, setItems] = useState([]);
+        useEffect(() => {
+            loadItems();
+        }, []);
+        const loadItems = async () => {
+            const result = await axios.get(BACKEND.concat("/item"));
+            setItems(result.data);
+        }
+        const findItem = (id) => {
+            let item = items.filter(i => i.id == id);
+            return item[0].descricao;
+        }
+
+        const [medidas, setMedidas] = useState([]);
+        useEffect(() => {
+            loadMedidas();
+        }, []);
+        const loadMedidas = async () => {
+            const result = await axios.get(BACKEND.concat("/medida"));
+            setMedidas(result.data);
+        }
+        const [medidasFilter, setMedidasFilter] = useState([]);
+        const loadMedidasFilter = (id) => {
+            if(id == 0) {
+                setMedidasFilter([]);
+            } else {
+                let itemSelecionado = items.filter(i => i.id == id);
+                setMedidasFilter(medidas.filter(m => m.tipo === itemSelecionado[0].medida.tipo));
+            }
+        }
+        const findMedida = (id) => {
+            let medida = medidas.filter(m => m.id == id);
+            return medida[0].nome;
+        }
+
         const [index, setIndex] = useState(99999);
         const [ingredientes, setIngredientes] = useState([]);
         const addIngrediente = () => {
             setIngredientes([...ingredientes, ingrediente]);
         };
-        const delIngrediente = (idIngrediente) => {
-            const novaLista = ingredientes.filter(i => i.idIngrediente !== idIngrediente);
+        const delIngrediente = (id) => {
+            const novaLista = ingredientes.filter(i => i.id !== id);
             setIngredientes(novaLista);
         };
         const initialState = {
-            idIngrediente: "",
+            id: "",
             item: "",
             quantidade: "",
             medida: ""
@@ -38,13 +73,15 @@ import Spinner from '../layout/Spinner';
         const [ingrediente, setIngrediente] = useState(initialState);
 
         const {nome, preparo, usuario, figura} = receita;
-        const {idIngrediente, item, quantidade, medida} = ingrediente;
+        const {id, item, quantidade, medida} = ingrediente;
 
         const onReceitaChange = (e) => {
             setReceita({...receita, [e.target.name]:e.target.value});
         }
         const onIngredienteChange = (e) => {
             setIngrediente({...ingrediente, [e.target.name]:e.target.value});
+
+            if(e.target.name === 'item') loadMedidasFilter(e.target.value);
         }
 
         const uploadImgReceita = () => {
@@ -62,14 +99,18 @@ import Spinner from '../layout/Spinner';
             if(imagem !== null) receita.figura = imagem;
             const result = await axios.post(BACKEND.concat("/receita"), receita);
             ingredientes.forEach(async ingrediente => {
-                await axios.post(BACKEND.concat("/ingrediente/receita/", result.data), ingrediente);
+                await axios.post(BACKEND.concat("/ingrediente/receita/", result.data), {
+                    item: {id: ingrediente.item},
+                    quantidade: ingrediente.quantidade,
+                    medida: {id: ingrediente.medida}
+                });
             });
             await new Promise(resolve => setTimeout(resolve, 2000));
             navigate("/receitas");
         }
         const onSubmitIngrediente = () => {
             if(ingrediente.item !== "" && ingrediente.quantidade !== "" && ingrediente.medida !== ""){
-                ingrediente.idIngrediente = index;
+                ingrediente.id = index;
                 setIndex(index + 1);
                 addIngrediente();
                 setIngrediente(initialState);
@@ -107,26 +148,39 @@ import Spinner from '../layout/Spinner';
                     </div>
 
                     <div className="form-group row my-4 border border-primary rounded">
-                        <label htmlFor="nome" className="col-sm-2 my-2 col-form-label">Ingredientes:</label>                            
+                        <label htmlFor="nome" className="col-sm-2 my-2 col-form-label">Ingredientes:</label>
                         <div className="col-sm-10">
+
                             <div className="form-group row my-2">
-                                <label htmlFor="item" className="col-sm-2 col-form-label">Ingrediente:</label>
-                                <div className="col-sm-10">
-                                    <input type={"text"} className="form-control" placeholder="Nome do Ingrediente" name="item" value={item} onChange={(e) => onIngredienteChange(e)} />
-                                </div>
+                            <label htmlFor="item" className="col-sm-2 col-form-label">Ingrediente:</label>
+                            <div className="col-sm-10">
+                                <select className="form-select" aria-label="Ingrediente" name="item" value={item} onChange={(e) => onIngredienteChange(e)} >
+                                    <option value={0}></option>
+                                    {items.map((i) => (<option value={i.id}>{i.descricao}</option>))}
+                                </select>
                             </div>
+                        </div>
+
                             <div className="form-group row my-2">
                                 <label htmlFor="quantidade" className="col-sm-2 col-form-label">Quantidade:</label>
                                 <div className="col-sm-10">
                                     <input type={"number"} className="form-control" placeholder="Quantidade" name="quantidade" value={quantidade} onChange={(e) => onIngredienteChange(e)} />
                                 </div>
                             </div>
+
                             <div className="form-group row my-2">
                                 <label htmlFor="medida" className="col-sm-2 col-form-label">Unidade de medida:</label>
                                 <div className="col-sm-10">
-                                    <input type={"text"} className="form-control" placeholder="g / ml / colheres" name="medida" value={medida} onChange={(e) => onIngredienteChange(e)} />
+                                    <select className="form-select" aria-label="Medida" name="medida" value={medida} onChange={(e) => onIngredienteChange(e)} >
+                                        <option value={0}></option>
+                                        {medidasFilter.map((m) => (<option value={m.id}>{m.nome}</option>))}
+                                    </select>
                                 </div>
                             </div>
+
+
+
+                            
                             <div id="Toast" className="toast align-items-center text-bg-danger border-0 position-absolute top-50 start-50 translate-middle" role="alert" aria-live="assertive" aria-atomic="true">
                                 <div className="d-flex">
                                     <div className="toast-body">Ingrediente inválido!</div>
@@ -147,13 +201,13 @@ import Spinner from '../layout/Spinner';
                                 </thead>
                                 <tbody className="text-center">
                                 {
-                                    ingredientes.map((ingrediente, id) => (                                        
+                                    ingredientes.map((ingrediente, id) => (
                                         <tr>
                                         {/* <th scope="row" key={id}>{ingrediente.id_ingrediente}</th> */}
-                                        <td>{ingrediente.item}</td>
+                                        <td>{findItem(ingrediente.item)}</td>
                                         <td>{ingrediente.quantidade}</td>
-                                        <td>{ingrediente.medida}</td>
-                                        <td><button type="button" className="btn btn-light" onClick={() => delIngrediente(ingrediente.idIngrediente)}>➖</button></td>
+                                        <td>{findMedida(ingrediente.medida)}</td>
+                                        <td><button type="button" className="btn btn-light" onClick={() => delIngrediente(ingrediente.id)}>➖</button></td>
                                         </tr>
                                     ))
                                 }

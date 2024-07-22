@@ -107,6 +107,6 @@ export default function Receitas() {
                     <Link className="btn btn-outline-dark m-1" to="/home">Cancelar</Link>
                 </div>
             </div>
-       )
+        )
     }
 }
