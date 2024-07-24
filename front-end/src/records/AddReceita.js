@@ -80,7 +80,6 @@ import Spinner from '../layout/Spinner';
         }
         const onIngredienteChange = (e) => {
             setIngrediente({...ingrediente, [e.target.name]:e.target.value});
-
             if(e.target.name === 'item') loadMedidasFilter(e.target.value);
         }
 
@@ -109,7 +108,7 @@ import Spinner from '../layout/Spinner';
             navigate("/receitas");
         }
         const onSubmitIngrediente = () => {
-            if(ingrediente.item !== "" && ingrediente.quantidade !== "" && ingrediente.medida !== ""){
+            if(ingrediente.item !== "" && ingrediente.quantidade !== "" && ingrediente.medida !== "") {
                 ingrediente.id = index;
                 setIndex(index + 1);
                 addIngrediente();
@@ -177,9 +176,6 @@ import Spinner from '../layout/Spinner';
                                     </select>
                                 </div>
                             </div>
-
-
-
                             
                             <div id="Toast" className="toast align-items-center text-bg-danger border-0 position-absolute top-50 start-50 translate-middle" role="alert" aria-live="assertive" aria-atomic="true">
                                 <div className="d-flex">
