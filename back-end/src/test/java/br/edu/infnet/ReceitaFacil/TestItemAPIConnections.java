@@ -46,7 +46,7 @@ public class TestItemAPIConnections {
         Medida medida = new Medida(1L, "Medida 1", Unidade.TipoUnidade.MASSA);
         Item item = new Item(null, "Item 1", 0.0f, medida);
         mockMvc.perform(MockMvcRequestBuilders
-            .post("/item/1")
+            .post("/item/")
             .content(objectMapper.writeValueAsString(item))
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON))
