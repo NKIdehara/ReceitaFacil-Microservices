@@ -18,7 +18,7 @@ const val RECEITA_URL = "https://receitafacil-microservices-backend.azurewebsite
 const val TIME_OUT = 60L
 
 interface ReceitaApi{
-    @GET("/total")
+    @GET("/receita/total")
     suspend fun getTotalReceitas(): Int
 
     @GET("/receita/usuario/{uid}")

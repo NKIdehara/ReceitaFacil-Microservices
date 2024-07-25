@@ -35,6 +35,7 @@ import java.sql.Date
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME
 
 class AdicionarFragment : Fragment() {
 
@@ -166,7 +167,7 @@ class AdicionarFragment : Fragment() {
     }
 
     private fun gravarReceita(figura: String){
-        val agora = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString()
+        val agora = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString() + "T00:00:00"
         var total = 0
         lifecycleScope.launchWhenCreated {
             total = try {
@@ -184,8 +185,7 @@ class AdicionarFragment : Fragment() {
         }
         lifecycleScope.launchWhenCreated {
             val response = try{
-//                val receita = Receita(total, usuario, binding.txtNome.text.toString(), binding.txtPreparo.text.toString(), null, agora, figura)
-                val receita = Receita(total, usuario, binding.txtNome.text.toString(), binding.txtPreparo.text.toString(), figura, 0.0f, null, agora, "")
+                val receita = Receita(total, usuario, binding.txtNome.text.toString(), binding.txtPreparo.text.toString(), figura, 0.0f, null, agora, "Android User")
                 ReceitaRetrofitInstance.api.newReceita(receita)
                 Toast.makeText(getActivity() , "Receita adicionada!", Toast.LENGTH_SHORT).show()
             } catch(err: IOException){

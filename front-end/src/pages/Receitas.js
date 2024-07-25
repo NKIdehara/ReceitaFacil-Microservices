@@ -88,10 +88,10 @@ export default function Receitas() {
                                 </Then></If>
 
                                 <td>
-                                <tr><td style={{'font-size': '11px'}} >Criado em: {formatDate(receita.createdDate)}</td></tr>
-                                <tr><td style={{'font-size': '11px'}} >Criado por: {formatUser(receita.createdBy)}</td></tr>
-                                <tr><td style={{'font-size': '11px'}} >Modificado em: {formatDate(receita.lastModifiedDate)}</td></tr>
-                                <tr><td style={{'font-size': '11px'}} >Modificado por: {formatUser(receita.lastModifiedBy)}</td></tr>
+                                <tr><td style={{'fontSize': '11px'}} >Criado em: {formatDate(receita.createdDate)}</td></tr>
+                                <tr><td style={{'fontSize': '11px'}} >Criado por: {formatUser(receita.createdBy)}</td></tr>
+                                <tr><td style={{'fontSize': '11px'}} >Modificado em: {formatDate(receita.lastModifiedDate)}</td></tr>
+                                <tr><td style={{'fontSize': '11px'}} >Modificado por: {formatUser(receita.lastModifiedBy)}</td></tr>
                                 </td>
 
                                 </tr>

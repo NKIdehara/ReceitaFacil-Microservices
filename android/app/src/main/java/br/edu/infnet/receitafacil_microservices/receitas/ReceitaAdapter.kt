@@ -34,7 +34,7 @@ class ReceitaAdapter(private val receitaList: List<Receita>) :
         var ingredientes: String = "\n"
 
         Picasso.get().load(currentItem.figura).placeholder(R.drawable.ic_wait).into(holder.imageView);
-        holder.textView1.text = currentItem.nome + ": custo (R$ " + currentItem.custo + ")"
+        holder.textView1.text = currentItem.nome + String.format(": custo (R$ %.2f)", currentItem.custo)
         currentItem.ingredientes?.forEach { i -> ingredientes += "- " + i.quantidade + " " + i.medida.nome + " de " + i.item.descricao + "\n" }
         holder.textView2.text = ingredientes
         holder.textView3.text = currentItem.preparo

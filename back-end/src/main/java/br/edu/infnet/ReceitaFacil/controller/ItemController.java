@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.infnet.ReceitaFacil.model.Item;
 import br.edu.infnet.ReceitaFacil.service.ItemService;
-import br.edu.infnet.ReceitaFacil.service.MedidaService;
 
 @RestController
 @CrossOrigin
@@ -21,19 +20,16 @@ public class ItemController {
     @Autowired
     private ItemService itemService;
 
-    @Autowired
-    private MedidaService medidaService;
-
     @GetMapping("/item")
     public ResponseEntity<?> getAll(){
         return ResponseEntity.ok(itemService.getAll());
     }
 
-    @PostMapping("/item/{medida_id}")
-    public ResponseEntity<?> add(@RequestBody Item item, @PathVariable Long medida_id){
-        item.setMedida(medidaService.getById(medida_id));
+    @PostMapping("/item/")
+    public ResponseEntity<?> add(@RequestBody Item item){
         return ResponseEntity.status(HttpStatus.CREATED).body(itemService.add(item));
     }
+
 
     @DeleteMapping("/item/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){

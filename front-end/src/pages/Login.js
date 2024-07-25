@@ -68,7 +68,7 @@ const Login = () => {
                 <form onSubmit={entrar}>
                     <div className="form-group row my-3">
                         <div className="col"></div>
-                        <label for="usuario" className="col-sm-1 col-form-label">Usuário:</label>
+                        <label htmlFor="usuario" className="col-sm-1 col-form-label">Usuário:</label>
                         <div className="col-sm">
                             <input type={"email"} className="form-control" placeholder="e-mail" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                         </div>
@@ -76,7 +76,7 @@ const Login = () => {
                     </div>
                     <div className="form-group row my-3">
                         <div className="col"></div>
-                        <label for="senha" className="col-sm-1 col-form-label">Senha:</label>
+                        <label htmlFor="senha" className="col-sm-1 col-form-label">Senha:</label>
                         <div className="col-sm">
                             <input type={"password"} className="form-control" placeholder="senha" name="senha" value={senha} onChange={(e) => setSenha(e.target.value)} />
                         </div>

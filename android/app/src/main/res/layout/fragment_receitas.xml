@@ -64,7 +64,6 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:contentDescription="Inserir nova receita"
-        android:enabled="false"
         android:src="@android:drawable/ic_input_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
