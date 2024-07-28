@@ -1,10 +1,13 @@
 import axios from 'axios';
 import * as bootstrap from 'bootstrap';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { BACKEND } from '../App';
+import { user } from '../Firebase';
 import Spinner from '../layout/Spinner';
 
 export default function Items() {
+    let navigate = useNavigate();
 
     const [items, setItems] = useState([]);
     useEffect( () => {
@@ -77,6 +80,7 @@ export default function Items() {
     const {descricao, preco, medida} = item;
     const [espera, setEspera] = useState(true);
 
+    if(user.isNull) { return navigate("/") }
     return (
         <div className="container">
             <div className="py-4 ">

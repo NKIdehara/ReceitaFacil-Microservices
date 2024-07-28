@@ -2,12 +2,13 @@ import axios from 'axios';
 import { format } from "date-fns";
 import React, { useEffect, useState } from 'react';
 import { If, Then } from 'react-if';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BACKEND } from '../App';
 import { user } from '../Firebase';
 import Spinner from '../layout/Spinner';
 
 export default function Receitas() {
+    let navigate = useNavigate();
     
     const [receitas, setReceitas] = useState([]);
     useEffect( () => {
@@ -44,69 +45,68 @@ export default function Receitas() {
 
     const numFormat = new Intl.NumberFormat("pt-BR", {style: 'currency', currency: 'BRL'});
 
-    if(!user.isNull) {
-        return (
-            <div className="container">
-                <div className="py-2">
+    if(user.isNull) { return navigate("/") }
+    return (
+        <div className="container">
+            <div className="py-2">
 
-                    <table className="table table-hover shadow">
-                    <thead className="table-secondary">
-                        <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Foto</th>
-                        <th scope="col">Nome da Receita</th>
-                        <th scope="col">Ingredientes</th>
-                        <th scope="col">Preparo</th>
-                        <th scope="col">Custo</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col">Histórico</th>
-                        </tr>
-                    </thead>
-                    <tbody className="text-start">
-                        {
-                            receitas.map((receita, id_receita) => (
+                <table className="table table-hover shadow">
+                <thead className="table-secondary">
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Foto</th>
+                    <th scope="col">Nome da Receita</th>
+                    <th scope="col">Ingredientes</th>
+                    <th scope="col">Preparo</th>
+                    <th scope="col">Custo</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col">Histórico</th>
+                    </tr>
+                </thead>
+                <tbody className="text-start">
+                    {
+                        receitas.map((receita, id_receita) => (
+                            <tr>
+                            <th scope="row" key={id_receita}>{id_receita+1}</th>
+                            <td><img src={receita.figura} style={{'maxWidth': '100px'}} alt=""/></td>
+                            <td>{receita.nome}</td>
+
+                            <td>{receita.ingredientes.map((ingrediente) => (
                                 <tr>
-                                <th scope="row" key={id_receita}>{id_receita+1}</th>
-                                <td><img src={receita.figura} style={{'maxWidth': '100px'}} alt=""/></td>
-                                <td>{receita.nome}</td>
-
-                                <td>{receita.ingredientes.map((ingrediente) => (
-                                    <tr>
-                                    <td>- {ingrediente.quantidade} {ingrediente.medida.nome} de {ingrediente.item.descricao}</td>
-                                    </tr>
-                                ))}</td>
-
-                                <td style={{whiteSpace: "pre-wrap"}}>{receita.preparo}</td>
-                                <td>{numFormat.format(receita.custo)}</td>
-
-                                <If condition={user.getUID !== 0}><Then>
-                                    <td><Link className="btn btn-light m-1" to="/edtReceita" state={{ _id: receita.id, _nome: receita.nome, _ingredientes: receita.ingredientes, _preparo: receita.preparo, _usuario: receita.usuario, _figura: receita.figura }}>📝</Link></td>
-                                </Then></If>
-                                <If condition={user.getUID !== 0}><Then>
-                                    <td><button type="button" className="btn btn-light" onClick={() => deleteReceita(receita.id)}>❌</button></td>
-                                </Then></If>
-
-                                <td>
-                                <tr><td style={{'fontSize': '11px'}} >Criado em: {formatDate(receita.createdDate)}</td></tr>
-                                <tr><td style={{'fontSize': '11px'}} >Criado por: {formatUser(receita.createdBy)}</td></tr>
-                                <tr><td style={{'fontSize': '11px'}} >Modificado em: {formatDate(receita.lastModifiedDate)}</td></tr>
-                                <tr><td style={{'fontSize': '11px'}} >Modificado por: {formatUser(receita.lastModifiedBy)}</td></tr>
-                                </td>
-
+                                <td>- {ingrediente.quantidade} {ingrediente.medida.nome} de {ingrediente.item.descricao}</td>
                                 </tr>
-                            ))
-                        }
-                    </tbody>
-                    </table>
-                    {espera && <Spinner />}
-                </div>
+                            ))}</td>
 
-                <div className="float-end">
-                    <Link className="btn btn-outline-dark m-1" to="/addReceita">Nova Receita</Link>
-                    <Link className="btn btn-outline-dark m-1" to="/home">Cancelar</Link>
-                </div>
+                            <td style={{whiteSpace: "pre-wrap"}}>{receita.preparo}</td>
+                            <td>{numFormat.format(receita.custo)}</td>
+
+                            <If condition={user.getUID !== 0}><Then>
+                                <td><Link className="btn btn-light m-1" to="/edtReceita" state={{ _id: receita.id, _nome: receita.nome, _ingredientes: receita.ingredientes, _preparo: receita.preparo, _usuario: receita.usuario, _figura: receita.figura }}>📝</Link></td>
+                            </Then></If>
+                            <If condition={user.getUID !== 0}><Then>
+                                <td><button type="button" className="btn btn-light" onClick={() => deleteReceita(receita.id)}>❌</button></td>
+                            </Then></If>
+
+                            <td>
+                            <tr><td style={{'fontSize': '11px'}} >Criado em: {formatDate(receita.createdDate)}</td></tr>
+                            <tr><td style={{'fontSize': '11px'}} >Criado por: {formatUser(receita.createdBy)}</td></tr>
+                            <tr><td style={{'fontSize': '11px'}} >Modificado em: {formatDate(receita.lastModifiedDate)}</td></tr>
+                            <tr><td style={{'fontSize': '11px'}} >Modificado por: {formatUser(receita.lastModifiedBy)}</td></tr>
+                            </td>
+
+                            </tr>
+                        ))
+                    }
+                </tbody>
+                </table>
+                {espera && <Spinner />}
             </div>
-        )
-    }
+
+            <div className="float-end">
+                <Link className="btn btn-outline-dark m-1" to="/addReceita">Nova Receita</Link>
+                <Link className="btn btn-outline-dark m-1" to="/home">Cancelar</Link>
+            </div>
+        </div>
+    )
 }

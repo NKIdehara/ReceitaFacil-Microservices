@@ -21,6 +21,7 @@ export default function Navbar() {
                                 <Link className="btn btn-outline-light m-2 fa-4x" to="/home"><BsFillHouseFill /> Início</Link>
                                 <Link className="btn btn-outline-light m-2" to="/receitas">Receitas</Link>
                                 <Link className="btn btn-outline-light m-2" to="/items">Items</Link>
+                                <Link className="btn btn-outline-light m-2" to="/usuarios">Usuarios</Link>
                                 <Link className="btn btn-outline-light m-2" to="/logout"><BiExit /> Sair</Link>
                             </div>
                         </div>

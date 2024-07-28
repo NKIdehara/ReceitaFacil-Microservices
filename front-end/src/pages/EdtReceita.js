@@ -5,132 +5,133 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { v4 } from 'uuid';
 import { BACKEND } from '../App';
-import { storage } from '../Firebase';
+import { storage, user } from '../Firebase';
 import Spinner from '../layout/Spinner';
 
-    export default function EdtReceita() {
-        const location = useLocation();
-        const { _id, _nome, _ingredientes, _preparo, _usuario, _figura } = location.state;
+export default function EdtReceita() {
+    const location = useLocation();
+    const { _id, _nome, _ingredientes, _preparo, _usuario, _figura } = location.state;
 
-        let navigate = useNavigate();
+    let navigate = useNavigate();
 
-        const [imgReceita, setImgReceita] = useState(null);
-        const [receita, setReceita] = useState({
-            nome: _nome,
-            preparo: _preparo,
-            usuario: _usuario,
-            figura: _figura
+    const [imgReceita, setImgReceita] = useState(null);
+    const [receita, setReceita] = useState({
+        nome: _nome,
+        preparo: _preparo,
+        usuario: _usuario,
+        figura: _figura
+    });
+
+
+    const [items, setItems] = useState([]);
+    useEffect(() => {
+        loadItems();
+    }, []);
+    const loadItems = async () => {
+        const result = await axios.get(BACKEND.concat("/item"));
+        setItems(result.data);
+    }
+    const findItem = (id) => {
+        let item = items.filter(i => i.id == id);
+        if(item.length !== 0)
+            return item[0].descricao;
+    }
+
+    const [medidas, setMedidas] = useState([]);
+    useEffect(() => {
+        loadMedidas();
+    }, []);
+    const loadMedidas = async () => {
+        const result = await axios.get(BACKEND.concat("/medida"));
+        setMedidas(result.data);
+    }
+    const [medidasFilter, setMedidasFilter] = useState([]);
+    const loadMedidasFilter = (id) => {
+        if(id == 0) {
+            setMedidasFilter([]);
+        } else {
+            let itemSelecionado = items.filter(i => i.id == id);
+            setMedidasFilter(medidas.filter(m => m.tipo === itemSelecionado[0].medida.tipo));
+        }
+    }
+    const findMedida = (id) => {
+        let medida = medidas.filter(m => m.id == id);
+        if(medida.length !== 0)
+            return medida[0].nome;
+    }
+
+    const [index, setIndex] = useState(99999);
+    const [ingredientes, setIngredientes] = useState(_ingredientes);
+    const addIngrediente = () => {
+        const ingredienteNovo = {
+            id: ingrediente.id,
+            item: {id: ingrediente.item},
+            quantidade: ingrediente.quantidade,
+            medida: {id: ingrediente.medida}
+        };
+        setIngredientes([...ingredientes, ingredienteNovo]);
+    };
+    const delIngrediente = (id) => {
+        const novaLista = ingredientes.filter(i => i.id !== id);
+        setIngredientes(novaLista);
+    };
+    const initialState = {
+        id: "",
+        item: "",
+        quantidade: "",
+        medida: ""
+    }
+    const [ingrediente, setIngrediente] = useState(initialState);
+
+    const {nome, preparo, usuario, figura} = receita;
+    const {id, item, quantidade, medida} = ingrediente;
+
+    const onReceitaChange = (e) => {
+        setReceita({...receita, [e.target.name]:e.target.value});
+    }
+    const onIngredienteChange = (e) => {
+        setIngrediente({...ingrediente, [e.target.name]:e.target.value});
+        if(e.target.name === 'item') loadMedidasFilter(e.target.value);
+    }
+
+    const uploadImgReceita = () => {
+        if(imgReceita == null) return null;
+        const imageRef = ref(storage, `${imgReceita.name + v4()}`);
+        return uploadBytes(imageRef, imgReceita).then((snapshot) => {
+            return getDownloadURL(snapshot.ref).then((url) => { return url });
         });
+    };
 
+    const onSubmitReceita = async (e) => {
+        e.preventDefault();
+        setEspera(true);
+        var imagem = await uploadImgReceita();
+        if(imagem !== null) receita.figura = imagem;
+        await axios.put(BACKEND.concat("/receita/", _id), receita);
+        _ingredientes.forEach(async ingrediente => {
+            if(!ingredientes.includes(ingrediente)) await axios.delete(BACKEND.concat("/ingrediente/", ingrediente.id));
+        })
+        ingredientes.forEach(async ingrediente => {
+            await axios.put(BACKEND.concat("/ingrediente/", ingrediente.id, "/receita/", _id), ingrediente);
+        });
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        navigate("/receitas");
+    }
+    const onSubmitIngrediente = () => {
+        if(ingrediente.item !== "" && ingrediente.quantidade !== "" && ingrediente.medida !== "")   {
+            ingrediente.id = index;
+            setIndex(index + 1);
+            addIngrediente();
+            setIngrediente(initialState);
+        } else {
+            let toast = new bootstrap.Toast(document.getElementById('Toast'));
+            toast.show();
+        }
+    }
 
-        const [items, setItems] = useState([]);
-        useEffect(() => {
-            loadItems();
-        }, []);
-        const loadItems = async () => {
-            const result = await axios.get(BACKEND.concat("/item"));
-            setItems(result.data);
-        }
-        const findItem = (id) => {
-            let item = items.filter(i => i.id == id);
-            if(item.length !== 0)
-                return item[0].descricao;
-        }
+    const [espera, setEspera] = useState(false);
 
-        const [medidas, setMedidas] = useState([]);
-        useEffect(() => {
-            loadMedidas();
-        }, []);
-        const loadMedidas = async () => {
-            const result = await axios.get(BACKEND.concat("/medida"));
-            setMedidas(result.data);
-        }
-        const [medidasFilter, setMedidasFilter] = useState([]);
-        const loadMedidasFilter = (id) => {
-            if(id == 0) {
-                setMedidasFilter([]);
-            } else {
-                let itemSelecionado = items.filter(i => i.id == id);
-                setMedidasFilter(medidas.filter(m => m.tipo === itemSelecionado[0].medida.tipo));
-            }
-        }
-        const findMedida = (id) => {
-            let medida = medidas.filter(m => m.id == id);
-            if(medida.length !== 0)
-                return medida[0].nome;
-        }
-
-        const [index, setIndex] = useState(99999);
-        const [ingredientes, setIngredientes] = useState(_ingredientes);
-        const addIngrediente = () => {
-            const ingredienteNovo = {
-                id: ingrediente.id,
-                item: {id: ingrediente.item},
-                quantidade: ingrediente.quantidade,
-                medida: {id: ingrediente.medida}
-            };
-            setIngredientes([...ingredientes, ingredienteNovo]);
-        };
-        const delIngrediente = (id) => {
-            const novaLista = ingredientes.filter(i => i.id !== id);
-            setIngredientes(novaLista);
-        };
-        const initialState = {
-            id: "",
-            item: "",
-            quantidade: "",
-            medida: ""
-        }
-        const [ingrediente, setIngrediente] = useState(initialState);
-
-        const {nome, preparo, usuario, figura} = receita;
-        const {id, item, quantidade, medida} = ingrediente;
-
-        const onReceitaChange = (e) => {
-            setReceita({...receita, [e.target.name]:e.target.value});
-        }
-        const onIngredienteChange = (e) => {
-            setIngrediente({...ingrediente, [e.target.name]:e.target.value});
-            if(e.target.name === 'item') loadMedidasFilter(e.target.value);
-        }
-
-        const uploadImgReceita = () => {
-            if(imgReceita == null) return null;
-            const imageRef = ref(storage, `${imgReceita.name + v4()}`);
-            return uploadBytes(imageRef, imgReceita).then((snapshot) => {
-                return getDownloadURL(snapshot.ref).then((url) => { return url });
-            });
-        };
-
-        const onSubmitReceita = async (e) => {
-            e.preventDefault();
-            setEspera(true);
-            var imagem = await uploadImgReceita();
-            if(imagem !== null) receita.figura = imagem;
-            await axios.put(BACKEND.concat("/receita/", _id), receita);
-            _ingredientes.forEach(async ingrediente => {
-                if(!ingredientes.includes(ingrediente)) await axios.delete(BACKEND.concat("/ingrediente/", ingrediente.id));
-            })
-            ingredientes.forEach(async ingrediente => {
-                await axios.put(BACKEND.concat("/ingrediente/", ingrediente.id, "/receita/", _id), ingrediente);
-            });
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            navigate("/receitas");
-        }
-        const onSubmitIngrediente = () => {
-            if(ingrediente.item !== "" && ingrediente.quantidade !== "" && ingrediente.medida !== "")   {
-                ingrediente.id = index;
-                setIndex(index + 1);
-                addIngrediente();
-                setIngrediente(initialState);
-            } else {
-                let toast = new bootstrap.Toast(document.getElementById('Toast'));
-                toast.show();
-            }
-        }
-
-        const [espera, setEspera] = useState(false);
-
+    if(user.isNull) { return navigate("/") }
     return (
         <div className="container">
             <div className="py-4">

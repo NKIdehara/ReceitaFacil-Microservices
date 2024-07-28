@@ -9,6 +9,7 @@ import Items from './pages/Items';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import Receitas from './pages/Receitas';
+import Usuarios from './pages/Usuarios';
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                         <Route path="/addReceita" element={<AddReceita />} />
                         <Route path="/edtReceita" element={<EdtReceita />} />
                         <Route path="/items" element={<Items />} />
+                        <Route path="/usuarios" element={<Usuarios />} />
                     </Route>
                 </Routes>
             </Router>
@@ -37,5 +39,5 @@ function App() {
 
 export default App;
 
-export const BACKEND = "http://localhost:8080";
-// export const BACKEND = "https://receitafacil-microservices-backend.azurewebsites.net";
+// export const BACKEND = "http://localhost:8080";
+export const BACKEND = "https://receitafacil-microservices-backend.azurewebsites.net";

@@ -24,3 +24,4 @@ yarn-error.log*
 
 # Google Firebase #
 .env
+/src/google-services*
