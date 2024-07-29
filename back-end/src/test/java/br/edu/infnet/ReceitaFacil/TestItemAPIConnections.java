@@ -35,7 +35,7 @@ public class TestItemAPIConnections {
 
     @Test
     public void testGet() throws Exception {
-        Medida medida = new Medida(1L, "Medida 1", Unidade.TipoUnidade.MASSA);
+        Medida medida = new Medida(1L, "Medida 1", Unidade.MASSA);
         Item item = new Item(null, "Item 1", 0.0f, medida);
         itemService.add(item);
         mockMvc.perform(MockMvcRequestBuilders.get("/item")).andExpect(status().isOk());
@@ -43,7 +43,7 @@ public class TestItemAPIConnections {
 
     @Test
     public void testPost() throws Exception {
-        Medida medida = new Medida(1L, "Medida 1", Unidade.TipoUnidade.MASSA);
+        Medida medida = new Medida(1L, "Medida 1", Unidade.MASSA);
         Item item = new Item(null, "Item 1", 0.0f, medida);
         mockMvc.perform(MockMvcRequestBuilders
             .post("/item/")
@@ -55,7 +55,7 @@ public class TestItemAPIConnections {
 
     @Test
     public void testDelete() throws Exception {
-        Medida medida = new Medida(1L, "Medida 1", Unidade.TipoUnidade.MASSA);
+        Medida medida = new Medida(1L, "Medida 1", Unidade.MASSA);
         Item item = new Item(null, "Item 1", 0.0f, medida);
         Long id = itemService.add(item);
         mockMvc.perform(MockMvcRequestBuilders.delete("/item/" + id)).andDo(print()).andExpect(status().isAccepted());

@@ -43,7 +43,7 @@ public class TestIngredienteAPIConnections {
 
     @Test
     public void testPost() throws Exception {
-        Medida medida = new Medida(1L, "Medida 1", Unidade.TipoUnidade.MASSA);
+        Medida medida = new Medida(1L, "Medida 1", Unidade.MASSA);
         Item item = new Item(null, "Item 1", 0.0f, medida);
         Ingrediente ingrediente = new Ingrediente(null, item, 0.0f, medida, null);
         mockMvc.perform(MockMvcRequestBuilders
@@ -56,7 +56,7 @@ public class TestIngredienteAPIConnections {
 
     @Test
     public void testPut() throws Exception {
-        Medida medida = new Medida(null, "Medida 1", Unidade.TipoUnidade.MASSA);
+        Medida medida = new Medida(null, "Medida 1", Unidade.MASSA);
         Item item = new Item(null, "Item 1", 0.0f, medida);
         Ingrediente ingrediente1 = new Ingrediente(null, item, 0.0f, medida, null);
         Ingrediente ingrediente2 = new Ingrediente(null, item, 0.0f, medida, null);

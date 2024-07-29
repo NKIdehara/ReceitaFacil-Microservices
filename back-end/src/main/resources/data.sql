@@ -1,4 +1,4 @@
-INSERT INTO tbl_medidas (nome, tipo) VALUES
+INSERT INTO tbl_medidas (nome, unidade) VALUES
    ('g', 0),
    ('kg', 0),
    ('ml', 1),

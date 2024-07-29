@@ -2,7 +2,6 @@ package br.edu.infnet.ReceitaFacil.model;
 
 import java.util.List;
 
-import br.edu.infnet.ReceitaFacil.model.Unidade.TipoUnidade;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,7 +19,7 @@ public class Medida {
     @Column(name = "id")
     private Long id;
     private String nome;
-    private TipoUnidade tipo;
+    private Unidade unidade;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Item> items;
@@ -31,10 +30,10 @@ public class Medida {
     public Medida() {
     }
 
-    public Medida(Long id, String nome, TipoUnidade tipo) {
+    public Medida(Long id, String nome, Unidade unidade) {
         this.id = id;
         this.nome = nome;
-        this.tipo = tipo;
+        this.unidade = unidade;
     }
 
     public Long getId() {
@@ -53,12 +52,12 @@ public class Medida {
         this.nome = nome;
     }
 
-    public TipoUnidade getTipo() {
-        return this.tipo;
+    public Unidade getUnidade() {
+        return this.unidade;
     }
 
-    public void setTipo(TipoUnidade tipo) {
-        this.tipo = tipo;
+    public void setUnidade(Unidade unidade) {
+        this.unidade = unidade;
     }
 
     public float convert(Medida medida) {

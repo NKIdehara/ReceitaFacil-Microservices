@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { If, Then } from 'react-if';
+import { Else, If, Then } from 'react-if';
 import { Link, useNavigate } from 'react-router-dom';
 import { BACKEND } from '../App';
 import { user } from '../Firebase';
@@ -40,6 +40,7 @@ export default function Usuarios() {
                     <th scope="col">#</th>
                     <th scope="col">UID</th>
                     <th scope="col">e-mail</th>
+                    <th scope="col">Tipo de Acesso</th>
                     <th scope="col"></th>
                     </tr>
                 </thead>
@@ -50,7 +51,12 @@ export default function Usuarios() {
                             <th scope="row" key={usuario.id}>{usuario.id}</th>
                             <td>{usuario.uid}</td>
                             <td>{usuario.email}</td>
-                            <td><button type="button" className="btn btn-light" onClick={() => delUsuario(usuario.id)}>❌</button></td>
+                            <td>{usuario.acesso}</td>
+                            <If condition={(user.UID !== usuario.uid)}>
+                                <Then><td><button type="button" className="btn btn-light" onClick={() => delUsuario(usuario.id)}>❌</button></td></Then>
+                                <Else><Then><td></td></Then></Else>
+                            </If>
+
                             </tr>
                         ))
                     }
@@ -60,9 +66,6 @@ export default function Usuarios() {
             </div>
 
             <div className="float-end">
-                <If condition={user.tipoAcesso === 1}><Then>
-                    <Link className="btn btn-outline-dark m-1" to="/addUsuario">Novo Usuário</Link>
-                </Then></If>
                 <Link className="btn btn-outline-dark m-1" to="/home">Cancelar</Link>
             </div>
         </div>
