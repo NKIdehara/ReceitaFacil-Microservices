@@ -47,7 +47,7 @@ export default function AddReceita() {
             setMedidasFilter([]);
         } else {
             let itemSelecionado = items.filter(i => i.id == id);
-            setMedidasFilter(medidas.filter(m => m.tipo === itemSelecionado[0].medida.tipo));
+            setMedidasFilter(medidas.filter(m => m.unidade === itemSelecionado[0].medida.unidade));
         }
     }
     const findMedida = (id) => {

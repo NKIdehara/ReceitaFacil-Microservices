@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 data class Medida (
     var id: Long,
     var nome: String,
-    var tipo: TipoUnidade
+    var unidade: Unidade
 ): Parcelable
