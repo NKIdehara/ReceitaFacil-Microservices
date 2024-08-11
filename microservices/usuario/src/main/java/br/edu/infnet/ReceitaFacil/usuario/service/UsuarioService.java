@@ -1,4 +1,4 @@
-package br.edu.infnet.ReceitaFacil.service;
+package br.edu.infnet.ReceitaFacil.usuario.service;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -12,9 +12,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.ListUsersPage;
 
-import br.edu.infnet.ReceitaFacil.model.Acesso;
-import br.edu.infnet.ReceitaFacil.model.Usuario;
-import br.edu.infnet.ReceitaFacil.repository.UsuarioRepository;
+import br.edu.infnet.ReceitaFacil.usuario.model.Acesso;
+import br.edu.infnet.ReceitaFacil.usuario.model.Usuario;
+import br.edu.infnet.ReceitaFacil.usuario.repository.UsuarioRepository;
 
 @Service
 public class UsuarioService {

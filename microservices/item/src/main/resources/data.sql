@@ -1,0 +1,16 @@
+INSERT INTO tbl_items (descricao, preco, medida_id) VALUES
+   ('arroz', 12.49, 2),
+   ('sal', 3.65, 2),
+   ('bife', 59.99, 2),
+   ('tempero', 0.26, 1),
+   ('macarrão', 19.38, 2),
+   ('molho de tomate', 0.008, 3),
+   ('leite condensado', 0.0333, 3),
+   ('ovo', 1.099, 7),
+   ('leite', 9.99, 4),
+   ('açúcar', 3.495, 4),
+   ('manteiga', 0.66, 6),
+   ('farinha de trigo', 5.99, 2),
+   ('fermento', 3.10, 6),
+   ('chocolate picado', 79.93, 2),
+   ('essência de baunilha', 9.60, 6);

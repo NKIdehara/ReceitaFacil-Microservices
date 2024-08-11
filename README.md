@@ -10,10 +10,16 @@ Testado com BlueStacks 5 (https://www.bluestacks.com/download.html), otimizado (
 ### ./front-end
 Front-end desenvolvido em **React** no _Projeto de Bloco: Engenharia Disciplinada de Softwares_ e alterado no _Projeto de Bloco: Engenharia de Softwares Escaláveis_
 https://receitafacil-microservices-frontend.azurewebsites.net/ (*) utilizando assinatura gratuita, com disponibilidade reduzida
+(**) localhost para uso de microsserviços
 
 ### ./back-end
 Back-end desenvolvido em **Java**
 https://receitafacil-microservices-backend.azurewebsites.net/ (*) utilizando assinatura gratuita, com disponibilidade reduzida
+
+### ./microservices
+Back-end integrado em microsserviço
+(**) localhost
+
 
 ### Swagger (deployment feito no Azure)
 https://receitafacil-microservices-backend.azurewebsites.net/swagger-ui/index.html
