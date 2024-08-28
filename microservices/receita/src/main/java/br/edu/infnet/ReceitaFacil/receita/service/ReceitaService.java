@@ -36,7 +36,7 @@ public class ReceitaService {
                                 .createdBy(receita.getCreatedBy())
                                 .lastModifiedDate(receita.getLastModifiedDate())
                                 .lastModifiedBy(receita.getLastModifiedBy())
-                                .custo(receita.getCusto())
+                                .custo(receita.getCusto(ingredientes))
                                 .build()
             );
         }
@@ -57,7 +57,7 @@ public class ReceitaService {
                 .createdBy(receita.getCreatedBy())
                 .lastModifiedDate(receita.getLastModifiedDate())
                 .lastModifiedBy(receita.getLastModifiedBy())
-                .custo(receita.getCusto())
+                .custo(receita.getCusto(ingredientes))
                 .build();
     }
 
@@ -77,7 +77,7 @@ public class ReceitaService {
                                 .createdBy(receita.getCreatedBy())
                                 .lastModifiedDate(receita.getLastModifiedDate())
                                 .lastModifiedBy(receita.getLastModifiedBy())
-                                .custo(receita.getCusto())
+                                .custo(receita.getCusto(ingredientes))
                                 .build()
             );
         }

@@ -26,9 +26,4 @@ public class Ingrediente {
     private Long itemId;
     private Long medidaId;
     private Long receitaId;
-
-    public float getCusto() {
-        // return this.medida.convert(this.item.getMedida()) * this.quantidade * this.item.getPreco();
-        return 0.0f;
-    }
 }

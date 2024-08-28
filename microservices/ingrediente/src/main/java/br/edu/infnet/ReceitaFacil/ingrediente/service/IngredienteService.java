@@ -40,6 +40,7 @@ public class IngredienteService {
                                     .quantidade(ingrediente.getQuantidade())
                                     .item(item)
                                     .medida(medida)
+                                    .custo(medida.convert(item.getMedida()) * ingrediente.getQuantidade() * item.getPreco())
                                     .build()
             );
         }
@@ -59,6 +60,7 @@ public class IngredienteService {
                                     .quantidade(ingrediente.getQuantidade())
                                     .item(item)
                                     .medida(medida)
+                                    .custo(medida.convert(item.getMedida()) * ingrediente.getQuantidade() * item.getPreco())
                                     .build()
             );
         }
@@ -74,7 +76,8 @@ public class IngredienteService {
                 .quantidade(ingrediente.getQuantidade())
                 .item(item)
                 .medida(medida)
-                .build();
+                .custo(medida.convert(item.getMedida()) * ingrediente.getQuantidade() * item.getPreco())
+            .build();
     }
 
     public Boolean addByReceitaId(Long id, IngredienteResponse ingrediente) {

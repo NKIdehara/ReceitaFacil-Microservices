@@ -1,6 +1,7 @@
 package br.edu.infnet.ReceitaFacil.receita.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -44,13 +45,12 @@ public class Receita {
     @LastModifiedBy
     private String lastModifiedBy;
 
-    public float getCusto() {
-        // float custo = 0.0f;
-        // if(this.ingredientes != null)
-        //     for(Ingrediente i: ingredientes){
-        //         custo += i.getCusto();
-        //     }
-        // return custo;
-        return 0.0f;
+    public float getCusto(List<IngredienteResponse> ingredientes) {
+        float custo = 0.0f;
+        if(ingredientes != null)
+            for(IngredienteResponse i: ingredientes){
+                custo += i.getCusto();
+            }
+        return custo;
     }
 }

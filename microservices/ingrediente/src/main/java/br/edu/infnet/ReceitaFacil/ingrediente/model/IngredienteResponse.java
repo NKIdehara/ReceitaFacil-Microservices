@@ -14,4 +14,5 @@ public class IngredienteResponse {
     private ItemResponse item;
     private float quantidade;
     private Medida medida;
+    private float custo;
 }

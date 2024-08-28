@@ -1,7 +1,6 @@
 package br.edu.infnet.ReceitaFacil.receita.model;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -19,7 +18,7 @@ public class ReceitaResponse {
     private String nome;
     private String preparo;
     private String figura;
-    private List<IngredienteResponse> ingredientes = new ArrayList<>();
+    private List<IngredienteResponse> ingredientes;
     private LocalDateTime createdDate;
     private String createdBy;
     private LocalDateTime lastModifiedDate;
