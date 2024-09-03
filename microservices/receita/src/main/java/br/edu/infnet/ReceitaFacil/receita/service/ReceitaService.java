@@ -2,23 +2,36 @@ package br.edu.infnet.ReceitaFacil.receita.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import org.springframework.amqp.AmqpException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import br.edu.infnet.ReceitaFacil.receita.model.IngredienteResponse;
+import br.edu.infnet.ReceitaFacil.receita.model.Publicacao;
 import br.edu.infnet.ReceitaFacil.receita.model.Receita;
 import br.edu.infnet.ReceitaFacil.receita.model.ReceitaResponse;
+import br.edu.infnet.ReceitaFacil.receita.model.Status;
 import br.edu.infnet.ReceitaFacil.receita.repository.ReceitaRepository;
 import br.edu.infnet.ReceitaFacil.receita.service.client.IngredienteClient;
+import br.edu.infnet.ReceitaFacil.receita.service.message.PublicacaoProducer;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class ReceitaService {
     @Autowired
     private ReceitaRepository receitaRepository;
 
     @Autowired
     private IngredienteClient ingredienteClient;
+
+    private final PublicacaoProducer publicacaoProducer;
 
     public List<ReceitaResponse> getAll() {
         var receitas = receitaRepository.findAll();
@@ -84,8 +97,16 @@ public class ReceitaService {
         return listReceitas;
     }
 
-    public Long add(Receita receita) {
-        return receitaRepository.save(receita).getId();
+    public Long add(Receita receita) throws JsonProcessingException, AmqpException {
+        Long id = receitaRepository.save(receita).getId();
+        Publicacao publicacao = Publicacao.builder()
+                                    .uuid(UUID.randomUUID())
+                                    .receitaId(id)
+                                    .status(Status.CRIADA)
+                                    .build();
+        log.info("Receita: {}", publicacao.getStatus());
+        publicacaoProducer.send(publicacao);
+        return id;
     }
 
     public Boolean update(Long id, Receita receita) {
@@ -93,7 +114,6 @@ public class ReceitaService {
             update.setUsuario(receita.getUsuario());
             update.setNome(receita.getNome());
             update.setPreparo(receita.getPreparo());
-            // update.setIngredientes(receita.getIngredientes());
             update.setFigura(receita.getFigura());
             receitaRepository.save(update);
             return true;

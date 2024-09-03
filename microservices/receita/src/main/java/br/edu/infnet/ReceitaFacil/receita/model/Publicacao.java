@@ -1,0 +1,18 @@
+package br.edu.infnet.ReceitaFacil.receita.model;
+
+import java.util.UUID;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter@Setter
+@NoArgsConstructor@AllArgsConstructor
+@Builder
+public class Publicacao {
+    private UUID uuid;
+    private Long receitaId;
+    private Status status;
+}
