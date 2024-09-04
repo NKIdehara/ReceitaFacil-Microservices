@@ -1,0 +1,147 @@
+version: '3.9'
+
+services:
+  server:
+    image: server:latest
+    container_name: server
+    ports:
+      - "8761:8761"
+    environment:
+      - EUREKA_SERVER_HOSTNAME=server
+    networks:
+      - receitafacil
+
+  gateway:
+    image: gateway:latest
+    container_name: gateway
+    build:
+      context: ./microservices/gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - SERVER_URL=http://server:8761/eureka
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://server:8761/eureka/
+      - SPRING_CLOUD_GATEWAY_DISCOVERY_LOCATOR_ENABLED=true
+    depends_on:
+      - server
+    networks:
+      - receitafacil
+
+  medida:
+    image: medida:latest
+    container_name: medida-service
+    build:
+      context: ./microservices/medida
+      dockerfile: Dockerfile
+    ports:
+      - "7950:7950"
+    environment:
+      - SERVER_URL=http://server:8761/eureka
+    depends_on:
+      - server
+    networks:
+      - receitafacil
+
+  item:
+    image: item:latest
+    container_name: item-service
+    build:
+      context: ./microservices/item
+      dockerfile: Dockerfile
+    ports:
+      - "7940:7940"
+    environment:
+      - SERVER_URL=http://server:8761/eureka
+    depends_on:
+      - server
+    networks:
+      - receitafacil
+
+  ingrediente:
+    image: ingrediente:latest
+    container_name: ingrediente-service
+    build:
+      context: ./microservices/ingrediente
+      dockerfile: Dockerfile
+    ports:
+      - "7930:7930"
+    environment:
+      - SERVER_URL=http://server:8761/eureka
+    depends_on:
+      - server
+    networks:
+      - receitafacil
+
+  receita:
+    image: receita:latest
+    container_name: receita-service
+    build:
+      context: ./microservices/receita
+      dockerfile: Dockerfile
+    ports:
+      - "7920:7920"
+    environment:
+      - SERVER_URL=http://server:8761/eureka
+    depends_on:
+      - server
+    networks:
+      - receitafacil
+
+  usuario:
+    image: usuario:latest
+    container_name: usuario-service
+    build:
+      context: ./microservices/usuario
+      dockerfile: Dockerfile
+    ports:
+      - "7910:7910"
+    environment:
+      - SERVER_URL=http://server:8761/eureka
+      - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
+    depends_on:
+      - server
+    networks:
+      - receitafacil
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+        - receitafacil
+
+  publicacao:
+    image: publicacao:latest
+    container_name: publicacao-service
+    build:
+      context: ./microservices/publicacao
+      dockerfile: Dockerfile
+    ports:
+      - "7999:7999"
+    environment:
+      - SERVER_URL=http://server:8761/eureka
+    depends_on:
+      - server
+      - rabbitmq
+    networks:
+      - receitafacil
+
+  front-end:
+    image: front-end:latest
+    container_name: front-end
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - receitafacil
+
+networks:
+  receitafacil:
