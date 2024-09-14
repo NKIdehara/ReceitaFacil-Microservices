@@ -1,6 +1,5 @@
 package br.edu.infnet.ReceitaFacil.receita.controller;
 
-import org.springframework.amqp.AmqpException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 import br.edu.infnet.ReceitaFacil.receita.model.Receita;
 import br.edu.infnet.ReceitaFacil.receita.service.ReceitaService;
@@ -49,12 +46,7 @@ public class ReceitaController {
 
     @PostMapping("/receita")
     public ResponseEntity<?> add(@RequestBody Receita receita){
-        try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(receitaService.add(receita));
-        } catch (JsonProcessingException | AmqpException e) {
-            log.error("Erro ao publicar receita", e);
-            return ResponseEntity.internalServerError().build();
-        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(receitaService.add(receita));
     }
     
     @PutMapping("receita/{id}")

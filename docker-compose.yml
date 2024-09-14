@@ -4,6 +4,9 @@ services:
   server:
     image: server:latest
     container_name: server
+    build:
+      context: ./microservices/server
+      dockerfile: Dockerfile
     ports:
       - "8761:8761"
     environment:
@@ -73,21 +76,6 @@ services:
     networks:
       - receitafacil
 
-  receita:
-    image: receita:latest
-    container_name: receita-service
-    build:
-      context: ./microservices/receita
-      dockerfile: Dockerfile
-    ports:
-      - "7920:7920"
-    environment:
-      - SERVER_URL=http://server:8761/eureka
-    depends_on:
-      - server
-    networks:
-      - receitafacil
-
   usuario:
     image: usuario:latest
     container_name: usuario-service
@@ -105,16 +93,35 @@ services:
       - receitafacil
 
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    image: rabbitmq:3.13.7-management
     container_name: 'rabbitmq'
     ports:
-        - 5672:5672
         - 15672:15672
+        - 5672:5672
     volumes:
         - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
         - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+        - ./microservices/rabbitmq.init/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+        - ./microservices/rabbitmq.init/definitions.json:/etc/rabbitmq/definitions.json:ro
     networks:
         - receitafacil
+
+  receita:
+    image: receita:latest
+    container_name: receita-service
+    build:
+      context: ./microservices/receita
+      dockerfile: Dockerfile
+    ports:
+      - "7920:7920"
+    environment:
+      - SERVER_URL=http://server:8761/eureka
+      - SPRING_RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - server
+      - rabbitmq
+    networks:
+      - receitafacil
 
   publicacao:
     image: publicacao:latest
@@ -126,6 +133,7 @@ services:
       - "7999:7999"
     environment:
       - SERVER_URL=http://server:8761/eureka
+      - SPRING_RABBITMQ_HOST=rabbitmq
     depends_on:
       - server
       - rabbitmq

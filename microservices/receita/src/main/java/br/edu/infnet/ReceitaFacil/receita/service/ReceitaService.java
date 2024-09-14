@@ -97,15 +97,24 @@ public class ReceitaService {
         return listReceitas;
     }
 
-    public Long add(Receita receita) throws JsonProcessingException, AmqpException {
+    public Long add(Receita receita) {
         Long id = receitaRepository.save(receita).getId();
         Publicacao publicacao = Publicacao.builder()
                                     .uuid(UUID.randomUUID())
                                     .receitaId(id)
                                     .status(Status.CRIADA)
                                     .build();
-        log.info("Receita: {}", publicacao.getStatus());
-        publicacaoProducer.send(publicacao);
+        log.info("Receita '{}': {}", receita.getNome(), publicacao.getStatus());
+        try {
+            publicacaoProducer.send(publicacao);
+        } catch (JsonProcessingException | AmqpException e) {
+            log.info("Erro ao publicar receita: " + e.getMessage());
+            try {
+                publicacaoProducer.error("Erro ao publicar receita: " + e.getMessage());
+            } catch (JsonProcessingException | AmqpException err) {
+                log.info("Erro ao publicar receita: " + err.getMessage());
+            }
+        }
         return id;
     }
 

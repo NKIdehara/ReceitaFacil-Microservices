@@ -14,8 +14,10 @@ import br.edu.infnet.ReceitaFacil.ingrediente.repository.IngredienteRepository;
 import br.edu.infnet.ReceitaFacil.ingrediente.service.client.ItemClient;
 import br.edu.infnet.ReceitaFacil.ingrediente.service.client.MedidaClient;
 import br.edu.infnet.ReceitaFacil.ingrediente.service.client.ReceitaClient;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class IngredienteService {
     @Autowired
     private IngredienteRepository ingredienteRepository;
@@ -84,7 +86,6 @@ public class IngredienteService {
         var receita = receitaClient.getReceita(id);
         if (receita == null) return false;
         ingredienteRepository.save(Ingrediente.builder()
-                                    .id(ingrediente.getId())
                                     .quantidade(ingrediente.getQuantidade())
                                     .itemId(ingrediente.getItem().getId())
                                     .medidaId(ingrediente.getMedida().getId())

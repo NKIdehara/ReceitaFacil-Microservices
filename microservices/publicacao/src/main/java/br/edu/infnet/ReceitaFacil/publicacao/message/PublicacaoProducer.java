@@ -15,11 +15,11 @@ import lombok.RequiredArgsConstructor;
 public class PublicacaoProducer {
     private final AmqpTemplate amqpTemplate;
     private final ObjectMapper objectMapper;
-    
+
     public void send(Publicacao publicacao) throws JsonProcessingException, AmqpException {
         amqpTemplate.convertAndSend("receitafacil-publicada.exc", "receitafacil-publicada.rk", objectMapper.writeValueAsString(publicacao));
     }
-    public void error(Publicacao publicacao) throws JsonProcessingException, AmqpException {
-        amqpTemplate.convertAndSend("receitafacil-erro.exc", "receitafacil-erro.rk", objectMapper.writeValueAsString(publicacao));
+    public void error(String error) throws JsonProcessingException, AmqpException {
+        amqpTemplate.convertAndSend("receitafacil-erro.exc", "receitafacil-erro.rk", error);
     }
 }

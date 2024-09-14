@@ -30,7 +30,7 @@ public class UsuarioService {
         for (ExportedUserRecord user : listUsersPage.getValues()) {
             if(usuarioRepository.findByUid(user.getUid()).size() == 0) {
                 Usuario usuario;
-                usuario = new Usuario(null, user.getUid(), user.getEmail(), Acesso.USER);
+                usuario = new Usuario(null, user.getUid(), user.getEmail(), Acesso.ADMIN);
                 usuarioRepository.save(usuario);
                 usuarioRepository.flush();
             }

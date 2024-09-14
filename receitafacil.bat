@@ -1,6 +1,7 @@
 @echo off
 cls
 
+echo --- ReceitaFacil --- & ^
 npm run build --prefix .\front-end\ & ^
 mvn clean package -DskipTests -f .\microservices\server\ & ^
 mvn clean package -DskipTests -f .\microservices\gateway\ & ^
@@ -19,7 +20,4 @@ echo docker build -t ingrediente .\microservices\ingrediente\
 echo docker build -t receita .\microservices\receita\
 echo docker build -t usuario .\microservices\usuario\
 echo docker build -t publicacao .\microservices\publicacao\
-
-docker-compose up --build & ^
-
-echo "--- ReceitaFacil ---"
+echo docker-compose up --build & ^

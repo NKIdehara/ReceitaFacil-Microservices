@@ -9,17 +9,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.edu.infnet.ReceitaFacil.receita.model.Publicacao;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PublicacaoProducer {
     private final AmqpTemplate amqpTemplate;
     private final ObjectMapper objectMapper;
     
     public void send(Publicacao publicacao) throws JsonProcessingException, AmqpException {
         amqpTemplate.convertAndSend("receitafacil-criada.exc", "receitafacil-criada.rk", objectMapper.writeValueAsString(publicacao));
+        log.info(objectMapper.writeValueAsString(publicacao));
     }
-    public void error(Publicacao publicacao) throws JsonProcessingException, AmqpException {
-        amqpTemplate.convertAndSend("receitafacil-erro.exc", "receitafacil-erro.rk", objectMapper.writeValueAsString(publicacao));
+    public void error(String error) throws JsonProcessingException, AmqpException {
+        amqpTemplate.convertAndSend("receitafacil-erro.exc", "receitafacil-erro.rk", error);
     }
 }

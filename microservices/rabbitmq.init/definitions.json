@@ -1,0 +1,102 @@
+{
+    "users": [
+        {
+            "name":"guest",
+            "password_hash":"fd0GyzAf6C6hmgCJ5VU+TSyzUNlzypPlGb7VDKkqUvJqVxyd",
+            "hashing_algorithm":"rabbit_password_hashing_sha256",
+            "tags":"administrator"
+        }
+    ],
+    "vhosts": [
+        {
+            "name":"/"
+        }
+    ],
+    "permissions":[
+        {
+            "user":"guest",
+            "vhost":"/",
+            "configure":".*",
+            "write":".*",
+            "read":".*"
+        }
+    ],
+    "queues": [
+        {
+            "name": "receitafacil-criada",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": true,
+            "arguments": {}
+        },
+        {
+            "name": "receitafacil-erro",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": true,
+            "arguments": {}
+        },
+        {
+            "name": "receitafacil-publicada",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": true,
+            "arguments": {}
+        }
+    ],
+    "exchanges": [
+        {
+            "name": "receitafacil-criada.exc",
+            "vhost": "/",
+            "type": "topic",
+            "durable": true,
+            "auto_delete": false,
+            "internal": false,
+            "arguments": {}
+        },
+        {
+            "name": "receitafacil-erro.exc",
+            "vhost": "/",
+            "type": "topic",
+            "durable": true,
+            "auto_delete": false,
+            "internal": false,
+            "arguments": {}
+        },
+        {
+            "name": "receitafacil-publicada.exc",
+            "vhost": "/",
+            "type": "topic",
+            "durable": true,
+            "auto_delete": false,
+            "internal": false,
+            "arguments": {}
+        }
+    ],
+    "bindings": [
+        {
+            "source": "receitafacil-criada.exc",
+            "vhost": "/",
+            "destination": "receitafacil-criada",
+            "destination_type": "queue",
+            "routing_key": "receitafacil-criada.rk",
+            "arguments": {}
+        },
+        {
+            "source": "receitafacil-erro.exc",
+            "vhost": "/",
+            "destination": "receitafacil-erro",
+            "destination_type": "queue",
+            "routing_key": "receitafacil-erro.rk",
+            "arguments": {}
+        },
+        {
+            "source": "receitafacil-publicada.exc",
+            "vhost": "/",
+            "destination": "receitafacil-publicada",
+            "destination_type": "queue",
+            "routing_key": "receitafacil-publicada.rk",
+            "arguments": {}
+        }
+    ]
+}
