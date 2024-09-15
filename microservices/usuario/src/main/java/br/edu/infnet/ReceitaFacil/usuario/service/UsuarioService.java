@@ -15,8 +15,10 @@ import com.google.firebase.auth.ListUsersPage;
 import br.edu.infnet.ReceitaFacil.usuario.model.Acesso;
 import br.edu.infnet.ReceitaFacil.usuario.model.Usuario;
 import br.edu.infnet.ReceitaFacil.usuario.repository.UsuarioRepository;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -24,9 +26,9 @@ public class UsuarioService {
     // @PostConstruct
     public void sync() throws InterruptedException, ExecutionException {
         System.out.println("Firebase sync init...");
-
         ApiFuture<ListUsersPage> query = FirebaseAuth.getInstance().listUsersAsync(null);
         ListUsersPage listUsersPage = query.get();
+        log.info("Usuarios:" + listUsersPage.getValues().toString());
         for (ExportedUserRecord user : listUsersPage.getValues()) {
             if(usuarioRepository.findByUid(user.getUid()).size() == 0) {
                 Usuario usuario;

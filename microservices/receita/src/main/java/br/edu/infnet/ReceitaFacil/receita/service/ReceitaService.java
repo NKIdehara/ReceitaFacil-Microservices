@@ -15,6 +15,7 @@ import br.edu.infnet.ReceitaFacil.receita.model.Publicacao;
 import br.edu.infnet.ReceitaFacil.receita.model.Receita;
 import br.edu.infnet.ReceitaFacil.receita.model.ReceitaResponse;
 import br.edu.infnet.ReceitaFacil.receita.model.Status;
+import br.edu.infnet.ReceitaFacil.receita.repository.PublicacaoRepository;
 import br.edu.infnet.ReceitaFacil.receita.repository.ReceitaRepository;
 import br.edu.infnet.ReceitaFacil.receita.service.client.IngredienteClient;
 import br.edu.infnet.ReceitaFacil.receita.service.message.PublicacaoProducer;
@@ -27,6 +28,9 @@ import lombok.extern.slf4j.Slf4j;
 public class ReceitaService {
     @Autowired
     private ReceitaRepository receitaRepository;
+
+    @Autowired
+    private PublicacaoRepository publicacaoRepository;
 
     @Autowired
     private IngredienteClient ingredienteClient;
@@ -45,6 +49,7 @@ public class ReceitaService {
                                 .preparo(receita.getPreparo())
                                 .figura(receita.getFigura())
                                 .ingredientes(ingredientes)
+                                .status(receita.getStatus())
                                 .createdDate(receita.getCreatedDate())
                                 .createdBy(receita.getCreatedBy())
                                 .lastModifiedDate(receita.getLastModifiedDate())
@@ -66,6 +71,7 @@ public class ReceitaService {
                 .preparo(receita.getPreparo())
                 .figura(receita.getFigura())
                 .ingredientes(ingredientes)
+                .status(receita.getStatus())
                 .createdDate(receita.getCreatedDate())
                 .createdBy(receita.getCreatedBy())
                 .lastModifiedDate(receita.getLastModifiedDate())
@@ -86,6 +92,7 @@ public class ReceitaService {
                                 .preparo(receita.getPreparo())
                                 .figura(receita.getFigura())
                                 .ingredientes(ingredientes)
+                                .status(receita.getStatus())
                                 .createdDate(receita.getCreatedDate())
                                 .createdBy(receita.getCreatedBy())
                                 .lastModifiedDate(receita.getLastModifiedDate())
@@ -98,12 +105,14 @@ public class ReceitaService {
     }
 
     public Long add(Receita receita) {
+        receita.setStatus(Status.CRIADA);
         Long id = receitaRepository.save(receita).getId();
         Publicacao publicacao = Publicacao.builder()
                                     .uuid(UUID.randomUUID())
                                     .receitaId(id)
                                     .status(Status.CRIADA)
                                     .build();
+        publicacaoRepository.save(publicacao);
         log.info("Receita '{}': {}", receita.getNome(), publicacao.getStatus());
         try {
             publicacaoProducer.send(publicacao);
@@ -124,7 +133,25 @@ public class ReceitaService {
             update.setNome(receita.getNome());
             update.setPreparo(receita.getPreparo());
             update.setFigura(receita.getFigura());
+            update.setStatus(Status.ALTERADA);
             receitaRepository.save(update);
+            Publicacao publicacao = Publicacao.builder()
+                .uuid(UUID.randomUUID())
+                .receitaId(id)
+                .status(Status.ALTERADA)
+                .build();
+            publicacaoRepository.save(publicacao);
+            log.info("Receita '{}': {}", receita.getNome(), publicacao.getStatus());
+            try {
+                publicacaoProducer.send(publicacao);
+            } catch (JsonProcessingException | AmqpException e) {
+                log.info("Erro ao publicar receita: " + e.getMessage());
+                try {
+                    publicacaoProducer.error("Erro ao publicar receita: " + e.getMessage());
+                } catch (JsonProcessingException | AmqpException err) {
+                    log.info("Erro ao publicar receita: " + err.getMessage());
+                }
+            }
             return true;
         }).orElseGet(() -> {
             return false;
@@ -135,5 +162,11 @@ public class ReceitaService {
         if(receitaRepository.findById(id).isEmpty()) return false;
         receitaRepository.deleteById(id);
         return true;
+    }
+
+    public Status getStatus(Long id) {
+        Publicacao publicacao = publicacaoRepository.findByReceitaId(id);
+        if (publicacao == null) return Status.NAO_ENCONTRADA;
+        return publicacao.getStatus();
     }
 }

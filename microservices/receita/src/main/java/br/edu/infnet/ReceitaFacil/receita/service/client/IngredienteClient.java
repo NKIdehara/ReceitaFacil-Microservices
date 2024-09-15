@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import br.edu.infnet.ReceitaFacil.receita.model.IngredienteResponse;
 
 @FeignClient("INGREDIENTE-SERVICE")
+// @FeignClient("localhost:7930")
 public interface IngredienteClient {
     @GetMapping("/ingrediente/receita/{id}")
     List<IngredienteResponse> getIngredientesByReceitaId(@PathVariable Long id);

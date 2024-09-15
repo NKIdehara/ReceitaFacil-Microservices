@@ -19,6 +19,7 @@ public class ReceitaResponse {
     private String preparo;
     private String figura;
     private List<IngredienteResponse> ingredientes;
+    private Status status;
     private LocalDateTime createdDate;
     private String createdBy;
     private LocalDateTime lastModifiedDate;

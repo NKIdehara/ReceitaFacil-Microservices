@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.infnet.ReceitaFacil.receita.model.Receita;
+import br.edu.infnet.ReceitaFacil.receita.model.Status;
 import br.edu.infnet.ReceitaFacil.receita.service.ReceitaService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -63,5 +64,10 @@ public class ReceitaController {
         if(!status)
             return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body("Receita não econtrada!");
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(status);
+    }
+
+    @GetMapping("/receita/publicacao/{receitaId}")
+    public Status getStatusPublicacao(@PathVariable Long receitaId) {
+        return receitaService.getStatus(receitaId);
     }
 }

@@ -26,6 +26,11 @@ services:
       - SERVER_URL=http://server:8761/eureka
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://server:8761/eureka/
       - SPRING_CLOUD_GATEWAY_DISCOVERY_LOCATOR_ENABLED=true
+      - USUARIO_SERVICE_URI=http://usuario-service:7910/
+      - RECEITA_SERVICE_URI=http://receita-service:7920/
+      - INGREDIENTE_SERVICE_URI=http://ingrediente-service:7930/
+      - ITEM_SERVICE_URI=http://item-service:7940/
+      - MEDIDA_SERVICE_URI=http://medida-service:7950/
     depends_on:
       - server
     networks:

@@ -35,6 +35,7 @@ public class Receita {
     private String nome;
     private String preparo;
     private String figura;
+    private Status status;
 
     @CreatedDate
     private LocalDateTime createdDate;
