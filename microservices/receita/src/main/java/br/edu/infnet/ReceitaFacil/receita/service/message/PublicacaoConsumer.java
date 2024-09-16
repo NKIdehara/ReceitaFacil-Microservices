@@ -70,9 +70,9 @@ public class PublicacaoConsumer implements Serializable {
             if (receita != null) {
                 receita.setStatus(Status.PUBLICADA);
                 receitaRepository.save(receita);
+                log.info(objectMapper.writeValueAsString(publicacao));
+                log.info("Receita '{}': {}", receitaRepository.findById(publicacao.getReceitaId()).orElse(null).getNome(), publicacao.getStatus());
             }
-            log.info(objectMapper.writeValueAsString(publicacao));
-            log.info("Receita '{}': {}", receitaRepository.findById(publicacao.getReceitaId()).orElse(null).getNome(), publicacao.getStatus());
         } catch (IOException e) {
             log.info("Erro ao publicar receita: " + e.getMessage());
             try {
@@ -81,6 +81,8 @@ public class PublicacaoConsumer implements Serializable {
                 log.info("Erro ao publicar receita: " + err.getMessage());
             }
             return false;
+        } catch (Throwable generic) {
+            log.info("Erro ao publicar receita: " + generic.getMessage());
         }
         return true;
     }

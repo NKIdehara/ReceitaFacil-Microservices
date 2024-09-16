@@ -15,6 +15,7 @@ import com.google.firebase.auth.ListUsersPage;
 import br.edu.infnet.ReceitaFacil.usuario.model.Acesso;
 import br.edu.infnet.ReceitaFacil.usuario.model.Usuario;
 import br.edu.infnet.ReceitaFacil.usuario.repository.UsuarioRepository;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -23,26 +24,40 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    // @PostConstruct
+    @PostConstruct
     public void sync() throws InterruptedException, ExecutionException {
         System.out.println("Firebase sync init...");
         ApiFuture<ListUsersPage> query = FirebaseAuth.getInstance().listUsersAsync(null);
         ListUsersPage listUsersPage = query.get();
         log.info("Usuarios:" + listUsersPage.getValues().toString());
         for (ExportedUserRecord user : listUsersPage.getValues()) {
-            if(usuarioRepository.findByUid(user.getUid()).size() == 0) {
-                Usuario usuario;
-                usuario = new Usuario(null, user.getUid(), user.getEmail(), Acesso.ADMIN);
+            List<Usuario> usuarios = usuarioRepository.findByUid(user.getUid());
+            Usuario usuario;
+            if(usuarios.isEmpty()) {
+                usuario = Usuario.builder()
+                    .uid(user.getUid())
+                    .email(user.getEmail())
+                    .acesso(Acesso.ADMIN)
+                    .build();
+            usuarioRepository.save(usuario);
+                usuarioRepository.flush();
+            }
+            else {
+                usuario = Usuario.builder()
+                    .id(usuarios.get(0).getId())
+                    .uid(usuarios.get(0).getUid())
+                    .email(usuarios.get(0).getEmail())
+                    .acesso(usuarios.get(0).getAcesso() == null ? Acesso.USER : usuarios.get(0).getAcesso())
+                    .build();
                 usuarioRepository.save(usuario);
                 usuarioRepository.flush();
             }
         }
-        
         System.out.println("Firebase sync completed...");
     }
 
     public List<Usuario> getAll() throws InterruptedException, ExecutionException {
-        this.sync();
+        // this.sync();
         return usuarioRepository.findAll();
     }
     
@@ -57,7 +72,7 @@ public class UsuarioService {
             return false;
         }
         usuarioRepository.deleteById(id);
-        this.sync();
+        // this.sync();
         return true;
     }
 }

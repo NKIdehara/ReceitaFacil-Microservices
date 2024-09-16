@@ -20,6 +20,7 @@ import androidx.navigation.fragment.navArgs
 import br.edu.infnet.receitafacil_microservices.api.ReceitaRetrofitInstance
 import br.edu.infnet.receitafacil_microservices.databinding.FragmentAtualizarBinding
 import br.edu.infnet.receitafacil_microservices.model.Receita
+import br.edu.infnet.receitafacil_microservices.model.Status
 import br.edu.infnet.receitafacil_microservices.receitas.ReceitasViewModel
 import br.edu.infnet.receitafacil_microservices.model.usuario
 import com.google.firebase.firestore.FirebaseFirestore
@@ -100,7 +101,7 @@ class AtualizarFragment : Fragment() {
             val agora = LocalDate.parse(LocalDate.now().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).toString()
             lifecycleScope.launchWhenCreated {
                 val response = try{
-                    val receita = Receita(args.selecionado.id, usuario, binding.txtNomeAtualizar.text.toString(), binding.txtPreparoAtualizar.text.toString(), args.selecionado.figura, args.selecionado.custo, null, args.selecionado.createdDate, args.selecionado.createdBy, args.selecionado.lastModifiedDate, args.selecionado.lastModifiedBy)
+                    val receita = Receita(args.selecionado.id, usuario, binding.txtNomeAtualizar.text.toString(), binding.txtPreparoAtualizar.text.toString(), args.selecionado.figura, args.selecionado.custo, null, Status.ALTERADA, args.selecionado.createdDate, args.selecionado.createdBy, args.selecionado.lastModifiedDate, args.selecionado.lastModifiedBy)
                     ReceitaRetrofitInstance.api.editReceita(args.selecionado.id, receita)
                     Toast.makeText(getActivity() , "Receita atualizada!", Toast.LENGTH_SHORT).show()
                 } catch(err: IOException){

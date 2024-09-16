@@ -24,6 +24,7 @@ import br.edu.infnet.receitafacil_microservices.api.TheMealDBApiViewModel
 import br.edu.infnet.receitafacil_microservices.api.TheMealDBApiViewModelFactory
 import br.edu.infnet.receitafacil_microservices.api.TheMealDBRepository
 import br.edu.infnet.receitafacil_microservices.model.Receita
+import br.edu.infnet.receitafacil_microservices.model.Status
 import br.edu.infnet.receitafacil_microservices.model.usuario
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -185,7 +186,7 @@ class AdicionarFragment : Fragment() {
         }
         lifecycleScope.launchWhenCreated {
             val response = try{
-                val receita = Receita(total, usuario, binding.txtNome.text.toString(), binding.txtPreparo.text.toString(), figura, 0.0f, null, agora, "Android User")
+                val receita = Receita(total, usuario, binding.txtNome.text.toString(), binding.txtPreparo.text.toString(), figura, 0.0f, null, Status.CRIADA, agora, "Android User")
                 ReceitaRetrofitInstance.api.newReceita(receita)
                 Toast.makeText(getActivity() , "Receita adicionada!", Toast.LENGTH_SHORT).show()
             } catch(err: IOException){

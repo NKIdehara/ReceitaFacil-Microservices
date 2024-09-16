@@ -17,7 +17,8 @@ export default function AddReceita() {
         nome: "",
         preparo: "",
         usuario: user.getUID,
-        figura: imagem
+        figura: imagem,
+        createdBy: "Web User"
     });
 
     const [items, setItems] = useState([]);
@@ -72,7 +73,7 @@ export default function AddReceita() {
     }
     const [ingrediente, setIngrediente] = useState(initialState);
 
-    const {nome, preparo, usuario, figura} = receita;
+    const {nome, preparo, usuario, figura, createdBy} = receita;
     const {id, item, quantidade, medida} = ingrediente;
 
     const onReceitaChange = (e) => {
@@ -96,6 +97,7 @@ export default function AddReceita() {
         setEspera(true);
         var imagem = await uploadImgReceita();
         if(imagem !== null) receita.figura = imagem;
+        receita.createdBy = "Web User";
         const result = await axios.post(BACKEND.concat("/receita"), receita);
         ingredientes.forEach(async ingrediente => {
             await axios.post(BACKEND.concat("/ingrediente/receita/", result.data), {

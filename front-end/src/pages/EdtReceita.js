@@ -19,7 +19,7 @@ export default function EdtReceita() {
         nome: _nome,
         preparo: _preparo,
         usuario: _usuario,
-        figura: _figura
+        figura: _figura,
     });
 
 

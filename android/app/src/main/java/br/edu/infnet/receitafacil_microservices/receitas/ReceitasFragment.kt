@@ -17,6 +17,7 @@ import br.edu.infnet.receitafacil_microservices.databinding.FragmentReceitasBind
 import br.edu.infnet.receitafacil_microservices.model.Receita
 import br.edu.infnet.receitafacil_microservices.R
 import br.edu.infnet.receitafacil_microservices.model.usuario
+import br.edu.infnet.receitafacil_microservices.model.Status
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
@@ -114,7 +115,7 @@ class ReceitasFragment : Fragment() {
             if(response.isSuccessful && response.body() != null){
                 val receitas: List<Receita>? = response.body()
                 receitas?.forEach { r ->
-                    receitaList.add(Receita(r.id, r.usuario, r.nome, r.preparo, r.figura, r.custo, r.ingredientes, validString(r.createdDate), validString(r.createdBy), validString(r.lastModifiedDate), validString(r.lastModifiedBy)))
+                    receitaList.add(Receita(r.id, r.usuario, r.nome, r.preparo, r.figura, r.custo, r.ingredientes, Status.CRIADA, validString(r.createdDate), validString(r.createdBy), validString(r.lastModifiedDate), validString(r.lastModifiedBy)))
                 }
             } else {
                 Log.e("API Call: ", "Erro [getReceitas]")

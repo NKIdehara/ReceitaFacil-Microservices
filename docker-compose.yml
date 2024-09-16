@@ -125,6 +125,7 @@ services:
     depends_on:
       - server
       - rabbitmq
+      - ingrediente
     networks:
       - receitafacil
 
@@ -153,6 +154,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    depends_on:
+      - receita
     networks:
       - receitafacil
 

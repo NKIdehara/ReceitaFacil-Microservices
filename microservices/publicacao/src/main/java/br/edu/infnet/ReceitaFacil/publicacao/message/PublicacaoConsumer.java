@@ -71,6 +71,8 @@ public class PublicacaoConsumer implements Serializable {
                 log.info("Erro ao enviar para publicação: " + err.getMessage());
             }
             return false;
+        } catch (Throwable generic) {
+            log.info("Erro ao enviar para publicação: " + generic.getMessage());
         }
         return true;
     }

@@ -13,6 +13,7 @@ data class Receita(
     var figura: String = "",
     var custo: Float = 0.0f,
     var ingredientes: List<Ingrediente>? = null,
+    var status: Status = Status.CRIADA,
     var createdDate: String = "",
     var createdBy: String = "",
     var lastModifiedDate: String = "",
