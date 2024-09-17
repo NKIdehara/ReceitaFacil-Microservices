@@ -36,6 +36,11 @@ public class IngredienteController {
         return ResponseEntity.ok(ingredienteService.getByReceitaId(id));
     }
 
+    @GetMapping("/ingrediente/total/item/{id}")
+    public ResponseEntity<?> getTotalByItemId(@PathVariable Long id) {
+        return ResponseEntity.ok(ingredienteService.getTotalByItemId(id));
+    }
+
     @PostMapping("/ingrediente/receita/{id}")
     public ResponseEntity<?> add(@PathVariable Long id, @RequestBody IngredienteResponse ingrediente) {
         return ResponseEntity.status(HttpStatus.CREATED).body(ingredienteService.addByReceitaId(id, ingrediente));

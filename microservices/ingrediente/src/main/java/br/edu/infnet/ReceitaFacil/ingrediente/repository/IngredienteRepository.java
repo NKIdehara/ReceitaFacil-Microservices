@@ -10,4 +10,5 @@ import br.edu.infnet.ReceitaFacil.ingrediente.model.Ingrediente;
 @Repository
 public interface IngredienteRepository extends JpaRepository<Ingrediente, Long> {
     List<Ingrediente> findByReceitaId(Long id);
+    List<Ingrediente> findByItemId(Long itemId);
 }

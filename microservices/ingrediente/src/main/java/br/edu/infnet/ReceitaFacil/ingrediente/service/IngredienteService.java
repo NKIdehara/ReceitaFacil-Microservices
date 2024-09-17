@@ -29,6 +29,10 @@ public class IngredienteService {
     @Autowired
     private ReceitaClient receitaClient;
 
+    public int getTotalByItemId(Long id) {
+        return ingredienteRepository.findByItemId(id).size();
+    }
+
     public List<IngredienteResponse> getAll() {
         var ingredientes = ingredienteRepository.findAll();
         ItemResponse item = null;

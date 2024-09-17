@@ -22,9 +22,10 @@ export default function Items() {
         let success = true;
         setEspera(true);
         try {
-            await axios.delete(BACKEND.concat("/item/", id));
+            const result = await axios.delete(BACKEND.concat("/item/", id));
         } catch(err) {
-            if(err.code === 'ERR_BAD_RESPONSE') {
+            console.log(err.response.status);
+            if(err.code === 'ERR_BAD_RESPONSE' || err.response.status === 304) {
                 success = false;
                 window.alert("Não foi possível excluir item!\nItem está associado à uma receita.");
             }

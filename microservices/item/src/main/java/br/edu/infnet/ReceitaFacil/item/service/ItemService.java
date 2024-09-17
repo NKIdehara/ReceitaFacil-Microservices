@@ -10,6 +10,7 @@ import br.edu.infnet.ReceitaFacil.item.model.Item;
 import br.edu.infnet.ReceitaFacil.item.model.ItemResponse;
 import br.edu.infnet.ReceitaFacil.item.model.Medida;
 import br.edu.infnet.ReceitaFacil.item.repository.ItemRepository;
+import br.edu.infnet.ReceitaFacil.item.service.client.IngredienteClient;
 import br.edu.infnet.ReceitaFacil.item.service.client.MedidaClient;
 
 @Service
@@ -19,6 +20,9 @@ public class ItemService {
 
     @Autowired
     private MedidaClient medidaClient;
+
+    @Autowired
+    private IngredienteClient ingredienteClient;
 
     public List<ItemResponse> getAll() {
         var items = itemRepository.findAll();
@@ -60,6 +64,7 @@ public class ItemService {
 
     public Boolean delete(Long id) {
         if(itemRepository.findById(id).isEmpty()) return false;
+        if(ingredienteClient.getTotalIngredienteByItemId(id) > 0) return false;
         itemRepository.deleteById(id);
         return true;
     }
